@@ -40,11 +40,11 @@ int main()
 
 	if (obj1 > obj2) //operator #6
 	{
-		cout << "voltag objektu 1 jest wiecej!" << endl;
+		cout << "voltage objektu 1 jest wiecej!" << endl;
 	}
 	else
 	{
-		cout << "voltag objektu 1 jest mniej!" << endl;
+		cout << "voltage objektu 1 jest mniej!" << endl;
 	}
 
 
