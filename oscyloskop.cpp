@@ -26,15 +26,15 @@ void Oscyloskop::SetYear(int product_year)
 void Oscyloskop::Print()
 {
 	std::cout << "--------------------------------\n"
-		<< "Objekt #" << m_index << std::endl << "Oscyloskop " << m_producent << " " << m_model << " " << m_product_year << " year\n"
+		<< "Objekt #" << m_index << std::endl << "Oscyloskop " << m_producent << " " << m_model << " " << m_product_year << " year voltage:"<< m_voltage_z_generatora << "V\n"
 		<< "--------------------------------\n";
 } 
 //Не забудь добавлять сюда вывод по мере добавления новых полей
 
-void Oscyloskop::AddOscyloskop(int index, std::string producent, std::string model, int product_year)
+void Oscyloskop::AddOscyloskop(int index, std::string producent, std::string model, int product_year, int voltage_z_generatora)
 {
 	Oscyloskop *ptr;
-	ptr = new Oscyloskop(index,producent,model,product_year);
+	ptr = new Oscyloskop(index,producent,model,product_year, voltage_z_generatora);
 	delete ptr;
 } 
 
