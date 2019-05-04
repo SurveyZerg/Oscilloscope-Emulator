@@ -18,6 +18,23 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="analog_oscilloscope.h" />
+    <ClInclude Include="digital_oscilloscope.h" />
+    <ClInclude Include="electrical_equipment.h" />
+    <ClInclude Include="generator.h" />
+    <ClInclude Include="oscilloscope.h" />
+    <ClInclude Include="researcher.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="analog_oscilloscope.cpp" />
+    <ClCompile Include="digital_oscilloscope.cpp" />
+    <ClCompile Include="electrical_equipment.cpp" />
+    <ClCompile Include="generator.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="oscilloscope.cpp" />
+    <ClCompile Include="researcher.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{D5F34DB1-C1E8-4D32-A035-442B3BA324A6}</ProjectGuid>
@@ -114,13 +131,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="oscyloskop.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="oscyloskop.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

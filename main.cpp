@@ -1,53 +1,60 @@
+// main.cpp
+// Программа с примерами использования всех возможностей библиотеки Осциллографа
+
+/*  
+Возможности моей программы:
+	1 - Инициализация генераторов, осциллографов и человека, который управляет всем этим добром
+		Сделать вы это можете при помощи данных команд:
+			Исследователь:
+				Researcher Имя_Исследователя (research_position, name, surname, age)
+				Если вам не известно ваша должность исследователя, имя, фамилия и возраст, то можете просто не вписывать никаких
+				параметров, к вам будут обращаться "Mr. Noname"
+			Аналоговый Осциллограф:
+				Analog_Oscilloscope Имя_Осциллографа (amount_of_сhannels, manufacturer, device_model, year_of_issue, amount_of_beams)
+				Если вам неизвестен производитель, модель, год выпуска или кол-во лучей - не страшно. Вписывайте так:
+				Analog_Oscilloscope Имя_Осциллографа (amount_of_сhannels)
+				Кол-во каналов необходимо знать для корректной работы программы, поэтому данный параметр необходимо вписать
+			Цифровой Осциллограф:
+				Digital_Oscilloscope Имя_Осциллографа (amount_of_сhannels, manufacturer, device_model, year_of_issue, memory_depth)
+				Если вам неизвестен производитель, модель, год выпуска или кол-во памяти - не страшно. Вписывайте так:
+				Digital_Oscilloscope Имя_Осциллографа (amount_of_сhannels)
+				Кол-во каналов необходимо знать для корректной работы программы, поэтому данный параметр необходимо вписать
+			Генератор:
+				Generator Имя_Генератора(manufacturer, device_model, year_of_issue, maximum_output_frequency)
+				Если вам неизвестен производитель, модель, год выпуска или кол-во памяти - не страшно. Вписывайте так:
+				Generator Имя_Генератора (amount_of_сhannels)
+				Кол-во каналов необходимо знать для корректной работы программы, поэтому данный параметр необходимо вписать
+	2 - Вывод всей информации о данных устройствах или человеке в консоль
+		Сделать это можно при помощи команды cout << Имя_Осциллографа\Имя_Генератора\Имя_Исследователя
+		Тогда будет выведена вся вписанная вами информация о данных устройствах.
+*/
 #include <iostream>
-#include "oscyloskop.h"
+#include "researcher.h"
 
 using namespace std;
 
 int main()
 {
-	Oscyloskop obj1(1, "HP", "M3428", 1998,3);
-	obj1.Print(); //obiekt automatyczny
-	Oscyloskop obj2(obj1); //obiekt kopiujacy
-	obj2.Print();
-	obj2.SetModel("M5100");
-	obj2.SetYear(2010);
-	obj2.Print();
-	obj2.AddOscyloskop(3, "Appa", "3700", 2003,5); //obiekt dynamiczny
-	
-	cout << Oscyloskop::GetLiczbaOscyloskopow() << endl; // test statycznego pola + metody
+	// Инициализация подключенных Осциллографов и Генераторов и Исследователя
+	Researcher Andrew("Leading researcher", "Andrew", "Werner", 24);
+	Researcher N;
+	Analog_Oscilloscope Device_1(2, "B&K Precision", "2125C", 1997, 2); //Characteristics may be unreliable
+	Digital_Oscilloscope Device_2(2, "Siglent", "SDS1202X-E", 2016, 14); //Characteristics may be unreliable
+	Generator Device_3(2, "Siglent", "SDG1025", 2015, 25); //Characteristics may be unreliable
+	Generator Device_4(1);
 
-	obj1 = obj2; //operator #1
-	obj1.Print();
-	obj2.Print();
+	// Перегрузку оператора <<, чтобы одним сиаутом выводить всю информацию о приборах
+	cout << N;
+	cout << Andrew;
+	cout << Device_1;
+	cout << Device_2;
+	cout << Device_3;
+	cout << Device_4;
 
-	obj1 + obj2; //operator #2
-	obj1.Print();
-	obj2.Print();
+	//Функции создания массивов проводов на основе каналов и возможность исследователя подключать осциллографы к генераторам
 
-	--obj2; //operator #3
-	obj2.Print();
-	
-	cout<< "voltage " << obj2 <<endl; //operator #4
-
-	if (obj1 == obj2) //operator #5
-	{
-		cout << "voltage sa rowne!" << endl;
-	}
-	else
-	{
-		cout << "voltage nie sa rowne!" << endl;
-	}
-
-	if (obj1 > obj2) //operator #6
-	{
-		cout << "voltage objektu 1 jest wiecej!" << endl;
-	}
-	else
-	{
-		cout << "voltage objektu 1 jest mniej!" << endl;
-	}
-
-
+	Andrew.Connect(Device_1, 2, Device_3, 1);
+	Andrew.Connect(Device_1, 1, Device_3, 1);
 	system("Pause");
 	return 0;
 } 
