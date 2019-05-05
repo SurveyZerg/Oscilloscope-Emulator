@@ -22,11 +22,11 @@ Oscilloscope::~Oscilloscope()
 	(this->s_amount_of_oscilloscopes)--;
 }
 
-int Oscilloscope::Set_voltage_divisions(int voltage_divisions)
+void Oscilloscope::Set_voltage_divisions(int voltage_divisions)
 {
 	this->voltage_divisions = voltage_divisions;
 }
-int Oscilloscope::Set_seconds_divisions(int seconds_divisions)
+void Oscilloscope::Set_seconds_divisions(int seconds_divisions)
 {
 	this->seconds_divisions = seconds_divisions;
 }

@@ -12,6 +12,14 @@ void Digital_Oscilloscope::Set_connection_of_channel(int number_of_channel, bool
 {
 	Channels[number_of_channel - 1] = on_off;
 }
+void Digital_Oscilloscope::Set_voltage_scale(int voltage_scale)
+{
+	this->voltage_scale = voltage_scale;
+}
+void Digital_Oscilloscope::Set_seconds_scale(int seconds_scale)
+{
+	this->seconds_scale = seconds_scale;
+}
 
 int Digital_Oscilloscope::Get_memory_depth()
 {

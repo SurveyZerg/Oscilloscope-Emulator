@@ -10,6 +10,14 @@ void Generator::Set_connection_of_channel(int number_of_channel,bool on_off)
 {
 	Channels[number_of_channel - 1] = on_off;
 }
+void Generator::Set_output_frequency(int output_frequency)
+{
+	this->output_frequency = output_frequency;
+}
+void Generator::Set_peak_to_peak_voltage(int peak_to_peak_voltage) 
+{
+	this->peak_to_peak_voltage = peak_to_peak_voltage;
+}
 
 int Generator::Get_maximum_output_frequency()
 {

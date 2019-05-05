@@ -12,14 +12,15 @@ private:
 	std::string name;
 	std::string surname;
 	int age;
-public:
-	Researcher(std::string research_position = "Mr.", std::string name = "", std::string surname = "Noname", int age = 0);
-	~Researcher();
 
 	std::string Get_research_position();
 	std::string Get_name();
 	std::string Get_surname();
 	int Get_age();
+
+public:
+	Researcher(std::string research_position = "Mr.", std::string name = "", std::string surname = "Noname", int age = 0);
+	~Researcher();
 
 	friend std::ostream& operator<< (std::ostream &out, Researcher &scientist);
 
