@@ -23,6 +23,7 @@ public:
 	~Researcher();
 
 	friend std::ostream& operator<< (std::ostream &out, Researcher &scientist);
+	friend std::istream& operator >> (std::istream &in, Researcher &scientist);
 
 	void Connect(Oscilloscope &osc,int number_of_channel_osc, Generator &gen, int number_of_channel_gen);
 	void Read_voltage(Oscilloscope &osc, int number_of_channel);

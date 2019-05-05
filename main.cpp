@@ -29,6 +29,7 @@
 		Тогда будет выведена вся вписанная вами информация о данных устройствах.
 */
 #include <iostream>
+#include <fstream>
 #include "researcher.h"
 
 using namespace std;
@@ -37,18 +38,24 @@ int main()
 {
 	// Инициализация подключенных Осциллографов и Генераторов и Исследователя
 	Researcher Andrew("Leading researcher", "Andrew", "Werner", 24);
-	Researcher N;
 	Analog_Oscilloscope Device_1(2, 8, 8, "B&K Precision", "2125C", 1997, 2); //Characteristics may be unreliable
 	Digital_Oscilloscope Device_2(2, 8, 10, "Siglent", "SDS1202X-E", 2016, 14); //Characteristics may be unreliable
 	Generator Device_3(2, "Siglent", "SDG1025", 2015, 25); //Characteristics may be unreliable
-	Generator Device_4(1);
 	// Перегрузку оператора <<, чтобы одним сиаутом выводить всю информацию о приборах
-	cout << N;
-	cout << Andrew;
-	cout << Device_1;
-	cout << Device_2;
-	cout << Device_3;
-	cout << Device_4;
+	ofstream save;
+	save.open("saved.txt");
+	save << Device_1;
+	save << Device_2;
+	save << Device_3;
+	Andrew.Connect(Device_1, 1, Device_3, 1);
+	Andrew.Connect(Device_2, 1, Device_3, 2);
+	save << Device_1;
+	save << Device_2;
+	save << Device_3;
+
+
+
+
 	//Функции создания массивов проводов на основе каналов и возможность исследователя подключать осциллографы к генераторам
 
 	Device_3.Set_signal(2000,6000);
@@ -65,6 +72,10 @@ int main()
 
 	Device_2.Set_seconds_scale(500);
 	Device_2.Set_voltage_scale(6000);
+	Andrew.Read_voltage(Device_2, 2);
+	Andrew.Read_voltage(Device_1, 2);
+
+	Device_3.Set_signal(1000, 2000);
 	Andrew.Read_voltage(Device_2, 2);
 	system("Pause");
 	return 0;

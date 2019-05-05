@@ -1,6 +1,7 @@
 //digital_oscilloscope.cpp
 
 #include "digital_oscilloscope.h"
+#include "generator.h"
 
 int Digital_Oscilloscope::s_amount_of_digital_oscilloscopes = 0;
 
@@ -42,12 +43,48 @@ Digital_Oscilloscope::~Digital_Oscilloscope()
 	(this->s_amount_of_digital_oscilloscopes)--;
 }
 
-std::ostream& operator<< (std::ostream &out, Digital_Oscilloscope &device)
+std::ostream& operator << (std::ostream &out, Digital_Oscilloscope &device)
 {
-	out << "---------" << std::endl << "Digital Oscilloscope " << device.Get_manufacturer() 
+	out << "---------" << std::endl
+		<< "Digital Oscilloscope " << device.Get_manufacturer()
 		<< " " << device.Get_device_model() << "(" << device.Get_year_of_issue() << "year)"
 		<< " : Amount of channels - " << device.Get_amount_of_ñhannels() << ", Memory depth - "
-		<< device.Get_memory_depth() <<" Mpts/CH"<< std::endl <<"---------" << std::endl;
+		<< device.Get_memory_depth() << " Mpts/CH" << std::endl;
+	out << "Interface of Oscilloscope:\nDisplay is " << device.Get_seconds_divisions() << " x " << device.Get_voltage_divisions()
+		<< "\nSeconds scale = " << device.Get_seconds_scale() << " microSec/div and Voltage Scale = "
+		<< device.Get_voltage_scale() << " milliVolts/div\n";
+	for (int i = 0; i < device.Get_amount_of_ñhannels(); i++)
+	{
+		out << "Channel #" << i + 1 << " is";
+		if (device.Get_connection_of_channel(i + 1))
+		{
+			out << " busy: Connected Generator " << device.Channels_connected[i]->Get_manufacturer() << " "
+				<< device.Channels_connected[i]->Get_device_model() << "\nWith Output frequency = "
+				<< device.Channels_connected[i]->Get_output_frequency() << " Hz and Peak to Peak Voltage = "
+				<< device.Channels_connected[i]->Get_peak_to_peak_voltage() << " milliVolts\n";
+		}
+		else
+		{
+			out << " free\n";
+		}
+	}
+	out << "---------" << std::endl;
 	return out;
+}
+std::istream& operator >> (std::istream &in, Digital_Oscilloscope &device)
+{
+	int amount_of_ñhannels, voltage_divisions, seconds_divisions, year_of_issue, memory_depth;
+	std::string manufacturer, device_model;
+	in >> amount_of_ñhannels >> voltage_divisions >> seconds_divisions >> manufacturer >> device_model >> year_of_issue >> memory_depth;
+
+	device.Set_manufacturer(manufacturer);
+	device.Set_device_model(device_model);
+	device.Set_year_of_issue(year_of_issue);
+	device.Set_amount_of_ñhannels(amount_of_ñhannels);
+	device.Set_memory_depth(memory_depth);
+	device.Set_voltage_divisions(voltage_divisions);
+	device.Set_seconds_divisions(seconds_divisions);
+
+	return in;
 }
 

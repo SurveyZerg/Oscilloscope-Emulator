@@ -82,11 +82,44 @@ Generator::~Generator()
 
 std::ostream& operator<< (std::ostream &out, Generator &device)
 {
-	out <<"---------"<< std::endl <<"Generator "<< device.Get_manufacturer() << " " << device.Get_device_model()
-		<< "(" << device.Get_year_of_issue() << "year)" << " : Amount of channels - " 
+	out << "---------" << std::endl
+		<< "Generator " << device.Get_manufacturer() << " " << device.Get_device_model()
+		<< "(" << device.Get_year_of_issue() << "year)" << " : Amount of channels - "
 		<< device.Get_amount_of_ñhannels() << ", Maximum output frequency - "
-		<< device.Get_maximum_output_frequency() << " MHz" << std::endl << "---------" << std::endl;
+		<< device.Get_maximum_output_frequency() << " MHz" << std::endl;
+	out << "Interface of Generator:\nOutput frequency = " << device.Get_output_frequency() 
+		<< " Hz and Peak to Peak Voltage = " << device.Get_peak_to_peak_voltage() << " milliVolts\n";
+	for (int i = 0; i < device.Get_amount_of_ñhannels(); i++)
+	{
+		out << "Channel #" << i + 1 << " is";
+		if (device.Get_connection_of_channel(i + 1))
+		{
+			out << " busy: Connected Oscilloscope " << device.Channels_connected[i]->Get_manufacturer() << " "
+				<< device.Channels_connected[i]->Get_device_model() << "\nWith Seconds Scale = "
+				<< device.Channels_connected[i]->Get_seconds_scale() << " microSec/div and Voltage Scale = "
+				<< device.Channels_connected[i]->Get_voltage_scale() << " milliVolts/div\n";
+		}
+		else
+		{
+			out << " free\n";
+		}
+	}
+	out << "---------" << std::endl;
 	return out;
+}
+std::istream& operator >> (std::istream &in, Generator &device)
+{
+	int amount_of_ñhannels, year_of_issue, maximum_output_frequency;
+	std::string manufacturer, device_model;
+	in >> amount_of_ñhannels >>  manufacturer >> device_model >> year_of_issue >> maximum_output_frequency;
+
+	device.Set_manufacturer(manufacturer);
+	device.Set_device_model(device_model);
+	device.Set_year_of_issue(year_of_issue);
+	device.Set_amount_of_ñhannels(amount_of_ñhannels);
+	device.Set_maximum_output_frequency(maximum_output_frequency);
+
+	return in;
 }
 
 void Generator::Make_Channels(int amount_of_channels)

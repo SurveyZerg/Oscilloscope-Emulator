@@ -34,6 +34,7 @@ public:
 	~Generator();
 
 	friend std::ostream& operator << (std::ostream &out, Generator &device);
+	friend std::istream& operator >> (std::istream &in, Generator &device);
 
 	void Set_output_frequency(int output_frequency) override;
 	void Set_peak_to_peak_voltage(int peak_to_peak_voltage) override;

@@ -44,6 +44,19 @@ std::ostream& operator<< (std::ostream &out, Researcher &scientist)
 		<< scientist.Get_age() << ")" << std::endl <<"---------" << std::endl;
 	return out;
 }
+std::istream& operator >> (std::istream &in, Researcher &scientist)
+{
+	int age;
+	std::string research_position, name, surname;
+	in >> research_position >> name >> surname >> age;
+
+	scientist.research_position = research_position;
+	scientist.name = name;
+	scientist.surname = surname;
+	scientist.age = age;
+
+	return in;
+}
 
 void Researcher::Connect(Oscilloscope &osc, int number_of_channel_osc, Generator &gen, int number_of_channel_gen)
 {
@@ -91,15 +104,35 @@ void Researcher::Connect(Oscilloscope &osc, int number_of_channel_osc, Generator
 	}
 	else if ((1000000 / gen.Get_output_frequency()) > (osc.Get_seconds_scale() * osc.Get_seconds_divisions()) && gen.Get_peak_to_peak_voltage() > (osc.Get_voltage_scale() * osc.Get_voltage_divisions()))
 	{
-		std::cout << "Connection of Generator " << gen.Get_manufacturer() << " " << gen.Get_device_model() << " and Oscilloscope " << osc.Get_manufacturer() << " " << osc.Get_device_model() << " Successfully completed, but you can't read the signal, because at least one period and amplitude of the sinusoid is't visible\nYou can change voltage and seconds scale to fix it\n";
+		std::cout << "Connection of Generator " << gen.Get_manufacturer() << " " << gen.Get_device_model() << " and Oscilloscope " << osc.Get_manufacturer() << " " << osc.Get_device_model() << " Successfully completed, but you can't read the signal, because at least one period and amplitude of the sinusoid aren't visible\nYou can change voltage and seconds scale to fix it\n";
 	}
 }
 void Researcher::Read_voltage(Oscilloscope &osc, int number_of_channel)
 {
-	srand(time(0));
-	int random_number = -100 + rand() % 100; //Имитация погрешности осциллографа
-	if ((1000000 / osc.Get_connected_generator(number_of_channel)->Get_output_frequency()) < (osc.Get_seconds_scale() * osc.Get_seconds_divisions()) && osc.Get_connected_generator(number_of_channel)->Get_peak_to_peak_voltage() < (osc.Get_voltage_scale() * osc.Get_voltage_divisions()))
+	if (osc.Get_connection_of_channel(number_of_channel))
 	{
-		std::cout <<"Peak to Peak Voltage is "<< osc.Get_connected_generator(number_of_channel)->Get_peak_to_peak_voltage() + random_number <<" milliVolts"<< std::endl;
+		srand(time(0));
+		int random_number = -100 + rand() % 100; //Имитация погрешности осциллографа
+		if ((1000000 / osc.Get_connected_generator(number_of_channel)->Get_output_frequency()) < (osc.Get_seconds_scale() * osc.Get_seconds_divisions()) && osc.Get_connected_generator(number_of_channel)->Get_peak_to_peak_voltage() < (osc.Get_voltage_scale() * osc.Get_voltage_divisions()))
+		{
+			std::cout << "Peak to Peak Voltage is " << osc.Get_connected_generator(number_of_channel)->Get_peak_to_peak_voltage() + random_number << " milliVolts" << std::endl;
+			std::cout << "RMS Voltage is " << ((osc.Get_connected_generator(number_of_channel)->Get_peak_to_peak_voltage() + random_number) / 2.8) << " milliVolts" << std::endl;
+		}
+		else if ((1000000 / osc.Get_connected_generator(number_of_channel)->Get_output_frequency()) > (osc.Get_seconds_scale() * osc.Get_seconds_divisions()) && osc.Get_connected_generator(number_of_channel)->Get_peak_to_peak_voltage() < (osc.Get_voltage_scale() * osc.Get_voltage_divisions()))
+		{
+			std::cout << "ERROR #5\nYou can't read the Peak to Peak and RMS Voltage, because at least one period of the sinusoid is't visible\nYou can change seconds scale to fix it\n";
+		}
+		else if ((1000000 / osc.Get_connected_generator(number_of_channel)->Get_output_frequency()) < (osc.Get_seconds_scale() * osc.Get_seconds_divisions()) && osc.Get_connected_generator(number_of_channel)->Get_peak_to_peak_voltage() > (osc.Get_voltage_scale() * osc.Get_voltage_divisions()))
+		{
+			std::cout << "ERROR #6\nYou can't read the Peak to Peak and RMS Voltage, because amplitude of the sinusoid is't visible\nYou can change voltage scale to fix it\n";
+		}
+		else if ((1000000 / osc.Get_connected_generator(number_of_channel)->Get_output_frequency()) > (osc.Get_seconds_scale() * osc.Get_seconds_divisions()) && osc.Get_connected_generator(number_of_channel)->Get_peak_to_peak_voltage() > (osc.Get_voltage_scale() * osc.Get_voltage_divisions()))
+		{
+			std::cout << "ERROR #5 and ERROR #6\nYou can't read the Peak to Peak and RMS Voltage, because at least one period and amplitude of the sinusoid aren't visible\nYou can change seconds and voltage scale to fix it\n";
+		}
+	}
+	else
+	{
+		std::cout << "ERROR #7\nYou tried to read signal from channel, that isn't connected to anything\n";
 	}
 }

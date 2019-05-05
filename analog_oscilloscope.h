@@ -5,6 +5,7 @@
 
 // Нужно также добавить в цифровой и аналоговый осциллографы реалзиации виртуальных методов
 
+
 class Analog_Oscilloscope :public Oscilloscope
 {
 private:
@@ -21,4 +22,5 @@ public:
 	~Analog_Oscilloscope();
 
 	friend std::ostream& operator << (std::ostream &out, Analog_Oscilloscope &device);
+	friend std::istream& operator >> (std::istream &in, Analog_Oscilloscope &device);
 };

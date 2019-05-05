@@ -20,4 +20,5 @@ public:
 	~Digital_Oscilloscope();
 
 	friend std::ostream& operator << (std::ostream &out, Digital_Oscilloscope &device);
+	friend std::istream& operator >> (std::istream &in, Digital_Oscilloscope &device);
 };
