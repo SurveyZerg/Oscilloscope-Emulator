@@ -25,4 +25,5 @@ public:
 	friend std::ostream& operator<< (std::ostream &out, Researcher &scientist);
 
 	void Connect(Oscilloscope &osc,int number_of_channel_osc, Generator &gen, int number_of_channel_gen);
+	void Read_voltage(Oscilloscope &osc, int number_of_channel);
 };

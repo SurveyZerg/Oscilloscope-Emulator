@@ -2,6 +2,7 @@
 
 #include <string>
 #include "oscilloscope.h"
+#include "generator.h"
 
 int Oscilloscope::s_amount_of_oscilloscopes = 0;
 
@@ -38,6 +39,18 @@ void Oscilloscope::Set_seconds_scale(int seconds_scale)
 {
 	this->seconds_scale = seconds_scale;
 }
+void Oscilloscope::Set_connection_of_channel(int number_of_channel, bool on_off, Generator* device)
+{
+	Channels_on_off[number_of_channel - 1] = on_off;
+	if (on_off == true)
+	{
+		Channels_connected[number_of_channel - 1] = device;
+	}
+	else if (on_off == false)
+	{
+		Channels_connected[number_of_channel - 1] = 0;
+	}
+}
 
 bool Oscilloscope::Get_connection_of_channel(int number_of_channel, std::string show)
 {
@@ -62,4 +75,18 @@ int Oscilloscope::Get_seconds_divisions()
 int Oscilloscope::Get_seconds_scale()
 {
 	return seconds_scale;
+}
+int Oscilloscope::Get_voltage_scale()
+{
+	return voltage_scale;
+}
+Generator* Oscilloscope::Get_connected_generator(int number_of_channel)
+{
+	return Channels_connected[number_of_channel - 1];
+}
+
+void Oscilloscope::Make_Channels(int amount_of_channels)
+{
+	Channels_on_off.resize(amount_of_channels);
+	Channels_connected.resize(amount_of_channels);
 }

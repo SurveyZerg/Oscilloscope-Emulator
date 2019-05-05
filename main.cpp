@@ -51,13 +51,21 @@ int main()
 	cout << Device_4;
 	//Функции создания массивов проводов на основе каналов и возможность исследователя подключать осциллографы к генераторам
 
-	Device_3.Set_signal(2000,6);
+	Device_3.Set_signal(2000,6000);
 	Andrew.Connect(Device_2, 2, Device_3, 1);
 
 	Device_2.Get_connection_of_channel(2, "yes");
 	Device_3.Get_connection_of_channel(1, "yes");
 	Device_3.Get_connection_of_channel(2, "yes");
 	Device_2.Get_connection_of_channel(1, "yes");
+
+	Device_2.Set_voltage_scale(500);
+	Device_2.Set_seconds_scale(10);
+	Andrew.Connect(Device_2, 1, Device_3, 2);
+
+	Device_2.Set_seconds_scale(500);
+	Device_2.Set_voltage_scale(6000);
+	Andrew.Read_voltage(Device_2, 2);
 	system("Pause");
 	return 0;
 } 

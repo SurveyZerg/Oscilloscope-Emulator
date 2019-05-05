@@ -1,5 +1,6 @@
 //researcher.cpp
 
+#include <ctime>
 #include "researcher.h"
 
 Researcher::Researcher(std::string research_position, std::string name, std::string surname, int age)
@@ -76,14 +77,29 @@ void Researcher::Connect(Oscilloscope &osc, int number_of_channel_osc, Generator
 	osc.Set_connection_of_channel(number_of_channel_osc, true, &gen);
 	gen.Set_connection_of_channel(number_of_channel_gen, true, &osc);
 
-	if ((1000000 / gen.Get_output_frequency()) < osc.Get_seconds_scale() * osc.Get_seconds_divisions()) // Для правильных показаний нужно, чтобы был виден хотя-бы один период сигнала
+	if ((1000000 / gen.Get_output_frequency()) < (osc.Get_seconds_scale() * osc.Get_seconds_divisions()) && gen.Get_peak_to_peak_voltage() < (osc.Get_voltage_scale() * osc.Get_voltage_divisions())) // Для правильных показаний нужно, чтобы был виден хотя-бы один период сигнала 1Hz - 1000000 microSec
 	{
-		std::cout << "";
+		std::cout << "Connection of Generator " <<gen.Get_manufacturer()<< " " <<gen.Get_device_model() << " and Oscilloscope "<<osc.Get_manufacturer() << " " << osc.Get_device_model() << " Successfully completed\n";
 	}
-
-	//Окончательно доделываем связь и аналог лабы
-
-	//Cвязывание характеристик
-	/* Нужно создать масштаб у осциллографов в хедере осциллографов общем, чтобы контролировать периоды и амплитуду, чтобы видеть весь сигнал и делать правильные измерения
-	Для этого можно частоту генератора функции переводить в период и кол-во клеток умножить на настройку подставы часа должно быть больше либо равно этого периода */
+	else if ((1000000 / gen.Get_output_frequency()) > (osc.Get_seconds_scale() * osc.Get_seconds_divisions()) && gen.Get_peak_to_peak_voltage() < (osc.Get_voltage_scale() * osc.Get_voltage_divisions()))
+	{
+		std::cout << "Connection of Generator " << gen.Get_manufacturer() << " " << gen.Get_device_model() << " and Oscilloscope " << osc.Get_manufacturer() << " " << osc.Get_device_model() << " Successfully completed, but you can't read the signal, because at least one period of the sinusoid is't visible\nYou can change seconds scale to fix it\n";
+	}
+	else if ((1000000 / gen.Get_output_frequency()) < (osc.Get_seconds_scale() * osc.Get_seconds_divisions()) && gen.Get_peak_to_peak_voltage() > (osc.Get_voltage_scale() * osc.Get_voltage_divisions()))
+	{
+		std::cout << "Connection of Generator " << gen.Get_manufacturer() << " " << gen.Get_device_model() << " and Oscilloscope " << osc.Get_manufacturer() << " " << osc.Get_device_model() << " Successfully completed, but you can't read the signal, because amplitude of the sinusoid is't visible\nYou can change voltage scale to fix it\n";
+	}
+	else if ((1000000 / gen.Get_output_frequency()) > (osc.Get_seconds_scale() * osc.Get_seconds_divisions()) && gen.Get_peak_to_peak_voltage() > (osc.Get_voltage_scale() * osc.Get_voltage_divisions()))
+	{
+		std::cout << "Connection of Generator " << gen.Get_manufacturer() << " " << gen.Get_device_model() << " and Oscilloscope " << osc.Get_manufacturer() << " " << osc.Get_device_model() << " Successfully completed, but you can't read the signal, because at least one period and amplitude of the sinusoid is't visible\nYou can change voltage and seconds scale to fix it\n";
+	}
+}
+void Researcher::Read_voltage(Oscilloscope &osc, int number_of_channel)
+{
+	srand(time(0));
+	int random_number = -100 + rand() % 100; //Имитация погрешности осциллографа
+	if ((1000000 / osc.Get_connected_generator(number_of_channel)->Get_output_frequency()) < (osc.Get_seconds_scale() * osc.Get_seconds_divisions()) && osc.Get_connected_generator(number_of_channel)->Get_peak_to_peak_voltage() < (osc.Get_voltage_scale() * osc.Get_voltage_divisions()))
+	{
+		std::cout <<"Peak to Peak Voltage is "<< osc.Get_connected_generator(number_of_channel)->Get_peak_to_peak_voltage() + random_number <<" milliVolts"<< std::endl;
+	}
 }

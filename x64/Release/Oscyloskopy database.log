@@ -1,9 +1,25 @@
 ﻿  analog_oscilloscope.cpp
+c:\users\marpe\desktop\документы\документы с учебы\2 cеместр\программирование\проект\oscyloskopy database\generator.h(23): error C2065: Oscilloscope: необъявленный идентификатор
+c:\users\marpe\desktop\документы\документы с учебы\2 cеместр\программирование\проект\oscyloskopy database\generator.h(23): error C2059: синтаксическая ошибка: >
   digital_oscilloscope.cpp
+c:\users\marpe\desktop\документы\документы с учебы\2 cеместр\программирование\проект\oscyloskopy database\generator.h(23): error C2065: Oscilloscope: необъявленный идентификатор
+c:\users\marpe\desktop\документы\документы с учебы\2 cеместр\программирование\проект\oscyloskopy database\generator.h(23): error C2059: синтаксическая ошибка: >
   electrical_equipment.cpp
+c:\users\marpe\desktop\документы\документы с учебы\2 cеместр\программирование\проект\oscyloskopy database\electrical_equipment.cpp(41): error C2065: Channels_connected: необъявленный идентификатор
+c:\users\marpe\desktop\документы\документы с учебы\2 cеместр\программирование\проект\oscyloskopy database\electrical_equipment.cpp(45): error C2065: Channels_connected: необъявленный идентификатор
+  generator.cpp
+c:\users\marpe\desktop\документы\документы с учебы\2 cеместр\программирование\проект\oscyloskopy database\oscilloscope.h(26): error C2065: Generator: необъявленный идентификатор
+c:\users\marpe\desktop\документы\документы с учебы\2 cеместр\программирование\проект\oscyloskopy database\oscilloscope.h(26): error C2059: синтаксическая ошибка: >
+c:\users\marpe\desktop\документы\документы с учебы\2 cеместр\программирование\проект\oscyloskopy database\oscilloscope.h(44): error C2143: синтаксическая ошибка: отсутствие ";" перед "*"
+c:\users\marpe\desktop\документы\документы с учебы\2 cеместр\программирование\проект\oscyloskopy database\oscilloscope.h(44): error C4430: отсутствует спецификатор типа - предполагается int. Примечание. C++ не поддерживает int по умолчанию
+c:\users\marpe\desktop\документы\документы с учебы\2 cеместр\программирование\проект\oscyloskopy database\oscilloscope.h(44): error C2238: непредвиденные лексемы перед ";"
   main.cpp
+c:\users\marpe\desktop\документы\документы с учебы\2 cеместр\программирование\проект\oscyloskopy database\generator.h(23): error C2065: Oscilloscope: необъявленный идентификатор
+c:\users\marpe\desktop\документы\документы с учебы\2 cеместр\программирование\проект\oscyloskopy database\generator.h(23): error C2059: синтаксическая ошибка: >
   oscilloscope.cpp
-  Создание кода
-  All 85 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
-  Создание кода завершено
-  Oscyloskopy database.vcxproj -> C:\Users\Marpe\Desktop\Документы\Документы с учебы\2 cеместр\Программирование\Проект\Oscyloskopy database\x64\Release\Oscyloskopy database.exe
+c:\users\marpe\desktop\документы\документы с учебы\2 cеместр\программирование\проект\oscyloskopy database\generator.h(23): error C2065: Oscilloscope: необъявленный идентификатор
+c:\users\marpe\desktop\документы\документы с учебы\2 cеместр\программирование\проект\oscyloskopy database\generator.h(23): error C2059: синтаксическая ошибка: >
+  researcher.cpp
+c:\users\marpe\desktop\документы\документы с учебы\2 cеместр\программирование\проект\oscyloskopy database\generator.h(23): error C2065: Oscilloscope: необъявленный идентификатор
+c:\users\marpe\desktop\документы\документы с учебы\2 cеместр\программирование\проект\oscyloskopy database\generator.h(23): error C2059: синтаксическая ошибка: >
+c:\users\marpe\desktop\документы\документы с учебы\2 cеместр\программирование\проект\oscyloskopy database\researcher.cpp(98): error C2059: синтаксическая ошибка: ;
