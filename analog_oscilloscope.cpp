@@ -8,26 +8,10 @@ void Analog_Oscilloscope::Set_amount_of_beams(int amount_of_beams)
 {
 	this->amount_of_beams = amount_of_beams;
 }
-void Analog_Oscilloscope::Set_connection_of_channel(int number_of_channel, bool on_off)
-{
-	Channels[number_of_channel - 1] = on_off;
-}
-void Analog_Oscilloscope::Set_voltage_scale(int voltage_scale)
-{
-	this->voltage_scale = voltage_scale;
-}
-void Analog_Oscilloscope::Set_seconds_scale(int seconds_scale)
-{
-	this->seconds_scale = seconds_scale;
-}
 
 int Analog_Oscilloscope::Get_amount_of_beams()
 {
 	return amount_of_beams;
-}
-bool Analog_Oscilloscope::Get_connection_of_channel(int number_of_channel)
-{
-	return Channels[number_of_channel - 1];
 }
 
 Analog_Oscilloscope::Analog_Oscilloscope(int amount_of_ñhannels, int voltage_divisions, int seconds_divisions, std::string manufacturer, std::string device_model, int year_of_issue,  int amount_of_beams)
@@ -48,7 +32,6 @@ Analog_Oscilloscope::Analog_Oscilloscope(int amount_of_ñhannels, int voltage_div
 
 	Make_Channels(amount_of_ñhannels);
 }
-
 Analog_Oscilloscope::~Analog_Oscilloscope()
 {
 #ifdef _DEBUG
@@ -65,9 +48,4 @@ std::ostream& operator<< (std::ostream &out, Analog_Oscilloscope &device)
 		<< device.Get_amount_of_ñhannels() << ", Amount of beams - "<< device.Get_amount_of_beams() <<std::endl 
 		<< "---------" << std::endl;
 	return out;
-}
-
-void Analog_Oscilloscope::Make_Channels(int amount_of_channels)
-{
-	Channels.resize(amount_of_channels);
 }

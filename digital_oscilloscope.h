@@ -5,14 +5,11 @@
 
 // Нужно также добавить в цифровой и аналоговый осциллографы реалзиации виртуальных методов
 
-class Digital_Oscilloscope :public Oscilloscope, public I_Oscilloscope
+class Digital_Oscilloscope :public Oscilloscope
 {
 private:
 	int memory_depth; //in single channel mode [Mpts/CH]
 	static int s_amount_of_digital_oscilloscopes;
-	std::vector<bool> Channels;
-
-	void Make_Channels(int amount_of_channels) override;
 
 	void Set_memory_depth(int memory_depth);
 
@@ -23,10 +20,4 @@ public:
 	~Digital_Oscilloscope();
 
 	friend std::ostream& operator << (std::ostream &out, Digital_Oscilloscope &device);
-
-	void Set_connection_of_channel(int number_of_channel, bool on_off) override;
-	void Set_voltage_scale(int voltage_scale) override;
-	void Set_seconds_scale(int seconds_scale) override;
-
-	bool Get_connection_of_channel(int number_of_channel) override;
 };

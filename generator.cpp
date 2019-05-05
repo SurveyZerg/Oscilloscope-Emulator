@@ -6,10 +6,6 @@ void Generator::Set_maximum_output_frequency(int maximum_output_frequency)
 {
 	this->maximum_output_frequency = maximum_output_frequency;
 }
-void Generator::Set_connection_of_channel(int number_of_channel,bool on_off)
-{
-	Channels[number_of_channel - 1] = on_off;
-}
 void Generator::Set_output_frequency(int output_frequency)
 {
 	this->output_frequency = output_frequency;
@@ -18,14 +14,31 @@ void Generator::Set_peak_to_peak_voltage(int peak_to_peak_voltage)
 {
 	this->peak_to_peak_voltage = peak_to_peak_voltage;
 }
+void Generator::Set_signal(int output_frequency, int peak_to_peak_voltage)
+{
+	Set_output_frequency(output_frequency);
+	Set_peak_to_peak_voltage(peak_to_peak_voltage);
+}
 
 int Generator::Get_maximum_output_frequency()
 {
 	return maximum_output_frequency;
 }
-bool Generator::Get_connection_of_channel(int number_of_channel)
+bool Generator::Get_connection_of_channel(int number_of_channel,std::string show)
 {
-	return Channels[number_of_channel - 1];
+	if (show == "yes" && Channels_on_off[number_of_channel - 1] == true)
+	{
+		std::cout << "To channel #" << number_of_channel << " of Generator " << this->Get_manufacturer() << " " << this->Get_device_model() << " connected Oscilloscope " << Channels_connected[number_of_channel - 1]->Get_manufacturer() << " " << Channels_connected[number_of_channel - 1]->Get_device_model() << std::endl;
+	}
+	if (show == "yes" && Channels_on_off[number_of_channel - 1] == false)
+	{
+		std::cout << "To channel #" << number_of_channel << " of Generator " << this->Get_manufacturer() << " " << this->Get_device_model() << " nothing connected" << std::endl;
+	}
+	return Channels_on_off[number_of_channel - 1];
+}
+int Generator::Get_output_frequency()
+{
+	return output_frequency;
 }
 
 Generator::Generator(int amount_of_channels, std::string manufacturer, std::string device_model, int year_of_issue, int maximum_output_frequency)
@@ -42,7 +55,6 @@ Generator::Generator(int amount_of_channels, std::string manufacturer, std::stri
 
 	Make_Channels(amount_of_channels);
 }
-
 Generator::~Generator()
 {
 #ifdef _DEBUG
@@ -58,9 +70,4 @@ std::ostream& operator<< (std::ostream &out, Generator &device)
 		<< device.Get_amount_of_ñhannels() << ", Maximum output frequency - "
 		<< device.Get_maximum_output_frequency() << " MHz" << std::endl << "---------" << std::endl;
 	return out;
-}
-
-void Generator::Make_Channels(int amount_of_channels)
-{
-	Channels.resize(amount_of_channels);
 }

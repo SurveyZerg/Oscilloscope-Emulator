@@ -73,8 +73,15 @@ void Researcher::Connect(Oscilloscope &osc, int number_of_channel_osc, Generator
 	}
 
 	//Подключение
-	osc.Set_connection_of_channel(number_of_channel_osc, true);
-	gen.Set_connection_of_channel(number_of_channel_gen, true);
+	osc.Set_connection_of_channel(number_of_channel_osc, true, &gen);
+	gen.Set_connection_of_channel(number_of_channel_gen, true, &osc);
+
+	if ((1000000 / gen.Get_output_frequency()) < osc.Get_seconds_scale() * osc.Get_seconds_divisions()) // Для правильных показаний нужно, чтобы был виден хотя-бы один период сигнала
+	{
+		std::cout << "";
+	}
+
+	//Окончательно доделываем связь и аналог лабы
 
 	//Cвязывание характеристик
 	/* Нужно создать масштаб у осциллографов в хедере осциллографов общем, чтобы контролировать периоды и амплитуду, чтобы видеть весь сигнал и делать правильные измерения

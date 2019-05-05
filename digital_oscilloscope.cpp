@@ -8,27 +8,12 @@ void Digital_Oscilloscope::Set_memory_depth(int memory_depth)
 {
 	this->memory_depth = memory_depth;
 }
-void Digital_Oscilloscope::Set_connection_of_channel(int number_of_channel, bool on_off)
-{
-	Channels[number_of_channel - 1] = on_off;
-}
-void Digital_Oscilloscope::Set_voltage_scale(int voltage_scale)
-{
-	this->voltage_scale = voltage_scale;
-}
-void Digital_Oscilloscope::Set_seconds_scale(int seconds_scale)
-{
-	this->seconds_scale = seconds_scale;
-}
 
 int Digital_Oscilloscope::Get_memory_depth()
 {
 	return memory_depth;
 }
-bool Digital_Oscilloscope::Get_connection_of_channel(int number_of_channel)
-{
-	return Channels[number_of_channel - 1];
-}
+
 
 Digital_Oscilloscope::Digital_Oscilloscope(int amount_of_ñhannels, int voltage_divisions, int seconds_divisions, std::string manufacturer, std::string device_model, int year_of_issue,  int memory_depth)
 {
@@ -66,7 +51,3 @@ std::ostream& operator<< (std::ostream &out, Digital_Oscilloscope &device)
 	return out;
 }
 
-void Digital_Oscilloscope::Make_Channels(int amount_of_channels)
-{
-	Channels.resize(amount_of_channels);
-}
