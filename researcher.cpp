@@ -1,8 +1,30 @@
 //researcher.cpp
 
+#include <fstream>
 #include <ctime>
 #include "researcher.h"
 
+Researcher::Researcher()
+{
+	this->Type_information(true);
+}
+Researcher::Researcher(bool file_reading)
+{
+	std::ifstream load;
+	load.exceptions(std::ifstream::badbit | std::ifstream::failbit);
+	try
+	{
+		load.open("load_researcher.txt");
+	}
+	catch (const std::ifstream::failure &ex)
+	{
+		std::cout << "ERROR #9\nCouldn't open the file load.txt\n";
+		std::cout << ex.what() << std::endl;
+		std::cout << ex.code() << std::endl;
+	}
+	load >> *this;
+	load.close();
+}
 Researcher::Researcher(std::string research_position, std::string name, std::string surname, int age)
 {
 #ifdef _DEBUG
@@ -19,6 +41,54 @@ Researcher::~Researcher()
 #ifdef _DEBUG
 	std::cout << "Default Destructor Researcher was called" << std::endl;
 #endif
+}
+
+void Researcher::Type_information(bool all_information)
+{
+	if (all_information)
+	{
+		int age, research_position;
+		std::string name,surname;
+		std::cout << "Choose your research postion:\n1 - Junior researcher\n2 - Researcher\n3 - Senior researcher\n4 - Leading researcher\n5 - Principal researcher\n";
+		std::cin >> research_position;
+		if (research_position == 1)
+		{
+			this->research_position = "Junior researcher";
+		}
+		if (research_position == 2)
+		{
+			this->research_position = "Researcher";
+		}
+		if (research_position == 3)
+		{
+			this->research_position = "Senior researcher";
+		}
+		if (research_position == 4)
+		{
+			this->research_position = "Leading researcher";
+		}
+		if (research_position == 5)
+		{
+			this->research_position = "Principal researcher";
+		}
+		std::cout << "Type your name: ";
+		std::cin >> name;
+		std::cout << "Type your surname: ";
+		std::cin >> surname;
+		std::cout << "Type your age: ";
+		std::cin >> age;
+
+		this->name = name;
+		this->surname = surname;
+		this->age = age;
+	}
+	else
+	{
+		this->research_position = "Mr.";
+		this->name = "Noname";
+		this->surname = "";
+		this->age = 999;
+	}
 }
 
 std::string Researcher :: Get_research_position()
@@ -48,7 +118,10 @@ std::istream& operator >> (std::istream &in, Researcher &scientist)
 {
 	int age;
 	std::string research_position, name, surname;
-	in >> research_position >> name >> surname >> age;
+	std::getline(in,research_position);
+	std::getline(in, name);
+	std::getline(in, surname);
+	in >> age;
 
 	scientist.research_position = research_position;
 	scientist.name = name;

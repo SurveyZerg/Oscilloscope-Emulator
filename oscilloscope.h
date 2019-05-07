@@ -12,7 +12,6 @@ public:
 	void virtual Set_voltage_scale(int voltage_scale) = 0;
 };
 
-// Это надо превратить в абстрактный класс с виртуальными методами
 class Oscilloscope :public Electrical_Equipment, public I_Oscilloscope
 {
 private:

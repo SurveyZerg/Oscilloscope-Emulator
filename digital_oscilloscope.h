@@ -3,8 +3,6 @@
 
 #include "oscilloscope.h"
 
-// Нужно также добавить в цифровой и аналоговый осциллографы реалзиации виртуальных методов
-
 class Digital_Oscilloscope :public Oscilloscope
 {
 private:
@@ -16,8 +14,12 @@ private:
 	int Get_memory_depth();
 public:
 
+	Digital_Oscilloscope();
+	Digital_Oscilloscope(bool file_reading);
 	Digital_Oscilloscope(int amount_of_сhannels, int voltage_divisions, int seconds_divisions, std::string manufacturer = "noname", std::string device_model = "", int year_of_issue = 0, int memory_depth = 0);
 	~Digital_Oscilloscope();
+
+	void Type_information(bool all_information) override;
 
 	friend std::ostream& operator << (std::ostream &out, Digital_Oscilloscope &device);
 	friend std::istream& operator >> (std::istream &in, Digital_Oscilloscope &device);

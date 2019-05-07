@@ -29,9 +29,12 @@ protected:
 
 	void Make_Channels(int amount_of_channels)override;
 public:
-
+	Generator();
+	Generator(bool file_reading);
 	Generator(int amount_of_channels,std::string manufacturer = "noname", std::string device_model = "", int year_of_issue = 0, int maximum_output_frequency = 0);
 	~Generator();
+
+	void Type_information(bool all_information) override;
 
 	friend std::ostream& operator << (std::ostream &out, Generator &device);
 	friend std::istream& operator >> (std::istream &in, Generator &device);

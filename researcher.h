@@ -19,8 +19,12 @@ private:
 	int Get_age();
 
 public:
-	Researcher(std::string research_position = "Mr.", std::string name = "", std::string surname = "Noname", int age = 0);
+	Researcher();
+	Researcher(bool file_reading);
+	Researcher(std::string research_position, std::string name = "", std::string surname = "Noname", int age = 0);
 	~Researcher();
+
+	void Type_information(bool all_information);
 
 	friend std::ostream& operator<< (std::ostream &out, Researcher &scientist);
 	friend std::istream& operator >> (std::istream &in, Researcher &scientist);

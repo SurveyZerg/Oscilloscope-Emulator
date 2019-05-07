@@ -1,5 +1,6 @@
 //generator.cpp
 
+#include <fstream>
 #include "generator.h"
 #include "oscilloscope.h"
 
@@ -58,6 +59,29 @@ int Generator::Get_peak_to_peak_voltage()
 	return peak_to_peak_voltage;
 }
 
+Generator::Generator()
+{
+	this->Type_information(true);
+	Make_Channels(Get_amount_of_ñhannels());
+}
+Generator::Generator(bool file_reading)
+{
+	std::ifstream load;
+	load.exceptions(std::ifstream::badbit | std::ifstream::failbit);
+	try
+	{
+		load.open("load_generator.txt");
+	}
+	catch (const std::ifstream::failure &ex)
+	{
+		std::cout << "ERROR #9\nCouldn't open the file load.txt\n";
+		std::cout << ex.what() << std::endl;
+		std::cout << ex.code() << std::endl;
+	}
+	load >> *this;
+	load.close();
+	Make_Channels(this->Get_amount_of_ñhannels());
+}
 Generator::Generator(int amount_of_channels, std::string manufacturer, std::string device_model, int year_of_issue, int maximum_output_frequency)
 {
 #ifdef _DEBUG
@@ -77,6 +101,41 @@ Generator::~Generator()
 #ifdef _DEBUG
 	std::cout << "Default Destructor Generator was called" << std::endl;
 #endif
+
+}
+
+void Generator::Type_information(bool all_information)
+{
+	if (all_information)
+	{
+		int amount_of_ñhannels, year_of_issue, maximum_output_frequency;
+		std::string manufacturer, device_model;
+		std::cout << "Type amount of channels - ";
+		std::cin >> amount_of_ñhannels;
+		std::cout << "Type manufacturer - ";
+		std::cin >> manufacturer;
+		std::cout << "Type device model - ";
+		std::cin >> device_model;
+		std::cout << "Type year of issue - ";
+		std::cin >> year_of_issue;
+		std::cout << "Type maximum output frequency - ";
+		std::cin >> maximum_output_frequency;
+
+		Set_manufacturer(manufacturer);
+		Set_device_model(device_model);
+		Set_year_of_issue(year_of_issue);
+		Set_amount_of_ñhannels(amount_of_ñhannels);
+		Set_maximum_output_frequency(maximum_output_frequency);
+	}
+	else
+	{
+		int amount_of_ñhannels;
+
+		std::cout << "Type amount of channels - ";
+		std::cin >> amount_of_ñhannels;
+
+		Set_amount_of_ñhannels(amount_of_ñhannels);
+	}
 
 }
 
