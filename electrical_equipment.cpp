@@ -1,4 +1,4 @@
-// electrical_equipment.h
+// electrical_equipment.cpp
 
 #include <string>
 #include "electrical_equipment.h"

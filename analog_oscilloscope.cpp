@@ -19,6 +19,8 @@ int Analog_Oscilloscope::Get_amount_of_beams()
 Analog_Oscilloscope::Analog_Oscilloscope()
 {
 	this->Type_information(true);
+	this->p_next = nullptr;
+	this->p_prev = nullptr;
 	Make_Channels(Get_amount_of_ñhannels());
 }
 Analog_Oscilloscope::Analog_Oscilloscope(bool file_reading)
@@ -37,9 +39,12 @@ Analog_Oscilloscope::Analog_Oscilloscope(bool file_reading)
 	}
 	load >> *this;
 	load.close();
+	
+	this->p_next = nullptr;
+	this->p_prev = nullptr;
 	Make_Channels(this->Get_amount_of_ñhannels());
 }
-Analog_Oscilloscope::Analog_Oscilloscope(int amount_of_ñhannels, int voltage_divisions, int seconds_divisions, std::string manufacturer, std::string device_model, int year_of_issue,  int amount_of_beams)
+Analog_Oscilloscope::Analog_Oscilloscope(int amount_of_ñhannels, int voltage_divisions, int seconds_divisions, std::string manufacturer, std::string device_model, int year_of_issue,  int amount_of_beams, Electrical_Equipment* p_next, Electrical_Equipment* p_prev)
 {
 #ifdef _DEBUG
 	std::cout << "Constructor Analog Oscilloscope was called" << std::endl;
@@ -54,7 +59,8 @@ Analog_Oscilloscope::Analog_Oscilloscope(int amount_of_ñhannels, int voltage_div
 	Set_amount_of_beams(amount_of_beams);
 	Set_voltage_divisions(voltage_divisions);
 	Set_seconds_divisions(seconds_divisions);
-
+	this->p_next = p_next;
+	this->p_prev = p_prev;
 	Make_Channels(amount_of_ñhannels);
 }
 Analog_Oscilloscope::~Analog_Oscilloscope()

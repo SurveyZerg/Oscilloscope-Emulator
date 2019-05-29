@@ -1,19 +1,59 @@
 // main.cpp
 
+/*TO DO LIST 
+1. Сделать класс осциллографов абстрактным
+2. Разобраться с конструкторами по умолчанию у всех трех основных классов
+3. Найти все возможные места ошибок и добавить исключения
+4. Исправить все модификаторы доступа
+5. Ограничить шаблонность до только НУЖНЫХ классов
+6. Дать пользователю возможность добавлять и высвечивать себе любой элемент контейнера
+*/
 #include <iostream>
 #include <fstream>
 #include "researcher.h"
+#include "lab_list.h"
 
 using namespace std;
-
+/*
 void Init();
 void Welcome();
 int Get_role();
 int Get_type_of_oscilloscope();
 int Get_type_of_initialization();
+*/
+
+template <class T>
+T* addDevice(bool keyboard = 1);
+
+template<>
+Analog_Oscilloscope* addDevice(bool keyboard)
+{
+	Analog_Oscilloscope* temp;
+
+	if (keyboard)
+		temp = new Analog_Oscilloscope();
+	else
+		temp = new Analog_Oscilloscope(1);
+
+	return temp;
+}
 
 int main()
 {
+	Lab_List <Analog_Oscilloscope> List_of_Analog_Osc;
+	Lab_List <Digital_Oscilloscope> List_of_Digital_Osc;
+	Lab_List <Generator> List_of_Gen;
+
+	List_of_Analog_Osc.push_back(addDevice<Analog_Oscilloscope>(0));
+
+	cout << List_of_Analog_Osc[0]; //Нужно реализовать эту функцию
+	
+
+
+
+
+
+	/*
 	ofstream save;
 	try
 	{
@@ -410,10 +450,11 @@ int main()
 		}
 	}
 	save.close();
+	*/
 	system("Pause");
 	return 0;
 } 
-
+/*
 void Welcome()
 {
 
@@ -502,3 +543,4 @@ void Init()
 	}
 	}
 }
+*/

@@ -39,7 +39,7 @@ Digital_Oscilloscope::Digital_Oscilloscope(bool file_reading)
 	load.close();
 	Make_Channels(this->Get_amount_of_ñhannels());
 }
-Digital_Oscilloscope::Digital_Oscilloscope(int amount_of_ñhannels, int voltage_divisions, int seconds_divisions, std::string manufacturer, std::string device_model, int year_of_issue,  int memory_depth)
+Digital_Oscilloscope::Digital_Oscilloscope(int amount_of_ñhannels, int voltage_divisions, int seconds_divisions, std::string manufacturer, std::string device_model, int year_of_issue,  int memory_depth, Electrical_Equipment* p_next, Electrical_Equipment* p_prev)
 {
 #ifdef _DEBUG
 	std::cout << "Constructor Digital Oscilloscope was called" << std::endl;
@@ -54,6 +54,8 @@ Digital_Oscilloscope::Digital_Oscilloscope(int amount_of_ñhannels, int voltage_d
 	Set_memory_depth(memory_depth);
 	Set_voltage_divisions(voltage_divisions);
 	Set_seconds_divisions(seconds_divisions);
+	this->p_next = p_next;
+	this->p_prev = p_prev;
 
 	Make_Channels(amount_of_ñhannels);
 }

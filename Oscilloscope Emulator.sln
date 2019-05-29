@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Oscyloskopy database", "Oscyloskopy database.vcxproj", "{D5F34DB1-C1E8-4D32-A035-442B3BA324A6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Oscilloscope Emulator", "Oscilloscope Emulator.vcxproj", "{D5F34DB1-C1E8-4D32-A035-442B3BA324A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +26,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {55816E59-D82C-47FE-8341-092901E531F5}
+		SolutionGuid = {45201166-426F-4B68-9336-B5B1E9320ADB}
 	EndGlobalSection
 EndGlobal

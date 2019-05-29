@@ -23,6 +23,7 @@
     <ClInclude Include="digital_oscilloscope.h" />
     <ClInclude Include="electrical_equipment.h" />
     <ClInclude Include="generator.h" />
+    <ClInclude Include="lab_list.h" />
     <ClInclude Include="oscilloscope.h" />
     <ClInclude Include="researcher.h" />
   </ItemGroup>
@@ -31,6 +32,7 @@
     <ClCompile Include="digital_oscilloscope.cpp" />
     <ClCompile Include="electrical_equipment.cpp" />
     <ClCompile Include="generator.cpp" />
+    <ClCompile Include="lab_list.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="oscilloscope.cpp" />
     <ClCompile Include="researcher.cpp" />

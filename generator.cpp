@@ -82,7 +82,7 @@ Generator::Generator(bool file_reading)
 	load.close();
 	Make_Channels(this->Get_amount_of_ñhannels());
 }
-Generator::Generator(int amount_of_channels, std::string manufacturer, std::string device_model, int year_of_issue, int maximum_output_frequency)
+Generator::Generator(int amount_of_channels, std::string manufacturer, std::string device_model, int year_of_issue, int maximum_output_frequency, Electrical_Equipment* p_next, Electrical_Equipment* p_prev)
 {
 #ifdef _DEBUG
 	std::cout << "Constructor Generator was called" << std::endl;
@@ -93,6 +93,8 @@ Generator::Generator(int amount_of_channels, std::string manufacturer, std::stri
 	Set_year_of_issue(year_of_issue);
 	Set_maximum_output_frequency(maximum_output_frequency);
 	Set_amount_of_ñhannels(amount_of_channels);
+	this->p_next = p_next;
+	this->p_prev = p_prev;
 
 	Make_Channels(amount_of_channels);
 }

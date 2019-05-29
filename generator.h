@@ -20,6 +20,9 @@ private:
 	int peak_to_peak_voltage = 1000; // [milliVolts]
 	int maximum_output_frequency;// [MHz]
 
+	Generator();
+	Generator(bool file_reading);
+
 protected:
 	std::vector<Oscilloscope*> Channels_connected;
 
@@ -29,9 +32,7 @@ protected:
 
 	void Make_Channels(int amount_of_channels)override;
 public:
-	Generator();
-	Generator(bool file_reading);
-	Generator(int amount_of_channels,std::string manufacturer = "noname", std::string device_model = "", int year_of_issue = 0, int maximum_output_frequency = 0);
+	Generator(int amount_of_channels,std::string manufacturer = "noname", std::string device_model = "", int year_of_issue = 0, int maximum_output_frequency = 0, Electrical_Equipment* p_next = 0, Electrical_Equipment* p_prev = 0);
 	~Generator();
 
 	void Type_information(bool all_information) override;
