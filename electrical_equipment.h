@@ -29,9 +29,6 @@ public:
 	Electrical_Equipment();
 	~Electrical_Equipment();
 
-	Electrical_Equipment* p_next;
-	Electrical_Equipment* p_prev;
-
 	virtual bool Get_connection_of_channel(int number_of_channel, std::string show) = 0;
 	virtual void Type_information(bool all_information) = 0;
 	int Get_amount_of_ñhannels();

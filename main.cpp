@@ -46,8 +46,8 @@ int main()
 
 	List_of_Analog_Osc.push_back(addDevice<Analog_Oscilloscope>(0));
 
-	cout << List_of_Analog_Osc[0]; //Íóæíî ðåàëèçîâàòü ýòó ôóíêöèþ
-	
+	//cout << List_of_Analog_Osc[0]; //ÐÀÁÎÒÀÅÒ ÅÅÅÅ
+	List_of_Analog_Osc.show_all();
 
 
 

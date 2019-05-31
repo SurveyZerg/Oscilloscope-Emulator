@@ -32,8 +32,11 @@ protected:
 
 	void Make_Channels(int amount_of_channels)override;
 public:
-	Generator(int amount_of_channels,std::string manufacturer = "noname", std::string device_model = "", int year_of_issue = 0, int maximum_output_frequency = 0, Electrical_Equipment* p_next = 0, Electrical_Equipment* p_prev = 0);
+	Generator(int amount_of_channels,std::string manufacturer = "noname", std::string device_model = "", int year_of_issue = 0, int maximum_output_frequency = 0, Generator* p_next = 0, Generator* p_prev = 0);
 	~Generator();
+
+	Generator* p_next;
+	Generator* p_prev;
 
 	void Type_information(bool all_information) override;
 

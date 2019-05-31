@@ -8,15 +8,20 @@ class Lab_List
 {
 private:
 	 
-	Electrical_Equipment* head;
-	Electrical_Equipment* tail;
+	T* head;
+	T* tail;
 
 	int amount_of_electrical_devices;
+
 public:
 	Lab_List();
 	~Lab_List();
 
 	void push_back(T *device);
+
+	void show_all();
+
+	T& operator[](unsigned int index);
 };
 
 template<class T>
@@ -52,4 +57,24 @@ inline void Lab_List<T>::push_back(T *device)
 		device->p_next = nullptr;
 		this->amount_of_electrical_devices++;
 	}
+}
+
+template<class T>
+inline void Lab_List<T>::show_all()
+{
+	for (int i = 0; i < this->amount_of_electrical_devices; i++)
+	{
+		std::cout << (*this)[i];
+	}
+}
+
+template<class T>
+inline T& Lab_List<T>::operator[](unsigned int index)
+{
+	T* p_current = this->head;
+	for (int i = 0; i < index; i++)
+	{
+		p_current = p_current->p_next;
+	}
+	return *p_current;
 }
