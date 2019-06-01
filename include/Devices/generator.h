@@ -20,9 +20,8 @@ private:
 	int peak_to_peak_voltage = 1000; // [milliVolts]
 	int maximum_output_frequency;// [MHz]
 
-	Generator();
-	Generator(bool file_reading);
-
+	Generator(int amount_of_channels, std::string manufacturer = "noname", std::string device_model = "", int year_of_issue = 0, int maximum_output_frequency = 0, Generator* p_next = 0, Generator* p_prev = 0);
+	//Из-за того, что тут тоже можно только один параметр передать, то может перепутаться с конструктором, где только бул
 protected:
 	std::vector<Oscilloscope*> Channels_connected;
 
@@ -30,9 +29,12 @@ protected:
 
 	int Get_maximum_output_frequency();
 
+
 	void Make_Channels(int amount_of_channels)override;
 public:
-	Generator(int amount_of_channels,std::string manufacturer = "noname", std::string device_model = "", int year_of_issue = 0, int maximum_output_frequency = 0, Generator* p_next = 0, Generator* p_prev = 0);
+
+	Generator();
+	Generator(bool file_reading);
 	~Generator();
 
 	Generator* p_next;

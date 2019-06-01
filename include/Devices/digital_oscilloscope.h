@@ -13,11 +13,11 @@ private:
 
 	int Get_memory_depth();
 
-	Digital_Oscilloscope();
-	Digital_Oscilloscope(bool file_reading);
+	Digital_Oscilloscope(int amount_of_ñhannels, int voltage_divisions, int seconds_divisions, std::string manufacturer = "noname", std::string device_model = "", int year_of_issue = 0, int memory_depth = 0, Digital_Oscilloscope* p_next = 0, Digital_Oscilloscope* p_prev = 0);
 public:
 
-	Digital_Oscilloscope(int amount_of_ñhannels, int voltage_divisions, int seconds_divisions, std::string manufacturer = "noname", std::string device_model = "", int year_of_issue = 0, int memory_depth = 0, Digital_Oscilloscope* p_next = 0, Digital_Oscilloscope* p_prev = 0);
+	Digital_Oscilloscope();
+	Digital_Oscilloscope(bool file_reading);
 	~Digital_Oscilloscope();
 
 	Digital_Oscilloscope* p_next;

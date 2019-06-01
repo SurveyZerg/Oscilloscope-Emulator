@@ -1,9 +1,9 @@
 //researcher.h
 #pragma once
 
-#include "analog_oscilloscope.h"
-#include "digital_oscilloscope.h"
-#include "generator.h"
+#include "../Devices/analog_oscilloscope.h"
+#include "../Devices/digital_oscilloscope.h"
+#include "../Devices/generator.h"
 
 class Researcher
 {

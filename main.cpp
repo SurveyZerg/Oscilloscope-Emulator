@@ -10,8 +10,8 @@
 */
 #include <iostream>
 #include <fstream>
-#include "researcher.h"
-#include "lab_list.h"
+#include "include/Researcher/researcher.h"
+#include "include/List/lab_list.h"
 
 using namespace std;
 /*
@@ -23,9 +23,19 @@ int Get_type_of_initialization();
 */
 
 template <class T>
-T* addDevice(bool keyboard = 1);
+T* addDevice(bool keyboard = true)
+{
+	T* temp;
 
-template<>
+	if (keyboard)
+		temp = new T();
+	else
+		temp = new T(true);
+
+	return temp;
+}
+
+/*template<>
 Analog_Oscilloscope* addDevice(bool keyboard)
 {
 	Analog_Oscilloscope* temp;
@@ -36,7 +46,7 @@ Analog_Oscilloscope* addDevice(bool keyboard)
 		temp = new Analog_Oscilloscope(1);
 
 	return temp;
-}
+}*/
 
 int main()
 {
@@ -44,14 +54,26 @@ int main()
 	Lab_List <Digital_Oscilloscope> List_of_Digital_Osc;
 	Lab_List <Generator> List_of_Gen;
 
-	List_of_Analog_Osc.push_back(addDevice<Analog_Oscilloscope>(0));
+	List_of_Analog_Osc.push_back(addDevice<Analog_Oscilloscope>(false));
+	//List_of_Analog_Osc.push_back(addDevice<Analog_Oscilloscope>(true));
+	List_of_Analog_Osc.push_back(addDevice<Analog_Oscilloscope>(false));
+	List_of_Digital_Osc.push_back(addDevice<Digital_Oscilloscope>(false));
+	//List_of_Digital_Osc.push_back(addDevice<Digital_Oscilloscope>(true));
+	List_of_Digital_Osc.push_back(addDevice<Digital_Oscilloscope>(false));
+	List_of_Gen.push_back(addDevice<Generator>(false));
+	//List_of_Gen.push_back(addDevice<Generator>(true));
+	List_of_Gen.push_back(addDevice<Generator>(false));
 
-	//cout << List_of_Analog_Osc[0]; //ÐÀÁÎÒÀÅÒ ÅÅÅÅ
 	List_of_Analog_Osc.show_all();
+	List_of_Digital_Osc.show_all();
+	List_of_Gen.show_all();
 
-
-
-
+	List_of_Analog_Osc.push_front(addDevice<Analog_Oscilloscope>(true));
+	List_of_Analog_Osc.show_all();
+	List_of_Analog_Osc.push_front(addDevice<Analog_Oscilloscope>(true));
+	List_of_Analog_Osc.show_all();
+	List_of_Analog_Osc.insert(addDevice<Analog_Oscilloscope>(true), 4);
+	List_of_Analog_Osc.show_all();
 
 	/*
 	ofstream save;

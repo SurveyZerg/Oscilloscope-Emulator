@@ -13,7 +13,7 @@ void Analog_Oscilloscope::Set_amount_of_beams(int amount_of_beams)
 
 int Analog_Oscilloscope::Get_amount_of_beams()
 {
-	return amount_of_beams;
+	return this->amount_of_beams;
 }
 
 Analog_Oscilloscope::Analog_Oscilloscope()

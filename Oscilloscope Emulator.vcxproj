@@ -19,23 +19,22 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="analog_oscilloscope.h" />
-    <ClInclude Include="digital_oscilloscope.h" />
-    <ClInclude Include="electrical_equipment.h" />
-    <ClInclude Include="generator.h" />
-    <ClInclude Include="lab_list.h" />
-    <ClInclude Include="oscilloscope.h" />
-    <ClInclude Include="researcher.h" />
+    <ClCompile Include="include\Devices\analog_oscilloscope.cpp" />
+    <ClCompile Include="include\Devices\digital_oscilloscope.cpp" />
+    <ClCompile Include="include\Devices\electrical_equipment.cpp" />
+    <ClCompile Include="include\Devices\generator.cpp" />
+    <ClCompile Include="include\Devices\oscilloscope.cpp" />
+    <ClCompile Include="include\Researcher\researcher.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="analog_oscilloscope.cpp" />
-    <ClCompile Include="digital_oscilloscope.cpp" />
-    <ClCompile Include="electrical_equipment.cpp" />
-    <ClCompile Include="generator.cpp" />
-    <ClCompile Include="lab_list.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="oscilloscope.cpp" />
-    <ClCompile Include="researcher.cpp" />
+    <ClInclude Include="include\Devices\analog_oscilloscope.h" />
+    <ClInclude Include="include\Devices\digital_oscilloscope.h" />
+    <ClInclude Include="include\Devices\electrical_equipment.h" />
+    <ClInclude Include="include\Devices\generator.h" />
+    <ClInclude Include="include\Devices\oscilloscope.h" />
+    <ClInclude Include="include\List\lab_list.h" />
+    <ClInclude Include="include\Researcher\researcher.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
