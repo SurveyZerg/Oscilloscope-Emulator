@@ -38,31 +38,86 @@ T* addDevice(ifstream& load)
 	return temp;
 }
 
-/*template<>
-Analog_Oscilloscope* addDevice(bool keyboard)
-{
-	Analog_Oscilloscope* temp;
-
-	if (keyboard)
-		temp = new Analog_Oscilloscope();
-	else
-		temp = new Analog_Oscilloscope(1);
-
-	return temp;
-}*/
-
 int main()
 {
 	ofstream save;
-	ifstream load;
+	save.exceptions(std::ofstream::badbit | std::ofstream::failbit);
+
+	ifstream load_analog_osc;
+	ifstream load_digital_osc;
+	ifstream load_gen;
+	ifstream load_researcher;
+	load_analog_osc.exceptions(std::ifstream::badbit | std::ifstream::failbit);
+	load_digital_osc.exceptions(std::ifstream::badbit | std::ifstream::failbit);
+	load_gen.exceptions(std::ifstream::badbit | std::ifstream::failbit);
+	load_researcher.exceptions(std::ifstream::badbit | std::ifstream::failbit);
+
+
 	Lab_List <Analog_Oscilloscope> List_of_Analog_Osc;
 	Lab_List <Digital_Oscilloscope> List_of_Digital_Osc;
 	Lab_List <Generator> List_of_Gen;
-	load.open("load_analog_oscilloscope.txt");
 
-	for(int i = 0;i<7;i++)
-		List_of_Analog_Osc.push_back(addDevice<Analog_Oscilloscope>(load));
+	try
+	{
+		save.open("saved.txt");
+	}
+	catch (const ofstream::failure &ex)
+	{
+		cout << "ERROR #9\nCouldn't open the file saved.txt\n";
+		cout << ex.what() << std::endl;
+		cout << ex.code() << std::endl;
+	}
+
+	try
+	{
+		load_analog_osc.open("load_analog_oscilloscope.txt");
+	}
+	catch (const std::ifstream::failure &ex)
+	{
+		std::cout << "ERROR #9\nCouldn't open the file load_analog_oscilloscope.txt\n";
+		std::cout << ex.what() << std::endl;
+		std::cout << ex.code() << std::endl;
+	}
+	try
+	{
+		load_digital_osc.open("load_digital_oscilloscope.txt");
+	}
+	catch (const std::ifstream::failure &ex)
+	{
+		std::cout << "ERROR #9\nCouldn't open the file load_digital_oscilloscope.txt\n";
+		std::cout << ex.what() << std::endl;
+		std::cout << ex.code() << std::endl;
+	}
+	try
+	{
+		load_gen.open("load_generator.txt");
+	}
+	catch (const std::ifstream::failure &ex)
+	{
+		std::cout << "ERROR #9\nCouldn't open the file load_generator.txt\n";
+		std::cout << ex.what() << std::endl;
+		std::cout << ex.code() << std::endl;
+	}
+	try
+	{
+		load_researcher.open("load_researcher.txt");
+	}
+	catch (const std::ifstream::failure &ex)
+	{
+		std::cout << "ERROR #9\nCouldn't open the file load_researcher.txt\n";
+		std::cout << ex.what() << std::endl;
+		std::cout << ex.code() << std::endl;
+	}
+
+	for(int i = 0; i < 7; i++)
+		List_of_Analog_Osc.push_back(addDevice<Analog_Oscilloscope>(load_analog_osc));
 	List_of_Analog_Osc.show_all();
+	for (int i = 0; i < 7; i++)
+		List_of_Digital_Osc.push_back(addDevice<Digital_Oscilloscope>(load_digital_osc));
+	List_of_Digital_Osc.show_all();
+	for (int i = 0; i < 7; i++)
+		List_of_Gen.push_back(addDevice<Generator>(load_gen));
+	List_of_Gen.show_all();
 
 	/*
 	ofstream save;
@@ -462,6 +517,72 @@ int main()
 	}
 	save.close();
 	*/
+
+	//Надобность нижнего сомнительная, т.к. ofstream сам файл создает автоматически
+	/* 
+	try
+{
+	if (!save.is_open())
+	{
+		throw exception("ERROR #9\nYou tried to close file saved.txt, that doesn't exist\n");
+	}
+	save.close();
+}
+	catch (const exception &ex)
+{
+	std::cout << ex.what() << std::endl;
+}
+	*/
+
+	try
+	{
+		if (!load_analog_osc.is_open())
+		{
+			throw exception("ERROR #9\nYou tried to close file load_analog_oscilloscope.txt, that doesn't exist\n");
+		}
+		load_analog_osc.close();
+	}
+	catch (const exception &ex)
+	{
+		std::cout << ex.what() << std::endl;
+	}
+	try
+	{
+		if (!load_digital_osc.is_open())
+		{
+			throw exception("ERROR #9\nYou tried to close file load_digital_oscilloscope.txt, that doesn't exist\n");
+		}
+		load_digital_osc.close();
+	}
+	catch (const exception &ex)
+	{
+		std::cout << ex.what() << std::endl;
+	}
+	try
+	{
+		if (!load_gen.is_open())
+		{
+			throw exception("ERROR #9\nYou tried to close file load_generator.txt, that doesn't exist\n");
+		}
+		load_gen.close();
+	}
+	catch (const exception &ex)
+	{
+		std::cout << ex.what() << std::endl;
+	}
+	try
+	{
+		if (!load_researcher.is_open())
+		{
+			throw exception("ERROR #9\nYou tried to close file load_researcher.txt, that doesn't exist\n");
+		}
+		load_researcher.close();
+	}
+	catch (const exception &ex)
+	{
+		std::cout << ex.what() << std::endl;
+	}
+
 	system("Pause");
 	return 0;
 } 

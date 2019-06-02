@@ -1,6 +1,7 @@
 //digital_oscilloscope.cpp
 
 #include <fstream>
+#include <sstream>
 #include "digital_oscilloscope.h"
 #include "generator.h"
 
@@ -18,28 +19,38 @@ int Digital_Oscilloscope::Get_memory_depth()
 
 Digital_Oscilloscope::Digital_Oscilloscope()
 {
+#ifdef _DEBUG
+	std::cout << "Default Constructor Digital Oscilloscope was called" << std::endl;
+#endif
 	this->Type_information(true);
+	this->p_next = nullptr;
+	this->p_prev = nullptr;
 	Make_Channels(Get_amount_of_ñhannels());
+	(this->s_amount_of_digital_oscilloscopes)++;
 }
-Digital_Oscilloscope::Digital_Oscilloscope(bool file_reading)
+Digital_Oscilloscope::Digital_Oscilloscope(std::ifstream& load)
 {
-	std::ifstream load;
-	load.exceptions(std::ifstream::badbit | std::ifstream::failbit);
+#ifdef _DEBUG
+	std::cout << "Constructor Digital Oscilloscope was called" << std::endl;
+#endif
 	try
 	{
-		load.open("load_digital_oscilloscope.txt");
+		if (!load.is_open())
+		{
+			throw std::exception("ERROR #9\nYou tried to create object from file, that doesn't exist\n");
+		}
+		load >> *this;
+		this->p_next = nullptr;
+		this->p_prev = nullptr;
+		Make_Channels(this->Get_amount_of_ñhannels());
+		(this->s_amount_of_digital_oscilloscopes)++;
 	}
-	catch (const std::ifstream::failure &ex)
+	catch (const std::exception &ex)
 	{
-		std::cout << "ERROR #9\nCouldn't open the file load.txt\n";
 		std::cout << ex.what() << std::endl;
-		std::cout << ex.code() << std::endl;
 	}
-	load >> *this;
-	load.close();
-	Make_Channels(this->Get_amount_of_ñhannels());
 }
-Digital_Oscilloscope::Digital_Oscilloscope(int amount_of_ñhannels, int voltage_divisions, int seconds_divisions, std::string manufacturer, std::string device_model, int year_of_issue,  int memory_depth, Digital_Oscilloscope* p_next, Digital_Oscilloscope* p_prev)
+/*Digital_Oscilloscope::Digital_Oscilloscope(int amount_of_ñhannels, int voltage_divisions, int seconds_divisions, std::string manufacturer, std::string device_model, int year_of_issue,  int memory_depth, Digital_Oscilloscope* p_next, Digital_Oscilloscope* p_prev)
 {
 #ifdef _DEBUG
 	std::cout << "Constructor Digital Oscilloscope was called" << std::endl;
@@ -58,7 +69,7 @@ Digital_Oscilloscope::Digital_Oscilloscope(int amount_of_ñhannels, int voltage_d
 	this->p_prev = p_prev;
 
 	Make_Channels(amount_of_ñhannels);
-}
+}*/
 Digital_Oscilloscope::~Digital_Oscilloscope()
 {
 #ifdef _DEBUG
@@ -145,21 +156,31 @@ std::ostream& operator << (std::ostream &out, Digital_Oscilloscope &device)
 std::istream& operator >> (std::istream &in, Digital_Oscilloscope &device)
 {
 	int amount_of_ñhannels, voltage_divisions, seconds_divisions, year_of_issue, memory_depth;
-	std::string manufacturer, device_model, trash;
+	std::string manufacturer, device_model, buff;
 
-	in >> amount_of_ñhannels; 
+	std::getline(in, buff, '\n');
+	std::stringstream stream_buff;
+	stream_buff << buff;
+
+	stream_buff >> amount_of_ñhannels;
 	device.Set_amount_of_ñhannels(amount_of_ñhannels);
-	in >> voltage_divisions;
+
+	stream_buff >> voltage_divisions;
 	device.Set_voltage_divisions(voltage_divisions);
-	in >> seconds_divisions;
+
+	stream_buff >> seconds_divisions;
 	device.Set_seconds_divisions(seconds_divisions);
-	std::getline(in, manufacturer);
+
+	stream_buff >> manufacturer;
 	device.Set_manufacturer(manufacturer);
-	std::getline(in, device_model);
+
+	stream_buff >> device_model;
 	device.Set_device_model(device_model);
-	in >> year_of_issue;
+
+	stream_buff >> year_of_issue;
 	device.Set_year_of_issue(year_of_issue);
-	in >> memory_depth;
+
+	stream_buff >> memory_depth;
 	device.Set_memory_depth(memory_depth);
 
 	return in;

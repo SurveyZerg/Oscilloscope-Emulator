@@ -1,6 +1,7 @@
 //researcher.h
 #pragma once
 
+#include <fstream>
 #include "../Devices/analog_oscilloscope.h"
 #include "../Devices/digital_oscilloscope.h"
 #include "../Devices/generator.h"
@@ -17,11 +18,10 @@ private:
 	std::string Get_name();
 	std::string Get_surname();
 	int Get_age();
-
+	//Researcher(std::string research_position, std::string name = "", std::string surname = "Noname", int age = 0);
 public:
 	Researcher();
-	Researcher(bool file_reading);
-	Researcher(std::string research_position, std::string name = "", std::string surname = "Noname", int age = 0);
+	Researcher(std::ifstream& load);
 	~Researcher();
 
 	void Type_information(bool all_information);

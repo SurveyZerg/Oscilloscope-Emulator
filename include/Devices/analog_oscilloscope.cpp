@@ -19,36 +19,38 @@ int Analog_Oscilloscope::Get_amount_of_beams()
 
 Analog_Oscilloscope::Analog_Oscilloscope()
 {
+#ifdef _DEBUG
+	std::cout << "Default Constructor Analog Oscilloscope was called" << std::endl;
+#endif
 	this->Type_information(true);
 	this->p_next = nullptr;
 	this->p_prev = nullptr;
 	Make_Channels(Get_amount_of_ñhannels());
+	(this->s_amount_of_analog_oscilloscopes)++;
 }
 Analog_Oscilloscope::Analog_Oscilloscope(std::ifstream& load)
 {
-	//load.exceptions(std::ifstream::badbit | std::ifstream::failbit);
-	//load.open("load_analog_oscilloscope.txt");
-	/*if (load)
+#ifdef _DEBUG
+	std::cout << "Constructor Analog Oscilloscope was called" << std::endl;
+#endif
+	try
 	{
-		try
+		if (!load.is_open())
 		{
-			load.open("load_analog_oscilloscope.txt");
+			throw std::exception("ERROR #9\nYou tried to create object from file, that doesn't exist\n");
 		}
-		catch (const std::ifstream::failure &ex)
-		{
-			std::cout << "ERROR #9\nCouldn't open the file load.txt\n";
-			std::cout << ex.what() << std::endl;
-			std::cout << ex.code() << std::endl;
-		}
-	}*/
-	load >> *this;
-	//load.close();
-	
-	this->p_next = nullptr;
-	this->p_prev = nullptr;
-	Make_Channels(this->Get_amount_of_ñhannels());
+		load >> *this;
+		this->p_next = nullptr;
+		this->p_prev = nullptr;
+		Make_Channels(this->Get_amount_of_ñhannels());
+		(this->s_amount_of_analog_oscilloscopes)++;
+	}
+	catch (const std::exception &ex)
+	{
+		std::cout << ex.what() << std::endl;
+	}
 }
-Analog_Oscilloscope::Analog_Oscilloscope(int amount_of_ñhannels, int voltage_divisions, int seconds_divisions, std::string manufacturer, std::string device_model, int year_of_issue,  int amount_of_beams, Analog_Oscilloscope* p_next, Analog_Oscilloscope* p_prev)
+/*Analog_Oscilloscope::Analog_Oscilloscope(int amount_of_ñhannels, int voltage_divisions, int seconds_divisions, std::string manufacturer, std::string device_model, int year_of_issue,  int amount_of_beams, Analog_Oscilloscope* p_next, Analog_Oscilloscope* p_prev)
 {
 #ifdef _DEBUG
 	std::cout << "Constructor Analog Oscilloscope was called" << std::endl;
@@ -66,7 +68,7 @@ Analog_Oscilloscope::Analog_Oscilloscope(int amount_of_ñhannels, int voltage_div
 	this->p_next = p_next;
 	this->p_prev = p_prev;
 	Make_Channels(amount_of_ñhannels);
-}
+}*/
 Analog_Oscilloscope::~Analog_Oscilloscope()
 {
 #ifdef _DEBUG
@@ -154,11 +156,13 @@ std::istream& operator >> (std::istream &in, Analog_Oscilloscope &device)
 {
 	int amount_of_ñhannels, voltage_divisions, seconds_divisions, year_of_issue, amount_of_beams;
 	std::string manufacturer, device_model,buff;
-	std::getline(in,buff, '\n');
+
+	std::getline(in, buff, '\n');
 	std::stringstream stream_buff;
+
 	stream_buff << buff;
 	stream_buff >> amount_of_ñhannels;
-	stream_buff >> voltage_divisions; //Ïðîáëåìà â òîì, ÷òî ôàéë ñíîâà ÷èòàåòñÿ ñ ñàìîãî íà÷àëà, à íóæíî ñ òîãî ìåñòà, ãäå îí îñòàíîâèëñÿ
+	stream_buff >> voltage_divisions; 
 	stream_buff >> seconds_divisions;
 	stream_buff >> manufacturer;
 	stream_buff >> device_model;

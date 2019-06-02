@@ -2,6 +2,7 @@
 #pragma once
 
 #include "electrical_equipment.h"
+#include <fstream>
 
 class Oscilloscope;
 
@@ -20,7 +21,7 @@ private:
 	int peak_to_peak_voltage = 1000; // [milliVolts]
 	int maximum_output_frequency;// [MHz]
 
-	Generator(int amount_of_channels, std::string manufacturer = "noname", std::string device_model = "", int year_of_issue = 0, int maximum_output_frequency = 0, Generator* p_next = 0, Generator* p_prev = 0);
+	//Generator(int amount_of_channels, std::string manufacturer = "noname", std::string device_model = "", int year_of_issue = 0, int maximum_output_frequency = 0, Generator* p_next = 0, Generator* p_prev = 0);
 	//Из-за того, что тут тоже можно только один параметр передать, то может перепутаться с конструктором, где только бул
 protected:
 	std::vector<Oscilloscope*> Channels_connected;
@@ -34,7 +35,7 @@ protected:
 public:
 
 	Generator();
-	Generator(bool file_reading);
+	Generator(std::ifstream& load);
 	~Generator();
 
 	Generator* p_next;
