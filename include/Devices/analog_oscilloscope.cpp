@@ -1,6 +1,7 @@
 //analog_oscilloscope.cpp
 
 #include <fstream>
+#include <sstream>
 #include "analog_oscilloscope.h"
 #include "generator.h"
 
@@ -23,22 +24,25 @@ Analog_Oscilloscope::Analog_Oscilloscope()
 	this->p_prev = nullptr;
 	Make_Channels(Get_amount_of_сhannels());
 }
-Analog_Oscilloscope::Analog_Oscilloscope(bool file_reading)
+Analog_Oscilloscope::Analog_Oscilloscope(std::ifstream& load)
 {
-	std::ifstream load;
-	load.exceptions(std::ifstream::badbit | std::ifstream::failbit);
-	try
+	//load.exceptions(std::ifstream::badbit | std::ifstream::failbit);
+	//load.open("load_analog_oscilloscope.txt");
+	/*if (load)
 	{
-		load.open("load_analog_oscilloscope.txt");
-	}
-	catch (const std::ifstream::failure &ex)
-	{
-		std::cout << "ERROR #9\nCouldn't open the file load.txt\n";
-		std::cout << ex.what() << std::endl;
-		std::cout << ex.code() << std::endl;
-	}
+		try
+		{
+			load.open("load_analog_oscilloscope.txt");
+		}
+		catch (const std::ifstream::failure &ex)
+		{
+			std::cout << "ERROR #9\nCouldn't open the file load.txt\n";
+			std::cout << ex.what() << std::endl;
+			std::cout << ex.code() << std::endl;
+		}
+	}*/
 	load >> *this;
-	load.close();
+	//load.close();
 	
 	this->p_next = nullptr;
 	this->p_prev = nullptr;
@@ -149,15 +153,17 @@ std::ostream& operator << (std::ostream &out, Analog_Oscilloscope &device)
 std::istream& operator >> (std::istream &in, Analog_Oscilloscope &device)
 {
 	int amount_of_сhannels, voltage_divisions, seconds_divisions, year_of_issue, amount_of_beams;
-	std::string manufacturer, device_model;
-
-	in >> amount_of_сhannels;
-	in >> voltage_divisions; //Проблема в том, что файл снова читается с самого начала, а нужно с того места, где он остановился
-	in >> seconds_divisions;
-	std::getline(in, manufacturer);
-	std::getline(in, device_model);
-	in >> year_of_issue;
-	in >> amount_of_beams;
+	std::string manufacturer, device_model,buff;
+	std::getline(in,buff, '\n');
+	std::stringstream stream_buff;
+	stream_buff << buff;
+	stream_buff >> amount_of_сhannels;
+	stream_buff >> voltage_divisions; //Проблема в том, что файл снова читается с самого начала, а нужно с того места, где он остановился
+	stream_buff >> seconds_divisions;
+	stream_buff >> manufacturer;
+	stream_buff >> device_model;
+	stream_buff >> year_of_issue;
+	stream_buff >> amount_of_beams;
 
 	device.Set_manufacturer(manufacturer);
 	device.Set_device_model(device_model);

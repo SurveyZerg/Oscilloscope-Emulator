@@ -23,15 +23,18 @@ int Get_type_of_initialization();
 */
 
 template <class T>
-T* addDevice(bool keyboard = true)
+T* addDevice()
 {
 	T* temp;
+	temp = new T(true);
+	return temp;
+}
 
-	if (keyboard)
-		temp = new T();
-	else
-		temp = new T(true);
-
+template <class T>
+T* addDevice(ifstream& load)
+{
+	T* temp;
+	temp = new T(load);
 	return temp;
 }
 
@@ -50,29 +53,15 @@ Analog_Oscilloscope* addDevice(bool keyboard)
 
 int main()
 {
+	ofstream save;
+	ifstream load;
 	Lab_List <Analog_Oscilloscope> List_of_Analog_Osc;
 	Lab_List <Digital_Oscilloscope> List_of_Digital_Osc;
 	Lab_List <Generator> List_of_Gen;
+	load.open("load_analog_oscilloscope.txt");
 
-	List_of_Analog_Osc.push_back(addDevice<Analog_Oscilloscope>(false));
-	//List_of_Analog_Osc.push_back(addDevice<Analog_Oscilloscope>(true));
-	List_of_Analog_Osc.push_back(addDevice<Analog_Oscilloscope>(false));
-	List_of_Digital_Osc.push_back(addDevice<Digital_Oscilloscope>(false));
-	//List_of_Digital_Osc.push_back(addDevice<Digital_Oscilloscope>(true));
-	List_of_Digital_Osc.push_back(addDevice<Digital_Oscilloscope>(false));
-	List_of_Gen.push_back(addDevice<Generator>(false));
-	//List_of_Gen.push_back(addDevice<Generator>(true));
-	List_of_Gen.push_back(addDevice<Generator>(false));
-
-	List_of_Analog_Osc.show_all();
-	List_of_Digital_Osc.show_all();
-	List_of_Gen.show_all();
-
-	List_of_Analog_Osc.push_front(addDevice<Analog_Oscilloscope>(true));
-	List_of_Analog_Osc.show_all();
-	List_of_Analog_Osc.push_front(addDevice<Analog_Oscilloscope>(true));
-	List_of_Analog_Osc.show_all();
-	List_of_Analog_Osc.insert(addDevice<Analog_Oscilloscope>(true), 4);
+	for(int i = 0;i<7;i++)
+		List_of_Analog_Osc.push_back(addDevice<Analog_Oscilloscope>(load));
 	List_of_Analog_Osc.show_all();
 
 	/*

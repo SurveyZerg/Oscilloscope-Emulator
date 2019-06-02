@@ -2,6 +2,7 @@
 #pragma once
 
 #include "oscilloscope.h"
+#include <fstream>
 
 class Analog_Oscilloscope :public Oscilloscope
 {
@@ -9,6 +10,7 @@ private:
 	int amount_of_beams;
 	static int s_amount_of_analog_oscilloscopes;
 
+	
 	void Set_amount_of_beams(int amount_of_beams);
 
 	int Get_amount_of_beams();
@@ -17,7 +19,7 @@ private:
 public:
 	Analog_Oscilloscope();
 	~Analog_Oscilloscope();
-	Analog_Oscilloscope(bool file_reading);
+	Analog_Oscilloscope(std::ifstream& load);
 	
 	Analog_Oscilloscope* p_next;
 	Analog_Oscilloscope* p_prev;
