@@ -1,6 +1,7 @@
 //generator.cpp
 
 #include <fstream>
+#include <sstream>
 #include "generator.h"
 #include "oscilloscope.h"
 
@@ -61,28 +62,36 @@ int Generator::Get_peak_to_peak_voltage()
 
 Generator::Generator()
 {
+#ifdef _DEBUG
+	std::cout << "Default Constructor Generator was called" << std::endl;
+#endif
 	this->Type_information(true);
+	this->p_next = nullptr;
+	this->p_prev = nullptr;
 	Make_Channels(Get_amount_of_ñhannels());
 }
-Generator::Generator(bool file_reading)
+Generator::Generator(std::ifstream& load)
 {
-	std::ifstream load;
-	load.exceptions(std::ifstream::badbit | std::ifstream::failbit);
+#ifdef _DEBUG
+	std::cout << "Constructor Generator was called" << std::endl;
+#endif
 	try
 	{
-		load.open("load_generator.txt");
+		if (!load.is_open())
+		{
+			throw std::exception("ERROR #9\nYou tried to create object from file, that doesn't exist\n");
+		}
+		load >> *this;
+		this->p_next = nullptr;
+		this->p_prev = nullptr;
+		Make_Channels(this->Get_amount_of_ñhannels());
 	}
-	catch (const std::ifstream::failure &ex)
+	catch (const std::exception &ex)
 	{
-		std::cout << "ERROR #9\nCouldn't open the file load.txt\n";
 		std::cout << ex.what() << std::endl;
-		std::cout << ex.code() << std::endl;
 	}
-	load >> *this;
-	load.close();
-	Make_Channels(this->Get_amount_of_ñhannels());
 }
-Generator::Generator(int amount_of_channels, std::string manufacturer, std::string device_model, int year_of_issue, int maximum_output_frequency, Generator* p_next, Generator* p_prev)
+/*Generator::Generator(int amount_of_channels, std::string manufacturer, std::string device_model, int year_of_issue, int maximum_output_frequency, Generator* p_next, Generator* p_prev)
 {
 #ifdef _DEBUG
 	std::cout << "Constructor Generator was called" << std::endl;
@@ -97,7 +106,7 @@ Generator::Generator(int amount_of_channels, std::string manufacturer, std::stri
 	this->p_prev = p_prev;
 
 	Make_Channels(amount_of_channels);
-}
+}*/
 Generator::~Generator()
 {
 #ifdef _DEBUG
@@ -171,8 +180,17 @@ std::ostream& operator<< (std::ostream &out, Generator &device)
 std::istream& operator >> (std::istream &in, Generator &device)
 {
 	int amount_of_ñhannels, year_of_issue, maximum_output_frequency;
-	std::string manufacturer, device_model;
-	in >> amount_of_ñhannels >>  manufacturer >> device_model >> year_of_issue >> maximum_output_frequency;
+	std::string manufacturer, device_model, buff;
+
+	std::getline(in, buff, '\n');
+	std::stringstream stream_buff;
+	stream_buff << buff;
+
+	stream_buff >> amount_of_ñhannels;
+	stream_buff >> manufacturer;
+	stream_buff >> device_model;
+	stream_buff >> year_of_issue;
+	stream_buff >> maximum_output_frequency;
 
 	device.Set_manufacturer(manufacturer);
 	device.Set_device_model(device_model);
