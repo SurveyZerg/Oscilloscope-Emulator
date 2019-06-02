@@ -24,7 +24,7 @@ public:
 	void push_back(T* device);
 	void push_front(T* device);
 	void insert(T* device, int index);
-	void swap(int index1, int index2);
+	void swap(unsigned int D1, unsigned int D2);
 
 	void clear();
 	void show_all();
@@ -144,9 +144,54 @@ inline void Lab_List<T>::insert(T* device, int index)
 }
 
 template<class T>
-inline void Lab_List<T>::swap(int index1, int index2)
+inline void Lab_List<T>::swap(unsigned int D1, unsigned int D2)
 {
 	//«десь нужно проверку делать на голову и хвост у второго и первого индекса, чтобы не сбилс€ коннект
+	if (D1 == D2)
+	{
+		std::cout << "“ы дебил?" << std::endl;
+	}
+	if (D2 > D1)
+	{
+		int temp = D1;
+		D2 = D1;
+		D1 = temp;
+	}
+
+	if (((D2 - 1) == D1) || ((D1 - 1) == D2))
+	{
+		T* temp1 = head;
+		T* temp2 = head;
+
+		for (int i = 0; i < (D1 - 1); i++)
+		{
+			temp1 = temp1->p_next;
+		}
+		for (int i = 0; i < (D2 + 1); i++)
+		{
+			temp2 = temp2->p_next;
+		}
+
+		temp1->p_next = &((*this)[D2]);
+		temp2->p_prev = &((*this)[D1]);
+		/* Ёта хуйн€ работает, но так не делаетс€, пацаны
+		T* a = &((*this)[D2]);
+		a->p_prev = temp1;
+		*/
+		(*this)[D2].p_prev = temp1;
+		(*this)[D2].p_next = &((*this)[D1]);
+		(*this)[D1].p_prev = &((*this)[D2]);
+		(*this)[D1].p_next = temp2;
+		// пон€ть, как работает присвоение ссылок
+		//плохо работает
+	}
+	else
+	{
+		T* temp_D1_1 = head;
+		T* temp_D1_2 = head;
+		T* temp_D2_1 = head;
+		T* temp_D2_2 = head;
+	}
 }
 
 template<class T>
