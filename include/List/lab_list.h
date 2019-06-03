@@ -151,7 +151,7 @@ inline void Lab_List<T>::swap(unsigned int D1, unsigned int D2)
 	{
 		std::cout << "Ты дебил?" << std::endl;
 	}
-	if (D2 > D1)
+	if (D1 > D2)
 	{
 		int temp = D1;
 		D2 = D1;
@@ -178,10 +178,10 @@ inline void Lab_List<T>::swap(unsigned int D1, unsigned int D2)
 		T* a = &((*this)[D2]);
 		a->p_prev = temp1;
 		*/
-		(*this)[D2].p_prev = temp1;
-		(*this)[D2].p_next = &((*this)[D1]);
-		(*this)[D1].p_prev = &((*this)[D2]);
-		(*this)[D1].p_next = temp2;
+		(&((*this)[D2]))->p_prev = temp1;
+		(&((*this)[D2]))->p_next = &((*this)[D1]);
+		(&((*this)[D1]))->p_prev = &((*this)[D2]); //проблема связана с присвоению объекту нового оъекта, вместо ссылки
+		(&((*this)[D1]))->p_next = temp2;
 		// понять, как работает присвоение ссылок
 		//плохо работает
 	}

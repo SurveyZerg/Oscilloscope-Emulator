@@ -112,13 +112,16 @@ int main()
 	for(int i = 0; i < 7; i++)
 		List_of_Analog_Osc.push_back(addDevice<Analog_Oscilloscope>(load_analog_osc));
 	List_of_Analog_Osc.show_all();
+	/*
 	for (int i = 0; i < 7; i++)
 		List_of_Digital_Osc.push_back(addDevice<Digital_Oscilloscope>(load_digital_osc));
 	List_of_Digital_Osc.show_all();
 	for (int i = 0; i < 7; i++)
 		List_of_Gen.push_back(addDevice<Generator>(load_gen));
-	List_of_Gen.show_all();
-
+	List_of_Gen.show_all();*/
+	
+	List_of_Analog_Osc.swap(3, 4);
+	List_of_Analog_Osc.show_all();
 	/*
 	ofstream save;
 	try
