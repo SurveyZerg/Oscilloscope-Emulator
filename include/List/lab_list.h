@@ -31,7 +31,6 @@ public:
 	void swap(int D1, int D2);
 
 	void clear();
-	void show_all();
 	
 	T& operator[](int index);
 
@@ -46,6 +45,10 @@ public:
 
 	friend std::istream& operator >> (std::istream &in, Lab_List<Generator> &list);
 	friend std::ifstream& operator >> (std::ifstream &in, Lab_List<Generator> &list);
+
+	friend std::ostream& operator << (std::ostream &out, Lab_List<Analog_Oscilloscope> &list);
+	friend std::ostream& operator << (std::ostream &out, Lab_List<Digital_Oscilloscope> &list);
+	friend std::ostream& operator << (std::ostream &out, Lab_List<Generator> &list);
 };
 
 template<class T>
@@ -424,15 +427,6 @@ inline void Lab_List<T>::clear()
 }
 
 template<class T>
-inline void Lab_List<T>::show_all()
-{
-	for (int i = 0; i < this->amount_of_electrical_devices; i++)
-	{
-		std::cout << (*this)[i];
-	}
-}
-
-template<class T>
 inline T * Lab_List<T>::addDevice()
 {
 	T* temp;
@@ -580,4 +574,32 @@ std::ifstream& operator>> (std::ifstream &in, Lab_List<Generator> &list)
 		list.push_back(list.addDevice(in));
 	}
 	return in;
+}
+
+std::ostream& operator << (std::ostream &out, Lab_List<Analog_Oscilloscope> &list)
+{
+	for (int i = 0; i < list.size(); i++)
+	{
+		out << "ANALOG OSCILLOSCOPE #" << i + 1 << std::endl;
+		out << list[i];
+	}
+	return out;
+}
+std::ostream& operator << (std::ostream &out, Lab_List<Digital_Oscilloscope> &list)
+{
+	for (int i = 0; i < list.size(); i++)
+	{
+		out << "DIGITAL OSCILLOSCOPE #" << i + 1 << std::endl;
+		out << list[i];
+	}
+	return out;
+}
+std::ostream& operator << (std::ostream &out, Lab_List<Generator> &list)
+{
+	for (int i = 0; i < list.size(); i++)
+	{
+		out << "GENERATOR #" << i + 1 << std::endl;
+		out << list[i];
+	}
+	return out;
 }
