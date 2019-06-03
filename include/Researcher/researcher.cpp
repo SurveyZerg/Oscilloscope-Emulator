@@ -10,7 +10,7 @@ Researcher::Researcher()
 #ifdef _DEBUG
 	std::cout << "Default Constructor Researcher was called" << std::endl;
 #endif
-	this->Type_information(true);
+	//this->Type_information(true);
 }
 Researcher::Researcher(std::ifstream& load)
 {
