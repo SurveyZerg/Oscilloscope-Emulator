@@ -1,6 +1,7 @@
-// lab_list.h
+п»ї// lab_list.h
 #pragma once
 
+#include <fstream>
 #include "./include/Devices/electrical_equipment.h"
 
 template <class T>
@@ -13,13 +14,16 @@ private:
 
 	int amount_of_electrical_devices;
 
+	T* addDevice();
+	T* addDevice(std::ifstream& load);
 public:
 	Lab_List();
 	~Lab_List();
 
 	T* begin();
-	int size();
 
+	int size();
+	void setSize(int size);
 
 	void push_back(T* device);
 	void push_front(T* device);
@@ -28,8 +32,20 @@ public:
 
 	void clear();
 	void show_all();
-
+	
 	T& operator[](int index);
+
+	//friend std::istream& operator >> (std::istream &in, Lab_List<T> &list);
+	//friend std::ifstream& operator >> (std::ifstream &in, Lab_List<T> &list);
+
+	friend std::istream& operator >> (std::istream &in, Lab_List<Analog_Oscilloscope> &list);
+	friend std::ifstream& operator >> (std::ifstream &in, Lab_List<Analog_Oscilloscope> &list);
+
+	friend std::istream& operator >> (std::istream &in, Lab_List<Digital_Oscilloscope> &list);
+	friend std::ifstream& operator >> (std::ifstream &in, Lab_List<Digital_Oscilloscope> &list);
+
+	friend std::istream& operator >> (std::istream &in, Lab_List<Generator> &list);
+	friend std::ifstream& operator >> (std::ifstream &in, Lab_List<Generator> &list);
 };
 
 template<class T>
@@ -59,6 +75,12 @@ inline int Lab_List<T>::size()
 }
 
 template<class T>
+inline void Lab_List<T>::setSize(int size)
+{
+	this->amount_of_electrical_devices = size;
+}
+
+template<class T>
 inline void Lab_List<T>::push_back(T* device)
 {
 	if (this->head == nullptr)
@@ -71,14 +93,14 @@ inline void Lab_List<T>::push_back(T* device)
 	}
 	else
 	{
-		//Мы должны обработать хвост, след и пред элемент девайса и след элемент прошлого девайса
-		device->p_prev = this->tail; // предыдущий элемент девайса
+		//РњС‹ РґРѕР»Р¶РЅС‹ РѕР±СЂР°Р±РѕС‚Р°С‚СЊ С…РІРѕСЃС‚, СЃР»РµРґ Рё РїСЂРµРґ СЌР»РµРјРµРЅС‚ РґРµРІР°Р№СЃР° Рё СЃР»РµРґ СЌР»РµРјРµРЅС‚ РїСЂРѕС€Р»РѕРіРѕ РґРµРІР°Р№СЃР°
+		device->p_prev = this->tail; // РїСЂРµРґС‹РґСѓС‰РёР№ СЌР»РµРјРµРЅС‚ РґРµРІР°Р№СЃР°
 
-		device->p_prev->p_next = device; // след элемент пред девайса
+		device->p_prev->p_next = device; // СЃР»РµРґ СЌР»РµРјРµРЅС‚ РїСЂРµРґ РґРµРІР°Р№СЃР°
 
-		this->tail = device; // хвост
+		this->tail = device; // С…РІРѕСЃС‚
 
-		device->p_next = nullptr; // след элемент девайса
+		device->p_next = nullptr; // СЃР»РµРґ СЌР»РµРјРµРЅС‚ РґРµРІР°Р№СЃР°
 
 		this->amount_of_electrical_devices++;
 	}
@@ -148,7 +170,7 @@ inline void Lab_List<T>::swap(int D1, int D2)
 {
 	try
 	{
-		//Здесь нужно проверку делать на голову и хвост у второго и первого индекса, чтобы не сбился коннект
+		//Р—РґРµСЃСЊ РЅСѓР¶РЅРѕ РїСЂРѕРІРµСЂРєСѓ РґРµР»Р°С‚СЊ РЅР° РіРѕР»РѕРІСѓ Рё С…РІРѕСЃС‚ Сѓ РІС‚РѕСЂРѕРіРѕ Рё РїРµСЂРІРѕРіРѕ РёРЅРґРµРєСЃР°, С‡С‚РѕР±С‹ РЅРµ СЃР±РёР»СЃСЏ РєРѕРЅРЅРµРєС‚
 		if (D1 == D2)
 		{
 			throw std::exception("You tried to swap the same item\nDid you really want it??\n");
@@ -278,7 +300,7 @@ inline void Lab_List<T>::swap(int D1, int D2)
 					temp_D2_2 = temp_D2_2->p_next;
 				}
 
-				//Не уверен, но может появится ошибка, если элементы меняются через один
+				//РќРµ СѓРІРµСЂРµРЅ, РЅРѕ РјРѕР¶РµС‚ РїРѕСЏРІРёС‚СЃСЏ РѕС€РёР±РєР°, РµСЃР»Рё СЌР»РµРјРµРЅС‚С‹ РјРµРЅСЏСЋС‚СЃСЏ С‡РµСЂРµР· РѕРґРёРЅ
 				temp_D1_1->p_next = device2;
 				temp_D1_2->p_prev = device2;
 				temp_D2_1->p_next = device1;
@@ -310,7 +332,7 @@ inline void Lab_List<T>::swap(int D1, int D2)
 					temp_D2_2 = temp_D2_2->p_next;
 				}
 
-				//Не уверен, но может появится ошибка, если элементы меняются через один
+				//РќРµ СѓРІРµСЂРµРЅ, РЅРѕ РјРѕР¶РµС‚ РїРѕСЏРІРёС‚СЃСЏ РѕС€РёР±РєР°, РµСЃР»Рё СЌР»РµРјРµРЅС‚С‹ РјРµРЅСЏСЋС‚СЃСЏ С‡РµСЂРµР· РѕРґРёРЅ
 				head = device2;
 				temp_D1_2->p_prev = device2;
 				temp_D2_1->p_next = device1;
@@ -411,6 +433,22 @@ inline void Lab_List<T>::show_all()
 }
 
 template<class T>
+inline T * Lab_List<T>::addDevice()
+{
+	T* temp;
+	temp = new T();
+	return temp;
+}
+
+template<class T>
+inline T * Lab_List<T>::addDevice(std::ifstream &load)
+{
+	T* temp;
+	temp = new T(load);
+	return temp;
+}
+
+template<class T>
 inline T& Lab_List<T>::operator[](int index)
 {
 	try
@@ -431,4 +469,115 @@ inline T& Lab_List<T>::operator[](int index)
 		std::cout << ex.what();
 		system("Pause");
 	}
+}
+
+//Р•СЃР»Рё РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ С€Р°Р±Р»РѕРЅС‹, С‚Рѕ РІС‹Р»РµР·Р°РµС‚ РѕС€РёР±РєР° LNK2001
+//JeЕјeli siД™ korzystaД‡ z szablonГіw, otrzymam bЕ‚Д…d LNK2001
+/*
+template<class T>
+std::istream& operator>> (std::istream &in, Lab_List<T> &list)
+{
+	if (&in == &std::cin)
+	{
+		int temp;
+		list.clear();
+		std::cout << "Choose size of list\n";
+		std::cin >> temp;
+		list.setSize(temp);
+		std::cout << std::endl;
+		for (int i = 0; i < list.size(); i++)
+		{
+			std::cout << "Device #" << i + 1 << std::endl;
+			list.push_back(list.addDevice());
+			std::cout << std::endl;
+		}
+		return in;
+	}
+}
+template<class T>
+std::ifstream& operator>> (std::ifstream &in, Lab_List<T> &list)
+{
+	while(!in.eof())
+	{
+		list.push_back(list.addDevice(in));
+	}
+	return in;
+}*/
+
+std::istream& operator>> (std::istream &in, Lab_List<Analog_Oscilloscope> &list)
+{
+	if (&in == &std::cin)
+	{
+		int temp;
+		std::cout << "Choose amount of analog oscilloscopes, that you want to add\n";
+		std::cin >> temp;
+		std::cout << std::endl;
+		for (int i = 0; i < temp; i++)
+		{
+			std::cout << "Analog Oscilloscope #" << list.size() + 1 << std::endl;
+			list.push_back(list.addDevice());
+			std::cout << std::endl;
+		}
+		return in;
+	}
+}
+std::ifstream& operator>> (std::ifstream &in, Lab_List<Analog_Oscilloscope> &list)
+{
+	while (!in.eof())
+	{
+		list.push_back(list.addDevice(in));
+	}
+	return in;
+}
+
+std::istream& operator>> (std::istream &in, Lab_List<Digital_Oscilloscope> &list)
+{
+	if (&in == &std::cin)
+	{
+		int temp;
+		std::cout << "Choose amount of digital oscilloscopes, that you want to add\n";
+		std::cin >> temp;
+		std::cout << std::endl;
+		for (int i = 0; i < temp; i++)
+		{
+			std::cout << "Digital Oscilloscope #" << list.size() + 1 << std::endl;
+			list.push_back(list.addDevice());
+			std::cout << std::endl;
+		}
+		return in;
+	}
+}
+std::ifstream& operator>> (std::ifstream &in, Lab_List<Digital_Oscilloscope> &list)
+{
+	while (!in.eof())
+	{
+		list.push_back(list.addDevice(in));
+	}
+	return in;
+}
+
+std::istream& operator>> (std::istream &in, Lab_List<Generator> &list)
+{
+	if (&in == &std::cin)
+	{
+		int temp;
+		std::cout << "Choose amount of generators, that you want to add\n";
+		std::cin >> temp;
+		std::cout << std::endl;
+		for (int i = 0; i < temp; i++)
+		{
+			std::cout << "Generator #" << list.size() + 1 << std::endl;
+			list.push_back(list.addDevice());
+			std::cout << std::endl;
+		}
+		return in;
+	}
+}
+std::ifstream& operator>> (std::ifstream &in, Lab_List<Generator> &list)
+{
+	while (!in.eof())
+	{
+		list.push_back(list.addDevice(in));
+	}
+	return in;
 }

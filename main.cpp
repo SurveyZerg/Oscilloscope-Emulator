@@ -22,22 +22,6 @@ int Get_type_of_oscilloscope();
 int Get_type_of_initialization();
 */
 
-template <class T>
-T* addDevice()
-{
-	T* temp;
-	temp = new T(true);
-	return temp;
-}
-
-template <class T>
-T* addDevice(ifstream& load)
-{
-	T* temp;
-	temp = new T(load);
-	return temp;
-}
-
 int main()
 {
 	ofstream save;
@@ -114,47 +98,79 @@ int main()
 		system("Pause");
 	}
 
-	for(int i = 0; i < 2; i++)
-		List_of_Analog_Osc.push_back(addDevice<Analog_Oscilloscope>(load_analog_osc));
-	/*
-	for (int i = 0; i < 7; i++)
-		List_of_Digital_Osc.push_back(addDevice<Digital_Oscilloscope>(load_digital_osc));
-	List_of_Digital_Osc.show_all();
-	for (int i = 0; i < 7; i++)
-		List_of_Gen.push_back(addDevice<Generator>(load_gen));
-	List_of_Gen.show_all();*/
+	//cin >> List_of_Analog_Osc;
 	
-	List_of_Analog_Osc.swap(0, 1);
-	List_of_Analog_Osc.show_all();
+	cin >> List_of_Digital_Osc;
+	List_of_Digital_Osc.show_all();
+
+	//Надобность нижнего сомнительная, т.к. ofstream сам файл создает автоматически
+	/* 
+	try
+{
+	if (!save.is_open())
+	{
+		throw exception("ERROR #9\nYou tried to close file saved.txt, that doesn't exist\n");
+	}
+	save.close();
+}
+	catch (const exception &ex)
+{
+	std::cout << ex.what() << std::endl;
 	system("Pause");
-	for (int i = 0; i < 5; i++)
-		List_of_Analog_Osc.push_back(addDevice<Analog_Oscilloscope>(load_analog_osc));
-
-
-	List_of_Analog_Osc.swap(3, 4);
-	List_of_Analog_Osc.show_all();
-	List_of_Analog_Osc.swap(100000000, 0);
-	List_of_Analog_Osc.show_all();
-	List_of_Analog_Osc.swap(6, 5);
-	List_of_Analog_Osc.show_all();
-	List_of_Analog_Osc.swap(5, 6);
-	List_of_Analog_Osc.swap(0, 1);
-	List_of_Analog_Osc.swap(4, 3);
-	List_of_Analog_Osc.swap(1, 0);
-	List_of_Analog_Osc.show_all();
-
-
-	List_of_Analog_Osc.swap(1, 3);
-	List_of_Analog_Osc.show_all();
-	std::cout << "--------------\n---------------\n------------\n----------------\n";
-	List_of_Analog_Osc.swap(0, 3);
-	List_of_Analog_Osc.show_all();
-	std::cout << "--------------\n---------------\n------------\n----------------\n";
-	List_of_Analog_Osc.swap(6, 4);
-	List_of_Analog_Osc.show_all();
-	std::cout << "--------------\n---------------\n------------\n----------------\n";
-	List_of_Analog_Osc.swap(0, 6);
-	List_of_Analog_Osc.show_all();
+}
+	*/
+	try
+	{
+		if (!load_analog_osc.is_open())
+		{
+			throw exception("ERROR #9\nYou tried to close file load_analog_oscilloscope.txt, that doesn't exist\n");
+		}
+		load_analog_osc.close();
+	}
+	catch (const exception &ex)
+	{
+		std::cout << ex.what() << std::endl;
+		system("Pause");
+	}
+	try
+	{
+		if (!load_digital_osc.is_open())
+		{
+			throw exception("ERROR #9\nYou tried to close file load_digital_oscilloscope.txt, that doesn't exist\n");
+		}
+		load_digital_osc.close();
+	}
+	catch (const exception &ex)
+	{
+		std::cout << ex.what() << std::endl;
+		system("Pause");
+	}
+	try
+	{
+		if (!load_gen.is_open())
+		{
+			throw exception("ERROR #9\nYou tried to close file load_generator.txt, that doesn't exist\n");
+		}
+		load_gen.close();
+	}
+	catch (const exception &ex)
+	{
+		std::cout << ex.what() << std::endl;
+		system("Pause");
+	}
+	try
+	{
+		if (!load_researcher.is_open())
+		{
+			throw exception("ERROR #9\nYou tried to close file load_researcher.txt, that doesn't exist\n");
+		}
+		load_researcher.close();
+	}
+	catch (const exception &ex)
+	{
+		std::cout << ex.what() << std::endl;
+		system("Pause");
+	}
 	/*
 	ofstream save;
 	try
@@ -168,7 +184,7 @@ int main()
 		cout << ex.code() << std::endl;
 		system("Pause");
 	}
-	
+
 	Welcome();
 	switch (Get_role())
 	{
@@ -554,77 +570,6 @@ int main()
 	}
 	save.close();
 	*/
-
-	//Надобность нижнего сомнительная, т.к. ofstream сам файл создает автоматически
-	/* 
-	try
-{
-	if (!save.is_open())
-	{
-		throw exception("ERROR #9\nYou tried to close file saved.txt, that doesn't exist\n");
-	}
-	save.close();
-}
-	catch (const exception &ex)
-{
-	std::cout << ex.what() << std::endl;
-	system("Pause");
-}
-	*/
-
-	try
-	{
-		if (!load_analog_osc.is_open())
-		{
-			throw exception("ERROR #9\nYou tried to close file load_analog_oscilloscope.txt, that doesn't exist\n");
-		}
-		load_analog_osc.close();
-	}
-	catch (const exception &ex)
-	{
-		std::cout << ex.what() << std::endl;
-		system("Pause");
-	}
-	try
-	{
-		if (!load_digital_osc.is_open())
-		{
-			throw exception("ERROR #9\nYou tried to close file load_digital_oscilloscope.txt, that doesn't exist\n");
-		}
-		load_digital_osc.close();
-	}
-	catch (const exception &ex)
-	{
-		std::cout << ex.what() << std::endl;
-		system("Pause");
-	}
-	try
-	{
-		if (!load_gen.is_open())
-		{
-			throw exception("ERROR #9\nYou tried to close file load_generator.txt, that doesn't exist\n");
-		}
-		load_gen.close();
-	}
-	catch (const exception &ex)
-	{
-		std::cout << ex.what() << std::endl;
-		system("Pause");
-	}
-	try
-	{
-		if (!load_researcher.is_open())
-		{
-			throw exception("ERROR #9\nYou tried to close file load_researcher.txt, that doesn't exist\n");
-		}
-		load_researcher.close();
-	}
-	catch (const exception &ex)
-	{
-		std::cout << ex.what() << std::endl;
-		system("Pause");
-	}
-
 	system("Pause");
 	return 0;
 } 
