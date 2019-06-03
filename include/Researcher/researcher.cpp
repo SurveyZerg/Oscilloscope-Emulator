@@ -28,6 +28,7 @@ Researcher::Researcher(std::ifstream& load)
 	catch (const std::exception &ex)
 	{
 		std::cout << ex.what() << std::endl;
+		system("Pause");
 	}
 }
 /*Researcher::Researcher(std::string research_position, std::string name, std::string surname, int age)

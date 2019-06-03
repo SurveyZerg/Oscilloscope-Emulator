@@ -48,6 +48,7 @@ Analog_Oscilloscope::Analog_Oscilloscope(std::ifstream& load)
 	catch (const std::exception &ex)
 	{
 		std::cout << ex.what() << std::endl;
+		system("Pause");
 	}
 }
 /*Analog_Oscilloscope::Analog_Oscilloscope(int amount_of_ñhannels, int voltage_divisions, int seconds_divisions, std::string manufacturer, std::string device_model, int year_of_issue,  int amount_of_beams, Analog_Oscilloscope* p_next, Analog_Oscilloscope* p_prev)

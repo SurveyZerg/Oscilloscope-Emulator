@@ -89,6 +89,7 @@ Generator::Generator(std::ifstream& load)
 	catch (const std::exception &ex)
 	{
 		std::cout << ex.what() << std::endl;
+		system("Pause");
 	}
 }
 /*Generator::Generator(int amount_of_channels, std::string manufacturer, std::string device_model, int year_of_issue, int maximum_output_frequency, Generator* p_next, Generator* p_prev)

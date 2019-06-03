@@ -66,6 +66,7 @@ int main()
 		cout << "ERROR #9\nCouldn't open the file saved.txt\n";
 		cout << ex.what() << std::endl;
 		cout << ex.code() << std::endl;
+		system("Pause");
 	}
 
 	try
@@ -77,6 +78,7 @@ int main()
 		std::cout << "ERROR #9\nCouldn't open the file load_analog_oscilloscope.txt\n";
 		std::cout << ex.what() << std::endl;
 		std::cout << ex.code() << std::endl;
+		system("Pause");
 	}
 	try
 	{
@@ -87,6 +89,7 @@ int main()
 		std::cout << "ERROR #9\nCouldn't open the file load_digital_oscilloscope.txt\n";
 		std::cout << ex.what() << std::endl;
 		std::cout << ex.code() << std::endl;
+		system("Pause");
 	}
 	try
 	{
@@ -97,6 +100,7 @@ int main()
 		std::cout << "ERROR #9\nCouldn't open the file load_generator.txt\n";
 		std::cout << ex.what() << std::endl;
 		std::cout << ex.code() << std::endl;
+		system("Pause");
 	}
 	try
 	{
@@ -107,11 +111,11 @@ int main()
 		std::cout << "ERROR #9\nCouldn't open the file load_researcher.txt\n";
 		std::cout << ex.what() << std::endl;
 		std::cout << ex.code() << std::endl;
+		system("Pause");
 	}
 
-	for(int i = 0; i < 7; i++)
+	for(int i = 0; i < 2; i++)
 		List_of_Analog_Osc.push_back(addDevice<Analog_Oscilloscope>(load_analog_osc));
-	List_of_Analog_Osc.show_all();
 	/*
 	for (int i = 0; i < 7; i++)
 		List_of_Digital_Osc.push_back(addDevice<Digital_Oscilloscope>(load_digital_osc));
@@ -120,7 +124,36 @@ int main()
 		List_of_Gen.push_back(addDevice<Generator>(load_gen));
 	List_of_Gen.show_all();*/
 	
+	List_of_Analog_Osc.swap(0, 1);
+	List_of_Analog_Osc.show_all();
+	system("Pause");
+	for (int i = 0; i < 5; i++)
+		List_of_Analog_Osc.push_back(addDevice<Analog_Oscilloscope>(load_analog_osc));
+
+
 	List_of_Analog_Osc.swap(3, 4);
+	List_of_Analog_Osc.show_all();
+	List_of_Analog_Osc.swap(100000000, 0);
+	List_of_Analog_Osc.show_all();
+	List_of_Analog_Osc.swap(6, 5);
+	List_of_Analog_Osc.show_all();
+	List_of_Analog_Osc.swap(5, 6);
+	List_of_Analog_Osc.swap(0, 1);
+	List_of_Analog_Osc.swap(4, 3);
+	List_of_Analog_Osc.swap(1, 0);
+	List_of_Analog_Osc.show_all();
+
+
+	List_of_Analog_Osc.swap(1, 3);
+	List_of_Analog_Osc.show_all();
+	std::cout << "--------------\n---------------\n------------\n----------------\n";
+	List_of_Analog_Osc.swap(0, 3);
+	List_of_Analog_Osc.show_all();
+	std::cout << "--------------\n---------------\n------------\n----------------\n";
+	List_of_Analog_Osc.swap(6, 4);
+	List_of_Analog_Osc.show_all();
+	std::cout << "--------------\n---------------\n------------\n----------------\n";
+	List_of_Analog_Osc.swap(0, 6);
 	List_of_Analog_Osc.show_all();
 	/*
 	ofstream save;
@@ -133,6 +166,7 @@ int main()
 		cout << "ERROR #10\nCouldn't open the file saved.txt\n";
 		cout << ex.what() << std::endl;
 		cout << ex.code() << std::endl;
+		system("Pause");
 	}
 	
 	Welcome();
@@ -534,6 +568,7 @@ int main()
 	catch (const exception &ex)
 {
 	std::cout << ex.what() << std::endl;
+	system("Pause");
 }
 	*/
 
@@ -548,6 +583,7 @@ int main()
 	catch (const exception &ex)
 	{
 		std::cout << ex.what() << std::endl;
+		system("Pause");
 	}
 	try
 	{
@@ -560,6 +596,7 @@ int main()
 	catch (const exception &ex)
 	{
 		std::cout << ex.what() << std::endl;
+		system("Pause");
 	}
 	try
 	{
@@ -572,6 +609,7 @@ int main()
 	catch (const exception &ex)
 	{
 		std::cout << ex.what() << std::endl;
+		system("Pause");
 	}
 	try
 	{
@@ -584,6 +622,7 @@ int main()
 	catch (const exception &ex)
 	{
 		std::cout << ex.what() << std::endl;
+		system("Pause");
 	}
 
 	system("Pause");

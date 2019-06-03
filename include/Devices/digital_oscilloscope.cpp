@@ -48,6 +48,7 @@ Digital_Oscilloscope::Digital_Oscilloscope(std::ifstream& load)
 	catch (const std::exception &ex)
 	{
 		std::cout << ex.what() << std::endl;
+		system("Pause");
 	}
 }
 /*Digital_Oscilloscope::Digital_Oscilloscope(int amount_of_ñhannels, int voltage_divisions, int seconds_divisions, std::string manufacturer, std::string device_model, int year_of_issue,  int memory_depth, Digital_Oscilloscope* p_next, Digital_Oscilloscope* p_prev)
