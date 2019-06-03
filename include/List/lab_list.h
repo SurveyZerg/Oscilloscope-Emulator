@@ -1,6 +1,7 @@
-// lab_list.h
+ï»¿// lab_list.h
 #pragma once
 
+#include <fstream>
 #include "./include/Devices/electrical_equipment.h"
 
 template <class T>
@@ -13,23 +14,41 @@ private:
 
 	int amount_of_electrical_devices;
 
+	T* addDevice();
+	T* addDevice(std::ifstream& load);
 public:
 	Lab_List();
 	~Lab_List();
 
 	T* begin();
-	int size();
 
+	int size();
+	void setSize(int size);
 
 	void push_back(T* device);
 	void push_front(T* device);
 	void insert(T* device, int index);
-	void swap(int index1, int index2);
+	void swap(int D1, int D2);
 
 	void clear();
-	void show_all();
+	
+	T& operator[](int index);
 
-	T& operator[](unsigned int index);
+	//friend std::istream& operator >> (std::istream &in, Lab_List<T> &list);
+	//friend std::ifstream& operator >> (std::ifstream &in, Lab_List<T> &list);
+
+	friend std::istream& operator >> (std::istream &in, Lab_List<Analog_Oscilloscope> &list);
+	friend std::ifstream& operator >> (std::ifstream &in, Lab_List<Analog_Oscilloscope> &list);
+
+	friend std::istream& operator >> (std::istream &in, Lab_List<Digital_Oscilloscope> &list);
+	friend std::ifstream& operator >> (std::ifstream &in, Lab_List<Digital_Oscilloscope> &list);
+
+	friend std::istream& operator >> (std::istream &in, Lab_List<Generator> &list);
+	friend std::ifstream& operator >> (std::ifstream &in, Lab_List<Generator> &list);
+
+	friend std::ostream& operator << (std::ostream &out, Lab_List<Analog_Oscilloscope> &list);
+	friend std::ostream& operator << (std::ostream &out, Lab_List<Digital_Oscilloscope> &list);
+	friend std::ostream& operator << (std::ostream &out, Lab_List<Generator> &list);
 };
 
 template<class T>
@@ -59,6 +78,12 @@ inline int Lab_List<T>::size()
 }
 
 template<class T>
+inline void Lab_List<T>::setSize(int size)
+{
+	this->amount_of_electrical_devices = size;
+}
+
+template<class T>
 inline void Lab_List<T>::push_back(T* device)
 {
 	if (this->head == nullptr)
@@ -71,14 +96,14 @@ inline void Lab_List<T>::push_back(T* device)
 	}
 	else
 	{
-		//Ìû äîëæíû îáðàáîòàòü õâîñò, ñëåä è ïðåä ýëåìåíò äåâàéñà è ñëåä ýëåìåíò ïðîøëîãî äåâàéñà
-		device->p_prev = this->tail; // ïðåäûäóùèé ýëåìåíò äåâàéñà
+		//ÐœÑ‹ Ð´Ð¾Ð»Ð¶Ð½Ñ‹ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚Ð°Ñ‚ÑŒ Ñ…Ð²Ð¾ÑÑ‚, ÑÐ»ÐµÐ´ Ð¸ Ð¿Ñ€ÐµÐ´ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ Ð´ÐµÐ²Ð°Ð¹ÑÐ° Ð¸ ÑÐ»ÐµÐ´ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ Ð¿Ñ€Ð¾ÑˆÐ»Ð¾Ð³Ð¾ Ð´ÐµÐ²Ð°Ð¹ÑÐ°
+		device->p_prev = this->tail; // Ð¿Ñ€ÐµÐ´Ñ‹Ð´ÑƒÑ‰Ð¸Ð¹ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ Ð´ÐµÐ²Ð°Ð¹ÑÐ°
 
-		device->p_prev->p_next = device; // ñëåä ýëåìåíò ïðåä äåâàéñà
+		device->p_prev->p_next = device; // ÑÐ»ÐµÐ´ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ Ð¿Ñ€ÐµÐ´ Ð´ÐµÐ²Ð°Ð¹ÑÐ°
 
-		this->tail = device; // õâîñò
+		this->tail = device; // Ñ…Ð²Ð¾ÑÑ‚
 
-		device->p_next = nullptr; // ñëåä ýëåìåíò äåâàéñà
+		device->p_next = nullptr; // ÑÐ»ÐµÐ´ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ Ð´ÐµÐ²Ð°Ð¹ÑÐ°
 
 		this->amount_of_electrical_devices++;
 	}
@@ -144,9 +169,249 @@ inline void Lab_List<T>::insert(T* device, int index)
 }
 
 template<class T>
-inline void Lab_List<T>::swap(int index1, int index2)
+inline void Lab_List<T>::swap(int D1, int D2)
 {
-	//Çäåñü íóæíî ïðîâåðêó äåëàòü íà ãîëîâó è õâîñò ó âòîðîãî è ïåðâîãî èíäåêñà, ÷òîáû íå ñáèëñÿ êîííåêò
+	try
+	{
+		//Ð—Ð´ÐµÑÑŒ Ð½ÑƒÐ¶Ð½Ð¾ Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÑƒ Ð´ÐµÐ»Ð°Ñ‚ÑŒ Ð½Ð° Ð³Ð¾Ð»Ð¾Ð²Ñƒ Ð¸ Ñ…Ð²Ð¾ÑÑ‚ Ñƒ Ð²Ñ‚Ð¾Ñ€Ð¾Ð³Ð¾ Ð¸ Ð¿ÐµÑ€Ð²Ð¾Ð³Ð¾ Ð¸Ð½Ð´ÐµÐºÑÐ°, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð½Ðµ ÑÐ±Ð¸Ð»ÑÑ ÐºÐ¾Ð½Ð½ÐµÐºÑ‚
+		if (D1 == D2)
+		{
+			throw std::exception("You tried to swap the same item\nDid you really want it??\n");
+		}
+		if (D1 > D2)
+		{
+			int temp = D2;
+			D2 = D1;
+			D1 = temp;
+		}
+		if (D1 < 0 || D2 < 0)
+		{
+			throw std::exception("ERROR # \nYou tried to swap negative element of list, that of course doesnt exist\n");
+		}
+		if (D1 > (this->size() - 1) || D2 > (this->size() - 1))
+		{
+			throw std::exception("ERROR # \nYou tried to swap element beyond the list\n");
+		}
+		T* device1 = &((*this)[D1]);
+		T* device2 = &((*this)[D2]);
+
+		if (((D2 - 1) == D1) || ((D1 - 1) == D2))
+		{
+			T* temp1;
+			T* temp2;
+
+			if (D1 != 0 && D2 != (this->size() - 1))
+			{
+				temp1 = head;
+				temp2 = head;
+
+				for (int i = 0; i < (D1 - 1); i++)
+				{
+					temp1 = temp1->p_next;
+				}
+				for (int i = 0; i < (D2 + 1); i++)
+				{
+					temp2 = temp2->p_next;
+				}
+
+				temp1->p_next = device2;
+				temp2->p_prev = device1;
+
+				device2->p_prev = temp1;
+				device2->p_next = device1;
+				device1->p_prev = device2;
+				device1->p_next = temp2;
+			}
+			else if (D1 == 0 && D2 != (this->size() - 1))
+			{
+				temp1 = nullptr;
+				temp2 = head;
+
+				for (int i = 0; i < (D2 + 1); i++)
+				{
+					temp2 = temp2->p_next;
+				}
+
+				head = device2;
+				device2->p_prev = temp1;
+				device2->p_next = device1;
+				temp2->p_prev = device1;
+				device1->p_prev = device2;
+				device1->p_next = temp2;
+			}
+			else if (D1 != 0 && D2 == (this->size() - 1))
+			{
+				temp1 = head;
+				temp2 = nullptr;
+
+				for (int i = 0; i < (D1 - 1); i++)
+				{
+					temp1 = temp1->p_next;
+				}
+
+				tail = device1;
+				device1->p_next = temp2;
+				device1->p_prev = device2;
+				temp1->p_next = device2;
+				device2->p_next = device1;
+				device2->p_prev = temp1;
+			}
+			else if (D1 == 0 && D2 == (this->size() - 1))
+			{
+				temp1 = nullptr;
+				temp2 = nullptr;
+
+				tail = device1;
+				head = device2;
+
+				device1->p_next = temp2;
+				device1->p_prev = device2;
+
+				device2->p_next = device1;
+				device2->p_prev = temp1;
+			}
+		}
+		else
+		{
+			T* temp_D1_1;
+			T* temp_D1_2;
+			T* temp_D2_1;
+			T* temp_D2_2;
+
+			if (D1 != 0 && D2 != (this->size() - 1))
+			{
+				temp_D1_1 = head;
+				temp_D1_2 = head;
+				temp_D2_1 = head;
+				temp_D2_2 = head;
+
+				for (int i = 0; i < (D1 - 1); i++)
+				{
+					temp_D1_1 = temp_D1_1->p_next;
+				}
+				for (int i = 0; i < (D1 + 1); i++)
+				{
+					temp_D1_2 = temp_D1_2->p_next;
+				}
+
+				for (int i = 0; i < (D2 - 1); i++)
+				{
+					temp_D2_1 = temp_D2_1->p_next;
+				}
+				for (int i = 0; i < (D2 + 1); i++)
+				{
+					temp_D2_2 = temp_D2_2->p_next;
+				}
+
+				//ÐÐµ ÑƒÐ²ÐµÑ€ÐµÐ½, Ð½Ð¾ Ð¼Ð¾Ð¶ÐµÑ‚ Ð¿Ð¾ÑÐ²Ð¸Ñ‚ÑÑ Ð¾ÑˆÐ¸Ð±ÐºÐ°, ÐµÑÐ»Ð¸ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ñ‹ Ð¼ÐµÐ½ÑÑŽÑ‚ÑÑ Ñ‡ÐµÑ€ÐµÐ· Ð¾Ð´Ð¸Ð½
+				temp_D1_1->p_next = device2;
+				temp_D1_2->p_prev = device2;
+				temp_D2_1->p_next = device1;
+				temp_D2_2->p_prev = device1;
+
+				device1->p_prev = temp_D2_1;
+				device1->p_next = temp_D2_2;
+				device2->p_prev = temp_D1_1;
+				device2->p_next = temp_D1_2;
+			}
+			else if (D1 == 0 && D2 != (this->size() - 1))
+			{
+				temp_D1_1 = nullptr;
+				temp_D1_2 = head;
+				temp_D2_1 = head;
+				temp_D2_2 = head;
+
+				for (int i = 0; i < (D1 + 1); i++)
+				{
+					temp_D1_2 = temp_D1_2->p_next;
+				}
+
+				for (int i = 0; i < (D2 - 1); i++)
+				{
+					temp_D2_1 = temp_D2_1->p_next;
+				}
+				for (int i = 0; i < (D2 + 1); i++)
+				{
+					temp_D2_2 = temp_D2_2->p_next;
+				}
+
+				//ÐÐµ ÑƒÐ²ÐµÑ€ÐµÐ½, Ð½Ð¾ Ð¼Ð¾Ð¶ÐµÑ‚ Ð¿Ð¾ÑÐ²Ð¸Ñ‚ÑÑ Ð¾ÑˆÐ¸Ð±ÐºÐ°, ÐµÑÐ»Ð¸ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ñ‹ Ð¼ÐµÐ½ÑÑŽÑ‚ÑÑ Ñ‡ÐµÑ€ÐµÐ· Ð¾Ð´Ð¸Ð½
+				head = device2;
+				temp_D1_2->p_prev = device2;
+				temp_D2_1->p_next = device1;
+				temp_D2_2->p_prev = device1;
+
+				device1->p_prev = temp_D2_1;
+				device1->p_next = temp_D2_2;
+				device2->p_prev = temp_D1_1;
+				device2->p_next = temp_D1_2;
+			}
+			else if (D1 != 0 && D2 == (this->size() - 1))
+			{
+				temp_D1_1 = head;
+				temp_D1_2 = head;
+				temp_D2_1 = head;
+				temp_D2_2 = nullptr;
+
+				for (int i = 0; i < (D1 - 1); i++)
+				{
+					temp_D1_1 = temp_D1_1->p_next;
+				}
+				for (int i = 0; i < (D1 + 1); i++)
+				{
+					temp_D1_2 = temp_D1_2->p_next;
+				}
+
+				for (int i = 0; i < (D2 - 1); i++)
+				{
+					temp_D2_1 = temp_D2_1->p_next;
+				}
+
+				temp_D1_1->p_next = device2;
+				temp_D1_2->p_prev = device2;
+				temp_D2_1->p_next = device1;
+				tail = device1;
+
+				device1->p_prev = temp_D2_1;
+				device1->p_next = temp_D2_2;
+				device2->p_prev = temp_D1_1;
+				device2->p_next = temp_D1_2;
+
+			}
+			else if (D1 == 0 && D2 == (this->size() - 1))
+			{
+				temp_D1_1 = nullptr;
+				temp_D1_2 = head;
+				temp_D2_1 = head;
+				temp_D2_2 = nullptr;
+
+				for (int i = 0; i < (D1 + 1); i++)
+				{
+					temp_D1_2 = temp_D1_2->p_next;
+				}
+
+				for (int i = 0; i < (D2 - 1); i++)
+				{
+					temp_D2_1 = temp_D2_1->p_next;
+				}
+
+				head = device2;
+				temp_D1_2->p_prev = device2;
+				temp_D2_1->p_next = device1;
+				tail = device1;
+
+				device1->p_prev = temp_D2_1;
+				device1->p_next = temp_D2_2;
+				device2->p_prev = temp_D1_1;
+				device2->p_next = temp_D1_2;
+			}
+		}
+	}
+	catch (const std::exception &ex)
+	{
+		std::cout << ex.what();
+		system("Pause");
+	}
 }
 
 template<class T>
@@ -162,21 +427,179 @@ inline void Lab_List<T>::clear()
 }
 
 template<class T>
-inline void Lab_List<T>::show_all()
+inline T * Lab_List<T>::addDevice()
 {
-	for (int i = 0; i < this->amount_of_electrical_devices; i++)
-	{
-		std::cout << (*this)[i];
-	}
+	T* temp;
+	temp = new T();
+	return temp;
 }
 
 template<class T>
-inline T& Lab_List<T>::operator[](unsigned int index)
+inline T * Lab_List<T>::addDevice(std::ifstream &load)
 {
-	T* p_current = this->head;
-	for (int i = 0; i < index; i++)
+	T* temp;
+	temp = new T(load);
+	return temp;
+}
+
+template<class T>
+inline T& Lab_List<T>::operator[](int index)
+{
+	try
 	{
-		p_current = p_current->p_next;
+		if (index < 0)
+		{
+			throw std::exception("ERROR # \nElements of list begin from 0, not negative number\n");
+		}
+		T* p_current = this->head;
+		for (int i = 0; i < index; i++)
+		{
+			p_current = p_current->p_next;
+		}
+		return *p_current;
 	}
-	return *p_current;
+	catch (const std::exception &ex)
+	{
+		std::cout << ex.what();
+		system("Pause");
+	}
+}
+
+//Ð•ÑÐ»Ð¸ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒ ÑˆÐ°Ð±Ð»Ð¾Ð½Ñ‹, Ñ‚Ð¾ Ð²Ñ‹Ð»ÐµÐ·Ð°ÐµÑ‚ Ð¾ÑˆÐ¸Ð±ÐºÐ° LNK2001
+//JeÅ¼eli siÄ™ korzystaÄ‡ z szablonÃ³w, otrzymam bÅ‚Ä…d LNK2001
+/*
+template<class T>
+std::istream& operator>> (std::istream &in, Lab_List<T> &list)
+{
+	if (&in == &std::cin)
+	{
+		int temp;
+		list.clear();
+		std::cout << "Choose size of list\n";
+		std::cin >> temp;
+		list.setSize(temp);
+		std::cout << std::endl;
+		for (int i = 0; i < list.size(); i++)
+		{
+			std::cout << "Device #" << i + 1 << std::endl;
+			list.push_back(list.addDevice());
+			std::cout << std::endl;
+		}
+		return in;
+	}
+}
+template<class T>
+std::ifstream& operator>> (std::ifstream &in, Lab_List<T> &list)
+{
+	while(!in.eof())
+	{
+		list.push_back(list.addDevice(in));
+	}
+	return in;
+}*/
+
+std::istream& operator>> (std::istream &in, Lab_List<Analog_Oscilloscope> &list)
+{
+	if (&in == &std::cin)
+	{
+		int temp;
+		std::cout << "Choose amount of analog oscilloscopes, that you want to add\n";
+		std::cin >> temp;
+		std::cout << std::endl;
+		for (int i = 0; i < temp; i++)
+		{
+			std::cout << "Analog Oscilloscope #" << list.size() + 1 << std::endl;
+			list.push_back(list.addDevice());
+			std::cout << std::endl;
+		}
+		return in;
+	}
+}
+std::ifstream& operator>> (std::ifstream &in, Lab_List<Analog_Oscilloscope> &list)
+{
+	while (!in.eof())
+	{
+		list.push_back(list.addDevice(in));
+	}
+	return in;
+}
+
+std::istream& operator>> (std::istream &in, Lab_List<Digital_Oscilloscope> &list)
+{
+	if (&in == &std::cin)
+	{
+		int temp;
+		std::cout << "Choose amount of digital oscilloscopes, that you want to add\n";
+		std::cin >> temp;
+		std::cout << std::endl;
+		for (int i = 0; i < temp; i++)
+		{
+			std::cout << "Digital Oscilloscope #" << list.size() + 1 << std::endl;
+			list.push_back(list.addDevice());
+			std::cout << std::endl;
+		}
+		return in;
+	}
+}
+std::ifstream& operator>> (std::ifstream &in, Lab_List<Digital_Oscilloscope> &list)
+{
+	while (!in.eof())
+	{
+		list.push_back(list.addDevice(in));
+	}
+	return in;
+}
+
+std::istream& operator>> (std::istream &in, Lab_List<Generator> &list)
+{
+	if (&in == &std::cin)
+	{
+		int temp;
+		std::cout << "Choose amount of generators, that you want to add\n";
+		std::cin >> temp;
+		std::cout << std::endl;
+		for (int i = 0; i < temp; i++)
+		{
+			std::cout << "Generator #" << list.size() + 1 << std::endl;
+			list.push_back(list.addDevice());
+			std::cout << std::endl;
+		}
+		return in;
+	}
+}
+std::ifstream& operator>> (std::ifstream &in, Lab_List<Generator> &list)
+{
+	while (!in.eof())
+	{
+		list.push_back(list.addDevice(in));
+	}
+	return in;
+}
+
+std::ostream& operator << (std::ostream &out, Lab_List<Analog_Oscilloscope> &list)
+{
+	for (int i = 0; i < list.size(); i++)
+	{
+		out << "ANALOG OSCILLOSCOPE #" << i + 1 << std::endl;
+		out << list[i];
+	}
+	return out;
+}
+std::ostream& operator << (std::ostream &out, Lab_List<Digital_Oscilloscope> &list)
+{
+	for (int i = 0; i < list.size(); i++)
+	{
+		out << "DIGITAL OSCILLOSCOPE #" << i + 1 << std::endl;
+		out << list[i];
+	}
+	return out;
+}
+std::ostream& operator << (std::ostream &out, Lab_List<Generator> &list)
+{
+	for (int i = 0; i < list.size(); i++)
+	{
+		out << "GENERATOR #" << i + 1 << std::endl;
+		out << list[i];
+	}
+	return out;
 }

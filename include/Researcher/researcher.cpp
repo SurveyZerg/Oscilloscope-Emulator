@@ -2,30 +2,36 @@
 
 #include <fstream>
 #include <ctime>
+#include <sstream>
 #include "researcher.h"
 
 Researcher::Researcher()
 {
+#ifdef _DEBUG
+	std::cout << "Default Constructor Researcher was called" << std::endl;
+#endif
 	this->Type_information(true);
 }
-Researcher::Researcher(bool file_reading)
+Researcher::Researcher(std::ifstream& load)
 {
-	std::ifstream load;
-	load.exceptions(std::ifstream::badbit | std::ifstream::failbit);
+#ifdef _DEBUG
+	std::cout << "Constructor Researcher was called" << std::endl;
+#endif
 	try
 	{
-		load.open("load_researcher.txt");
+		if (!load.is_open())
+		{
+			throw std::exception("ERROR #9\nYou tried to create object from file, that doesn't exist\n");
+		}
+		load >> *this;
 	}
-	catch (const std::ifstream::failure &ex)
+	catch (const std::exception &ex)
 	{
-		std::cout << "ERROR #9\nCouldn't open the file load.txt\n";
 		std::cout << ex.what() << std::endl;
-		std::cout << ex.code() << std::endl;
+		system("Pause");
 	}
-	load >> *this;
-	load.close();
 }
-Researcher::Researcher(std::string research_position, std::string name, std::string surname, int age)
+/*Researcher::Researcher(std::string research_position, std::string name, std::string surname, int age)
 {
 #ifdef _DEBUG
 	std::cout << "Constructor Researcher was called" << std::endl;
@@ -35,7 +41,7 @@ Researcher::Researcher(std::string research_position, std::string name, std::str
 	this->name = name;
 	this->surname = surname;
 	this->age = age;
-}
+}*/
 Researcher::~Researcher()
 {
 #ifdef _DEBUG
@@ -117,11 +123,17 @@ std::ostream& operator<< (std::ostream &out, Researcher &scientist)
 std::istream& operator >> (std::istream &in, Researcher &scientist)
 {
 	int age;
-	std::string research_position, name, surname;
-	std::getline(in,research_position);
-	std::getline(in, name);
-	std::getline(in, surname);
-	in >> age;
+	std::string research_position, name, surname, buff;
+
+	std::getline(in, buff, '\n');
+	std::stringstream stream_buff;
+
+	stream_buff << buff;
+
+	stream_buff >> research_position;
+	stream_buff >> name;
+	stream_buff >> surname;
+	stream_buff >> age;
 
 	scientist.research_position = research_position;
 	scientist.name = name;
