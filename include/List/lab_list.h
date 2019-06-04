@@ -14,8 +14,10 @@ private:
 
 	int amount_of_electrical_devices;
 
-	T* addDevice();
+	T* addDevice(bool info);
 	T* addDevice(std::ifstream& load);
+	T* addDevice(T device);
+
 public:
 	Lab_List();
 	~Lab_List();
@@ -27,11 +29,18 @@ public:
 
 	void push_back(T* device);
 	void push_front(T* device);
+	void pop_back();
+	void pop_front();
+
 	void insert(T* device, int index);
+	void erase(T* device, int index);
 	void swap(int D1, int D2);
 
+	void moveToFront(int index);
+	void moveToEnd(int index);
+
 	void clear();
-	
+	Lab_List<T>& operator= (Lab_List<T> &list);
 	T& operator[](int index);
 
 	//friend std::istream& operator >> (std::istream &in, Lab_List<T> &list);
@@ -97,11 +106,11 @@ inline void Lab_List<T>::push_back(T* device)
 	else
 	{
 		//Мы должны обработать хвост, след и пред элемент девайса и след элемент прошлого девайса
-		device->p_prev = this->tail; // предыдущий элемент девайса
+		device->p_prev = tail; // предыдущий элемент девайса
 
-		device->p_prev->p_next = device; // след элемент пред девайса
+		tail->p_next = device; // след элемент пред девайса
 
-		this->tail = device; // хвост
+		tail = device; // хвост
 
 		device->p_next = nullptr; // след элемент девайса
 
@@ -129,6 +138,31 @@ inline void Lab_List<T>::push_front(T* device)
 	}
 	amount_of_electrical_devices++;
 }
+
+/*template<class T>
+inline void Lab_List<T>::pop_back()
+{
+
+}
+
+template<class T>
+inline void Lab_List<T>::pop_front()
+{
+	if (amount_of_electrical_devices == 1)
+	{
+		delete head;
+		head = nullptr;
+		tail = nullptr;
+	}
+	else
+	{
+		T* temp = head;
+		head = head->p_next;
+		head->p_prev = nullptr;
+		delete temp;
+	}
+	amount_of_electrical_devices--;
+}*/
 
 template<class T>
 inline void Lab_List<T>::insert(T* device, int index)
@@ -423,14 +457,30 @@ inline void Lab_List<T>::clear()
 		tail = tail->p_prev;
 		delete temp;
 	}
+	head = nullptr;
+	tail = nullptr;
 	amount_of_electrical_devices = 0;
 }
 
 template<class T>
-inline T * Lab_List<T>::addDevice()
+inline Lab_List<T>& Lab_List<T>::operator=(Lab_List<T> &list)
+{
+	this->clear();
+	for (int i = 0; i < list.size(); i++)
+		this->push_back(this->addDevice(list[i]));
+	/*int temp = this->size();
+	for (int i = 0; i < list.size(); i++)
+		this->push_back(list[i]);
+	for (int i = 0; i < temp; i++)
+		this->pop_front();*/
+	return *this;
+}
+
+template<class T>
+inline T * Lab_List<T>::addDevice(bool info)
 {
 	T* temp;
-	temp = new T();
+	temp = new T(1);
 	return temp;
 }
 
@@ -439,6 +489,14 @@ inline T * Lab_List<T>::addDevice(std::ifstream &load)
 {
 	T* temp;
 	temp = new T(load);
+	return temp;
+}
+
+template<class T>
+inline T * Lab_List<T>::addDevice(T device)
+{
+	T* temp;
+	temp = new T(device);
 	return temp;
 }
 
@@ -482,7 +540,7 @@ std::istream& operator>> (std::istream &in, Lab_List<T> &list)
 		for (int i = 0; i < list.size(); i++)
 		{
 			std::cout << "Device #" << i + 1 << std::endl;
-			list.push_back(list.addDevice());
+			list.push_back(list.addDevice(1));
 			std::cout << std::endl;
 		}
 		return in;
@@ -509,7 +567,7 @@ std::istream& operator>> (std::istream &in, Lab_List<Analog_Oscilloscope> &list)
 		for (int i = 0; i < temp; i++)
 		{
 			std::cout << "Analog Oscilloscope #" << list.size() + 1 << std::endl;
-			list.push_back(list.addDevice());
+			list.push_back(list.addDevice(1));
 			std::cout << std::endl;
 		}
 		return in;
@@ -535,7 +593,7 @@ std::istream& operator>> (std::istream &in, Lab_List<Digital_Oscilloscope> &list
 		for (int i = 0; i < temp; i++)
 		{
 			std::cout << "Digital Oscilloscope #" << list.size() + 1 << std::endl;
-			list.push_back(list.addDevice());
+			list.push_back(list.addDevice(1));
 			std::cout << std::endl;
 		}
 		return in;
@@ -561,7 +619,7 @@ std::istream& operator>> (std::istream &in, Lab_List<Generator> &list)
 		for (int i = 0; i < temp; i++)
 		{
 			std::cout << "Generator #" << list.size() + 1 << std::endl;
-			list.push_back(list.addDevice());
+			list.push_back(list.addDevice(1));
 			std::cout << std::endl;
 		}
 		return in;

@@ -35,6 +35,7 @@ protected:
 public:
 
 	Generator();
+	Generator(bool info);
 	Generator(std::ifstream& load);
 	~Generator();
 

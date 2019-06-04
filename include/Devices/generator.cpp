@@ -65,6 +65,12 @@ Generator::Generator()
 #ifdef _DEBUG
 	std::cout << "Default Constructor Generator was called" << std::endl;
 #endif
+}
+Generator::Generator(bool info)
+{
+#ifdef _DEBUG
+	std::cout << "Constructor Generator was called" << std::endl;
+#endif
 	this->Type_information(true);
 	this->p_next = nullptr;
 	this->p_prev = nullptr;

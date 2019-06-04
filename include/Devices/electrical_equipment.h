@@ -8,13 +8,15 @@
 class Electrical_Equipment
 {
 private:
+	
+
+protected:
+	std::vector<bool> Channels_on_off;
+
 	std::string manufacturer;
 	std::string device_model;
 	int year_of_issue;
 	int amount_of_ñhannels;
-
-protected:
-	std::vector<bool> Channels_on_off;
 
 	void Set_manufacturer(std::string manufacturer);
 	void Set_device_model(std::string device_model);

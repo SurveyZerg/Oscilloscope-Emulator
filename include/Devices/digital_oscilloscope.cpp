@@ -22,6 +22,13 @@ Digital_Oscilloscope::Digital_Oscilloscope()
 #ifdef _DEBUG
 	std::cout << "Default Constructor Digital Oscilloscope was called" << std::endl;
 #endif
+}
+
+Digital_Oscilloscope::Digital_Oscilloscope(bool info)
+{
+#ifdef _DEBUG
+	std::cout << "Default Constructor Digital Oscilloscope was called" << std::endl;
+#endif
 	this->Type_information(true);
 	this->p_next = nullptr;
 	this->p_prev = nullptr;

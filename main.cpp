@@ -7,6 +7,7 @@
 4. Исправить все модификаторы доступа
 5. Ограничить шаблонность до только НУЖНЫХ классов
 6. Дать пользователю возможность добавлять и высвечивать себе любой элемент контейнера
+7. В меню исправить новые конструкторы
 */
 #include <iostream>
 #include <fstream>
@@ -38,6 +39,7 @@ int main()
 
 
 	Lab_List <Analog_Oscilloscope> List_of_Analog_Osc;
+	Lab_List <Analog_Oscilloscope> List_of_Analog_Osc2;
 	Lab_List <Digital_Oscilloscope> List_of_Digital_Osc;
 	Lab_List <Generator> List_of_Gen;
 
@@ -98,11 +100,14 @@ int main()
 		system("Pause");
 	}
 
-	//cin >> List_of_Analog_Osc;
-	
-	cin >> List_of_Digital_Osc;
-	List_of_Digital_Osc.show_all();
-
+	load_analog_osc >> List_of_Analog_Osc;
+	cout << List_of_Analog_Osc;
+	cin >> List_of_Analog_Osc2;
+	cout << List_of_Analog_Osc2;
+	//До этого момента все работает отлично
+	List_of_Analog_Osc = List_of_Analog_Osc2;
+	cout << List_of_Analog_Osc;
+	cout << List_of_Analog_Osc2;
 	//Надобность нижнего сомнительная, т.к. ofstream сам файл создает автоматически
 	/* 
 	try

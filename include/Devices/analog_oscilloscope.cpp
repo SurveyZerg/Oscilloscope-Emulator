@@ -16,8 +16,13 @@ int Analog_Oscilloscope::Get_amount_of_beams()
 {
 	return this->amount_of_beams;
 }
-
 Analog_Oscilloscope::Analog_Oscilloscope()
+{
+#ifdef _DEBUG
+	std::cout << "Default Constructor Analog Oscilloscope was called" << std::endl;
+#endif
+}
+Analog_Oscilloscope::Analog_Oscilloscope(bool info)
 {
 #ifdef _DEBUG
 	std::cout << "Default Constructor Analog Oscilloscope was called" << std::endl;
@@ -50,6 +55,18 @@ Analog_Oscilloscope::Analog_Oscilloscope(std::ifstream& load)
 		std::cout << ex.what() << std::endl;
 		system("Pause");
 	}
+}
+Analog_Oscilloscope::Analog_Oscilloscope(const Analog_Oscilloscope & device)
+{
+	this->Set_manufacturer(device.manufacturer);
+	this->Set_device_model(device.device_model);
+	this->Set_year_of_issue(device.year_of_issue);
+	this->Set_amount_of_ñhannels(device.amount_of_ñhannels);
+	this->Set_amount_of_beams(device.amount_of_beams);
+	this->Set_voltage_divisions(device.voltage_divisions);
+	this->Set_seconds_divisions(device.seconds_divisions);
+	Make_Channels(this->Get_amount_of_ñhannels());
+	(this->s_amount_of_analog_oscilloscopes)++;
 }
 /*Analog_Oscilloscope::Analog_Oscilloscope(int amount_of_ñhannels, int voltage_divisions, int seconds_divisions, std::string manufacturer, std::string device_model, int year_of_issue,  int amount_of_beams, Analog_Oscilloscope* p_next, Analog_Oscilloscope* p_prev)
 {

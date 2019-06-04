@@ -16,12 +16,13 @@ class Oscilloscope :public Electrical_Equipment, public I_Oscilloscope
 {
 private:
 	static int s_amount_of_oscilloscopes;
-	int voltage_divisions;
-	int seconds_divisions;
 
 protected:
 	int seconds_scale = 500; // [microSec\div]
 	int voltage_scale = 1000; // [milliVolts\div]
+
+	int voltage_divisions;
+	int seconds_divisions;
 
 	std::vector<Generator*> Channels_connected;
 
