@@ -1,12 +1,13 @@
 // main.cpp
 
 /*TO DO LIST 
-1. Сделать класс осциллографов абстрактным
-2. Разобраться с конструкторами по умолчанию у всех трех основных классов
-3. Найти все возможные места ошибок и добавить исключения
-4. Исправить все модификаторы доступа
-5. Ограничить шаблонность до только НУЖНЫХ классов
-6. Дать пользователю возможность добавлять и высвечивать себе любой элемент контейнера
+1. Г‘Г¤ГҐГ«Г ГІГј ГЄГ«Г Г±Г± Г®Г±Г¶ГЁГ«Г«Г®ГЈГ°Г ГґГ®Гў Г ГЎГ±ГІГ°Г ГЄГІГ­Г»Г¬
+2. ГђГ Г§Г®ГЎГ°Г ГІГјГ±Гї Г± ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г°Г Г¬ГЁ ГЇГ® ГіГ¬Г®Г«Г·Г Г­ГЁГѕ Гі ГўГ±ГҐГµ ГІГ°ГҐГµ Г®Г±Г­Г®ГўГ­Г»Гµ ГЄГ«Г Г±Г±Г®Гў
+3. ГЌГ Г©ГІГЁ ГўГ±ГҐ ГўГ®Г§Г¬Г®Г¦Г­Г»ГҐ Г¬ГҐГ±ГІГ  Г®ГёГЁГЎГ®ГЄ ГЁ Г¤Г®ГЎГ ГўГЁГІГј ГЁГ±ГЄГ«ГѕГ·ГҐГ­ГЁГї
+4. Г€Г±ГЇГ°Г ГўГЁГІГј ГўГ±ГҐ Г¬Г®Г¤ГЁГґГЁГЄГ ГІГ®Г°Г» Г¤Г®Г±ГІГіГЇГ 
+5. ГЋГЈГ°Г Г­ГЁГ·ГЁГІГј ГёГ ГЎГ«Г®Г­Г­Г®Г±ГІГј Г¤Г® ГІГ®Г«ГјГЄГ® ГЌГ“Г†ГЌГ›Г• ГЄГ«Г Г±Г±Г®Гў
+6. Г„Г ГІГј ГЇГ®Г«ГјГ§Г®ГўГ ГІГҐГ«Гѕ ГўГ®Г§Г¬Г®Г¦Г­Г®Г±ГІГј Г¤Г®ГЎГ ГўГ«ГїГІГј ГЁ ГўГ»Г±ГўГҐГ·ГЁГўГ ГІГј Г±ГҐГЎГҐ Г«ГѕГЎГ®Г© ГЅГ«ГҐГ¬ГҐГ­ГІ ГЄГ®Г­ГІГҐГ©Г­ГҐГ°Г 
+7. Г‚ Г¬ГҐГ­Гѕ ГЁГ±ГЇГ°Г ГўГЁГІГј Г­Г®ГўГ»ГҐ ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г°Г»
 */
 #include <iostream>
 #include <fstream>
@@ -37,7 +38,6 @@ int main()
 	load_digital_osc.exceptions(std::ifstream::badbit | std::ifstream::failbit);
 	load_gen.exceptions(std::ifstream::badbit | std::ifstream::failbit);
 	load_researcher.exceptions(std::ifstream::badbit | std::ifstream::failbit);
-
 
 	Lab_List <Analog_Oscilloscope> List_of_Analog_Osc;
 	Lab_List <Digital_Oscilloscope> List_of_Digital_Osc;
@@ -100,10 +100,7 @@ int main()
 		std::cout << ex.code() << std::endl;
 		system("Pause");
 	}
-
-
-
-
+  
 	// MAIN PROGRAM CYCLE
 	bool end = false;
 	bool setup = true;
@@ -269,13 +266,13 @@ int main()
 	}
 	//ENDING
 
-	//Надобность нижнего сомнительная, т.к. ofstream сам файл создает автоматически
+	//ГЌГ Г¤Г®ГЎГ­Г®Г±ГІГј Г­ГЁГ¦Г­ГҐГЈГ® Г±Г®Г¬Г­ГЁГІГҐГ«ГјГ­Г Гї, ГІ.ГЄ. ofstream Г±Г Г¬ ГґГ Г©Г« Г±Г®Г§Г¤Г ГҐГІ Г ГўГІГ®Г¬Г ГІГЁГ·ГҐГ±ГЄГЁ
 	/* 
 	try
 {
 	if (!save.is_open())
 	{
-		throw exception("ERROR #9\nYou tried to close file saved.txt, that doesn't exist\n");
+		throw exception("ERROR #10\nYou tried to close file saved.txt, that doesn't exist\n");
 	}
 	save.close();
 }
@@ -289,7 +286,7 @@ int main()
 	{
 		if (!load_analog_osc.is_open())
 		{
-			throw exception("ERROR #9\nYou tried to close file load_analog_oscilloscope.txt, that doesn't exist\n");
+			throw exception("ERROR #10\nYou tried to close file load_analog_oscilloscope.txt, that doesn't exist\n");
 		}
 		load_analog_osc.close();
 	}
@@ -302,7 +299,7 @@ int main()
 	{
 		if (!load_digital_osc.is_open())
 		{
-			throw exception("ERROR #9\nYou tried to close file load_digital_oscilloscope.txt, that doesn't exist\n");
+			throw exception("ERROR #10\nYou tried to close file load_digital_oscilloscope.txt, that doesn't exist\n");
 		}
 		load_digital_osc.close();
 	}
@@ -315,7 +312,7 @@ int main()
 	{
 		if (!load_gen.is_open())
 		{
-			throw exception("ERROR #9\nYou tried to close file load_generator.txt, that doesn't exist\n");
+			throw exception("ERROR #10\nYou tried to close file load_generator.txt, that doesn't exist\n");
 		}
 		load_gen.close();
 	}
@@ -328,7 +325,7 @@ int main()
 	{
 		if (!load_researcher.is_open())
 		{
-			throw exception("ERROR #9\nYou tried to close file load_researcher.txt, that doesn't exist\n");
+			throw exception("ERROR #10\nYou tried to close file load_researcher.txt, that doesn't exist\n");
 		}
 		load_researcher.close();
 	}

@@ -1,6 +1,5 @@
 //generator.cpp
 
-#include <fstream>
 #include <sstream>
 #include "generator.h"
 #include "oscilloscope.h"
@@ -65,7 +64,15 @@ Generator::Generator()
 #ifdef _DEBUG
 	std::cout << "Default Constructor Generator was called" << std::endl;
 #endif
-	this->Type_information(true);
+	this->p_next = nullptr;
+	this->p_prev = nullptr;
+}
+Generator::Generator(bool all_info)
+{
+#ifdef _DEBUG
+	std::cout << "Constructor Generator was called" << std::endl;
+#endif
+	this->Type_information(all_info);
 	this->p_next = nullptr;
 	this->p_prev = nullptr;
 	Make_Channels(Get_amount_of_ñhannels());
@@ -75,22 +82,26 @@ Generator::Generator(std::ifstream& load)
 #ifdef _DEBUG
 	std::cout << "Constructor Generator was called" << std::endl;
 #endif
-	try
-	{
-		if (!load.is_open())
+	if (!load.is_open())
 		{
-			throw std::exception("ERROR #9\nYou tried to create object from file, that doesn't exist\n");
+			throw std::exception("ERROR #8\nYou tried to create object from file, that doesn't exist\n");
 		}
-		load >> *this;
-		this->p_next = nullptr;
-		this->p_prev = nullptr;
-		Make_Channels(this->Get_amount_of_ñhannels());
-	}
-	catch (const std::exception &ex)
-	{
-		std::cout << ex.what() << std::endl;
-		system("Pause");
-	}
+	load >> *this;
+	this->p_next = nullptr;
+	this->p_prev = nullptr;
+	Make_Channels(this->Get_amount_of_ñhannels());
+}
+Generator::Generator(const Generator &device)
+{
+#ifdef _DEBUG
+	std::cout << "Copy Constructor Generator was called\n";
+#endif
+	this->Set_manufacturer(device.manufacturer);
+	this->Set_device_model(device.device_model);
+	this->Set_year_of_issue(device.year_of_issue);
+	this->Set_amount_of_ñhannels(device.amount_of_ñhannels);
+	this->Set_maximum_output_frequency(device.maximum_output_frequency);
+	Make_Channels(this->Get_amount_of_ñhannels());
 }
 /*Generator::Generator(int amount_of_channels, std::string manufacturer, std::string device_model, int year_of_issue, int maximum_output_frequency, Generator* p_next, Generator* p_prev)
 {
@@ -113,7 +124,6 @@ Generator::~Generator()
 #ifdef _DEBUG
 	std::cout << "Default Destructor Generator was called" << std::endl;
 #endif
-
 }
 
 void Generator::Type_information(bool all_information)
@@ -122,16 +132,42 @@ void Generator::Type_information(bool all_information)
 	{
 		int amount_of_ñhannels, year_of_issue, maximum_output_frequency;
 		std::string manufacturer, device_model;
+
 		std::cout << "Type amount of channels - ";
 		std::cin >> amount_of_ñhannels;
+		while (std::cin.fail() || amount_of_ñhannels < 1)
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Amount of channels must be natural number\nTry again\nAmount of channels - ";
+			std::cin >> amount_of_ñhannels;
+		}
+
 		std::cout << "Type manufacturer - ";
 		std::cin >> manufacturer;
+
 		std::cout << "Type device model - ";
 		std::cin >> device_model;
+
 		std::cout << "Type year of issue - ";
 		std::cin >> year_of_issue;
+		while (std::cin.fail())
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Year of issue must be natural number\nTry again\nYear of issue - ";
+			std::cin >> year_of_issue;
+		}
+
 		std::cout << "Type maximum output frequency - ";
 		std::cin >> maximum_output_frequency;
+		while (std::cin.fail())
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Maximum output frequency must be natural number\nTry again\nMaximum output frequency - ";
+			std::cin >> maximum_output_frequency;
+		}
 
 		Set_manufacturer(manufacturer);
 		Set_device_model(device_model);
@@ -145,10 +181,19 @@ void Generator::Type_information(bool all_information)
 
 		std::cout << "Type amount of channels - ";
 		std::cin >> amount_of_ñhannels;
-
+		while (std::cin.fail() || amount_of_ñhannels < 1)
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Amount of channels must be natural number\nTry again\nAmount of channels - ";
+			std::cin >> amount_of_ñhannels;
+		}
+		Set_manufacturer("noname");
+		Set_device_model("");
+		Set_year_of_issue(1366);
 		Set_amount_of_ñhannels(amount_of_ñhannels);
+		Set_maximum_output_frequency(maximum_output_frequency);
 	}
-
 }
 
 std::ostream& operator<< (std::ostream &out, Generator &device)
@@ -188,17 +233,61 @@ std::istream& operator >> (std::istream &in, Generator &device)
 	stream_buff << buff;
 
 	stream_buff >> amount_of_ñhannels;
+	if (amount_of_ñhannels < 1)
+	{
+		throw std::exception("ERROR #11\nIn load_generator.txt amount of channels isn't natural number\n");
+		return in;
+	}
+	if (stream_buff.fail())
+	{
+		throw std::exception("ERROR #11\nload_generator.txt is broken\n");
+		return in;
+	}
+
 	stream_buff >> manufacturer;
+	if (stream_buff.fail())
+	{
+		device.Set_manufacturer("noname");
+		stream_buff.clear();
+		stream_buff.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
+	}
+	else
+		device.Set_manufacturer(manufacturer);
+
 	stream_buff >> device_model;
+	if (stream_buff.fail())
+	{
+		device.Set_device_model(" ");
+		stream_buff.clear();
+		stream_buff.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
+	}
+	else
+		device.Set_device_model(device_model);
+
 	stream_buff >> year_of_issue;
+	if (stream_buff.fail())
+	{
+		device.Set_year_of_issue(1366);
+		stream_buff.clear();
+		stream_buff.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
+	}
+	else
+		device.Set_year_of_issue(year_of_issue);
+
 	stream_buff >> maximum_output_frequency;
+	if (maximum_output_frequency < 1)
+	{
+		throw std::exception("ERROR #11\nIn load_generator.txt max output frequency isn't natural number\n");
+		return in;
+	}
+	if (stream_buff.fail())
+	{
+		throw std::exception("ERROR #11\nload_generator.txt is broken\n");
+		return in;
+	}
 
-	device.Set_manufacturer(manufacturer);
-	device.Set_device_model(device_model);
-	device.Set_year_of_issue(year_of_issue);
-	device.Set_amount_of_ñhannels(amount_of_ñhannels);
 	device.Set_maximum_output_frequency(maximum_output_frequency);
-
+	device.Set_amount_of_ñhannels(amount_of_ñhannels);
 	return in;
 }
 

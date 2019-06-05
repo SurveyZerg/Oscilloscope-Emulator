@@ -18,6 +18,7 @@ private:
 	//Researcher(std::string research_position, std::string name = "", std::string surname = "Noname", int age = 0);
 public:
 	Researcher();
+	Researcher(bool all_info);
 	Researcher(std::ifstream& load);
 	~Researcher();
 
