@@ -42,7 +42,7 @@ Digital_Oscilloscope::Digital_Oscilloscope(std::ifstream& load)
 #endif
 	if (!load.is_open())
 	{
-		throw std::exception("ERROR #9\nYou tried to create object from file, that doesn't exist\n");
+		throw std::exception("ERROR #8\nYou tried to create object from file, that doesn't exist\n");
 	}
 	load >> *this;
 	this->p_next = nullptr;
@@ -244,33 +244,82 @@ std::istream& operator >> (std::istream &in, Digital_Oscilloscope &device)
 	stream_buff << buff;
 
 	stream_buff >> amount_of_ñhannels;
-	if (amount_of_ñhannels < 1)
+	if (stream_buff.fail())
 	{
-		throw std::exception("ERROR # \nIn load_digital_oscilloscope.txt amount of channels isn't natural number\n");
+		throw std::exception("ERROR #11\nload_digital_oscilloscope.txt is broken\n");
 		return in;
 	}
-	stream_buff >> voltage_divisions;
 	if (amount_of_ñhannels < 1)
 	{
-		throw std::exception("ERROR # \nIn load_digital_oscilloscope.txt voltage divisions aren't natural number\n");
+		throw std::exception("ERROR #11\nIn load_digital_oscilloscope.txt amount of channels isn't natural number\n");
 		return in;
 	}
-	stream_buff >> seconds_divisions;
-	if (amount_of_ñhannels < 1)
-	{
-		throw std::exception("ERROR # \nIn load_digital_oscilloscope.txt seconds divisions aren't natural number\n");
-		return in;
-	}
-	stream_buff >> manufacturer;
-	stream_buff >> device_model;
-	stream_buff >> year_of_issue;
-	stream_buff >> memory_depth;
 
-	device.Set_manufacturer(manufacturer);
-	device.Set_device_model(device_model);
-	device.Set_year_of_issue(year_of_issue);
+	stream_buff >> voltage_divisions;
+	if (stream_buff.fail())
+	{
+		throw std::exception("ERROR #11\nload_digital_oscilloscope.txt is broken\n");
+		return in;
+	}
+	if (amount_of_ñhannels < 1)
+	{
+		throw std::exception("ERROR #11\nIn load_digital_oscilloscope.txt voltage divisions aren't natural number\n");
+		return in;
+	}
+
+	stream_buff >> seconds_divisions;
+	if (stream_buff.fail())
+	{
+		throw std::exception("ERROR #11\nload_digital_oscilloscope.txt is broken\n");
+		return in;
+	}
+	if (amount_of_ñhannels < 1)
+	{
+		throw std::exception("ERROR #11\nIn load_digital_oscilloscope.txt seconds divisions aren't natural number\n");
+		return in;
+	}
+
+	stream_buff >> manufacturer;
+	if (stream_buff.fail())
+	{
+		device.Set_manufacturer("noname");
+		stream_buff.clear();
+		stream_buff.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
+	}
+	else
+		device.Set_manufacturer(manufacturer);
+
+	stream_buff >> device_model;
+	if (stream_buff.fail())
+	{
+		device.Set_device_model(" ");
+		stream_buff.clear();
+		stream_buff.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
+	}
+	else
+		device.Set_device_model(device_model);
+
+	stream_buff >> year_of_issue;
+	if (stream_buff.fail())
+	{
+		device.Set_year_of_issue(1366);
+		stream_buff.clear();
+		stream_buff.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
+	}
+	else
+		device.Set_year_of_issue(year_of_issue);
+
+	stream_buff >> memory_depth;
+	if (stream_buff.fail())
+	{
+		device.Set_memory_depth(10);
+		stream_buff.clear();
+		stream_buff.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
+	}
+	else
+		device.Set_memory_depth(memory_depth);
+
 	device.Set_amount_of_ñhannels(amount_of_ñhannels);
-	device.Set_memory_depth(memory_depth);
 	device.Set_voltage_divisions(voltage_divisions);
 	device.Set_seconds_divisions(seconds_divisions);
 	return in;

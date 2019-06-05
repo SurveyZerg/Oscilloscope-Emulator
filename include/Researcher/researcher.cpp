@@ -26,7 +26,7 @@ Researcher::Researcher(std::ifstream& load)
 	{
 		if (!load.is_open())
 		{
-			throw std::exception("ERROR #9\nYou tried to create object from file, that doesn't exist\n");
+			throw std::exception("ERROR #8\nYou tried to create object from file, that doesn't exist\n");
 		}
 		load >> *this;
 	}
@@ -97,7 +97,6 @@ void Researcher::Type_information(bool all_information)
 		std::cin >> age;
 		while (std::cin.fail() || age < 1 )
 		{
-			//ТУТ
 			std::cin.clear();
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			std::cout << "Resesearch position must be natural number from 1 till 5\nTry again\nResearch position - ";
@@ -110,7 +109,7 @@ void Researcher::Type_information(bool all_information)
 	}
 	else
 	{
-		this->research_position = "Mr.";
+		this->research_position = "Assistant";
 		this->name = "Noname";
 		this->surname = "";
 		this->age = 999;
@@ -151,14 +150,44 @@ std::istream& operator >> (std::istream &in, Researcher &scientist)
 	stream_buff << buff;
 
 	stream_buff >> research_position;
-	stream_buff >> name;
-	stream_buff >> surname;
-	stream_buff >> age;
+	if (stream_buff.fail())
+	{
+		scientist.research_position = "Assistant";
+		stream_buff.clear();
+		stream_buff.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
+	}
+	else
+		scientist.research_position = research_position;
 
-	scientist.research_position = research_position;
-	scientist.name = name;
-	scientist.surname = surname;
-	scientist.age = age;
+	stream_buff >> name;
+	if (stream_buff.fail())
+	{
+		scientist.research_position = "Noname";
+		stream_buff.clear();
+		stream_buff.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
+	}
+	else
+		scientist.name = name;
+
+	stream_buff >> surname;
+	if (stream_buff.fail())
+	{
+		scientist.research_position = " ";
+		stream_buff.clear();
+		stream_buff.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
+	}
+	else
+		scientist.surname = surname;
+
+	stream_buff >> age;
+	if (stream_buff.fail())
+	{
+		scientist.age = 999;
+		stream_buff.clear();
+		stream_buff.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
+	}
+	else
+		scientist.age = age;
 
 	return in;
 }
@@ -170,25 +199,25 @@ void Researcher::Connect(Oscilloscope &osc, int number_of_channel_osc, Generator
 	{
 		std::cout << "ERROR #1\nYou picked channel of Oscilloscope, that doesn't exist\n";
 		system("Pause");
-		exit(EXIT_FAILURE); //Вызывает ли это деструкторы, как проверить?
+		return;
 	}
 	if (number_of_channel_gen > gen.Get_amount_of_сhannels() || number_of_channel_gen < 1)
 	{
 		std::cout << "ERROR #2\nYou picked channel of Generator, that doesn't exist\n";
 		system("Pause");
-		exit(EXIT_FAILURE); //Вызывает ли это деструкторы, как проверить?
+		return;
 	}
 	if (osc.Get_connection_of_channel(number_of_channel_osc) == true)
 	{
 		std::cout << "ERROR #3\nYou picked channel of Oscilloscope, that is already busy\n";
 		system("Pause");
-		exit(EXIT_FAILURE); //Вызывает ли это деструкторы, как проверить?
+		return;
 	}
 	if (gen.Get_connection_of_channel(number_of_channel_gen) == true)
 	{
 		std::cout << "ERROR #4\nYou picked channel of Generator, that is already busy\n";
 		system("Pause");
-		exit(EXIT_FAILURE); //Вызывает ли это деструкторы, как проверить?
+		return;
 	}
 
 	//Подключение

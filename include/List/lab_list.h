@@ -213,11 +213,11 @@ inline void Lab_List<T>::swap(int D1, int D2)
 		}
 		if (D1 < 0 || D2 < 0)
 		{
-			throw std::exception("ERROR # \nYou tried to swap negative element of list, that of course doesnt exist\n");
+			throw std::exception("ERROR #12\nYou tried to swap negative element of list, that of course doesnt exist\n");
 		}
 		if (D1 > (this->size() - 1) || D2 > (this->size() - 1))
 		{
-			throw std::exception("ERROR # \nYou tried to swap element beyond the list\n");
+			throw std::exception("ERROR #12\nYou tried to swap element beyond the list\n");
 		}
 		T* device1 = &((*this)[D1]);
 		T* device2 = &((*this)[D2]);
@@ -461,11 +461,6 @@ inline Lab_List<T>& Lab_List<T>::operator=(Lab_List<T> &list)
 	this->clear();
 	for (int i = 0; i < list.size(); i++)
 		this->push_back(this->addDevice(list[i]));
-	/*int temp = this->size();
-	for (int i = 0; i < list.size(); i++)
-		this->push_back(list[i]);
-	for (int i = 0; i < temp; i++)
-		this->pop_front();*/
 	return *this;
 }
 
@@ -500,7 +495,7 @@ inline T& Lab_List<T>::operator[](int index)
 	{
 		if (index < 0)
 		{
-			throw std::exception("ERROR # \nElements of list begin from 0, not negative number\n");
+			throw std::exception("ERROR #12\nElements of list begin from 0, not negative number\n");
 		}
 		T* p_current = this->head;
 		for (int i = 0; i < index; i++)
@@ -591,6 +586,7 @@ std::ifstream& operator>> (std::ifstream &in, Lab_List<Analog_Oscilloscope> &lis
 		catch (const std::exception &ex)
 		{
 			std::cout << ex.what();
+			system("Pause");
 		}
 	}
 	return in;
@@ -639,6 +635,7 @@ std::ifstream& operator>> (std::ifstream &in, Lab_List<Digital_Oscilloscope> &li
 			catch (const std::exception &ex)
 			{
 				std::cout << ex.what();
+				system("Pause");
 			}
 		}
 		return in;
@@ -687,6 +684,7 @@ std::ifstream& operator>> (std::ifstream &in, Lab_List<Generator> &list)
 		catch (const std::exception &ex)
 		{
 			std::cout << ex.what();
+			system("Pause");
 		}
 	}
 	return in;

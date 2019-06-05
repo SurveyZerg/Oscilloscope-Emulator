@@ -37,7 +37,6 @@ int main()
 	load_gen.exceptions(std::ifstream::badbit | std::ifstream::failbit);
 	load_researcher.exceptions(std::ifstream::badbit | std::ifstream::failbit);
 
-
 	Lab_List <Analog_Oscilloscope> List_of_Analog_Osc;
 	Lab_List <Digital_Oscilloscope> List_of_Digital_Osc;
 	Lab_List <Generator> List_of_Gen;
@@ -99,21 +98,13 @@ int main()
 		system("Pause");
 	}
 
-	load_analog_osc >> List_of_Analog_Osc;
-	load_digital_osc >> List_of_Digital_Osc;
-	cout << List_of_Analog_Osc;
-	cout << List_of_Digital_Osc;
-	//ƒо этого момента все работает отлично
-	List_of_Analog_Osc = List_of_Analog_Osc;
-	cout << List_of_Analog_Osc;
-	cout << List_of_Digital_Osc;
 	//Ќадобность нижнего сомнительна€, т.к. ofstream сам файл создает автоматически
 	/* 
 	try
 {
 	if (!save.is_open())
 	{
-		throw exception("ERROR #9\nYou tried to close file saved.txt, that doesn't exist\n");
+		throw exception("ERROR #10\nYou tried to close file saved.txt, that doesn't exist\n");
 	}
 	save.close();
 }
@@ -127,7 +118,7 @@ int main()
 	{
 		if (!load_analog_osc.is_open())
 		{
-			throw exception("ERROR #9\nYou tried to close file load_analog_oscilloscope.txt, that doesn't exist\n");
+			throw exception("ERROR #10\nYou tried to close file load_analog_oscilloscope.txt, that doesn't exist\n");
 		}
 		load_analog_osc.close();
 	}
@@ -140,7 +131,7 @@ int main()
 	{
 		if (!load_digital_osc.is_open())
 		{
-			throw exception("ERROR #9\nYou tried to close file load_digital_oscilloscope.txt, that doesn't exist\n");
+			throw exception("ERROR #10\nYou tried to close file load_digital_oscilloscope.txt, that doesn't exist\n");
 		}
 		load_digital_osc.close();
 	}
@@ -153,7 +144,7 @@ int main()
 	{
 		if (!load_gen.is_open())
 		{
-			throw exception("ERROR #9\nYou tried to close file load_generator.txt, that doesn't exist\n");
+			throw exception("ERROR #10\nYou tried to close file load_generator.txt, that doesn't exist\n");
 		}
 		load_gen.close();
 	}
@@ -166,7 +157,7 @@ int main()
 	{
 		if (!load_researcher.is_open())
 		{
-			throw exception("ERROR #9\nYou tried to close file load_researcher.txt, that doesn't exist\n");
+			throw exception("ERROR #10\nYou tried to close file load_researcher.txt, that doesn't exist\n");
 		}
 		load_researcher.close();
 	}

@@ -84,11 +84,23 @@ Generator::Generator(std::ifstream& load)
 #endif
 	if (!load.is_open())
 		{
-			throw std::exception("ERROR #9\nYou tried to create object from file, that doesn't exist\n");
+			throw std::exception("ERROR #8\nYou tried to create object from file, that doesn't exist\n");
 		}
 	load >> *this;
 	this->p_next = nullptr;
 	this->p_prev = nullptr;
+	Make_Channels(this->Get_amount_of_ñhannels());
+}
+Generator::Generator(const Generator &device)
+{
+#ifdef _DEBUG
+	std::cout << "Copy Constructor Generator was called\n";
+#endif
+	this->Set_manufacturer(device.manufacturer);
+	this->Set_device_model(device.device_model);
+	this->Set_year_of_issue(device.year_of_issue);
+	this->Set_amount_of_ñhannels(device.amount_of_ñhannels);
+	this->Set_maximum_output_frequency(device.maximum_output_frequency);
 	Make_Channels(this->Get_amount_of_ñhannels());
 }
 /*Generator::Generator(int amount_of_channels, std::string manufacturer, std::string device_model, int year_of_issue, int maximum_output_frequency, Generator* p_next, Generator* p_prev)
@@ -223,20 +235,59 @@ std::istream& operator >> (std::istream &in, Generator &device)
 	stream_buff >> amount_of_ñhannels;
 	if (amount_of_ñhannels < 1)
 	{
-		throw std::exception("ERROR # \nIn load_digital_oscilloscope.txt amount of channels isn't natural number\n");
+		throw std::exception("ERROR #11\nIn load_generator.txt amount of channels isn't natural number\n");
 		return in;
 	}
+	if (stream_buff.fail())
+	{
+		throw std::exception("ERROR #11\nload_generator.txt is broken\n");
+		return in;
+	}
+
 	stream_buff >> manufacturer;
+	if (stream_buff.fail())
+	{
+		device.Set_manufacturer("noname");
+		stream_buff.clear();
+		stream_buff.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
+	}
+	else
+		device.Set_manufacturer(manufacturer);
+
 	stream_buff >> device_model;
+	if (stream_buff.fail())
+	{
+		device.Set_device_model(" ");
+		stream_buff.clear();
+		stream_buff.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
+	}
+	else
+		device.Set_device_model(device_model);
+
 	stream_buff >> year_of_issue;
+	if (stream_buff.fail())
+	{
+		device.Set_year_of_issue(1366);
+		stream_buff.clear();
+		stream_buff.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
+	}
+	else
+		device.Set_year_of_issue(year_of_issue);
+
 	stream_buff >> maximum_output_frequency;
+	if (maximum_output_frequency < 1)
+	{
+		throw std::exception("ERROR #11\nIn load_generator.txt max output frequency isn't natural number\n");
+		return in;
+	}
+	if (stream_buff.fail())
+	{
+		throw std::exception("ERROR #11\nload_generator.txt is broken\n");
+		return in;
+	}
 
-	device.Set_manufacturer(manufacturer);
-	device.Set_device_model(device_model);
-	device.Set_year_of_issue(year_of_issue);
-	device.Set_amount_of_ñhannels(amount_of_ñhannels);
 	device.Set_maximum_output_frequency(maximum_output_frequency);
-
+	device.Set_amount_of_ñhannels(amount_of_ñhannels);
 	return in;
 }
 
