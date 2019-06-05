@@ -9,7 +9,6 @@ class Electrical_Equipment
 {
 private:
 	
-
 protected:
 	std::vector<bool> Channels_on_off;
 
@@ -27,12 +26,13 @@ protected:
 
 	virtual void Make_Channels(int amount_of_channels) = 0;
 public:
-
 	Electrical_Equipment();
 	~Electrical_Equipment();
 
 	virtual bool Get_connection_of_channel(int number_of_channel, std::string show) = 0;
+
 	virtual void Type_information(bool all_information) = 0;
+
 	int Get_amount_of_ñhannels();
 	std::string Get_manufacturer();
 	std::string Get_device_model();

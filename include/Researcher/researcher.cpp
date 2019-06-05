@@ -1,6 +1,5 @@
 //researcher.cpp
 
-#include <fstream>
 #include <ctime>
 #include <sstream>
 #include "researcher.h"
@@ -10,7 +9,13 @@ Researcher::Researcher()
 #ifdef _DEBUG
 	std::cout << "Default Constructor Researcher was called" << std::endl;
 #endif
-	this->Type_information(true);
+}
+Researcher::Researcher(bool all_info)
+{
+#ifdef _DEBUG
+	std::cout << "Constructor Researcher was called" << std::endl;
+#endif
+	this->Type_information(all_info);
 }
 Researcher::Researcher(std::ifstream& load)
 {
@@ -57,6 +62,13 @@ void Researcher::Type_information(bool all_information)
 		std::string name,surname;
 		std::cout << "Choose your research postion:\n1 - Junior researcher\n2 - Researcher\n3 - Senior researcher\n4 - Leading researcher\n5 - Principal researcher\n";
 		std::cin >> research_position;
+		while (std::cin.fail() || research_position < 1 || research_position >5)
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Resesearch position must be natural number from 1 till 5\nTry again\nResearch position - ";
+			std::cin >> research_position;
+		}
 		if (research_position == 1)
 		{
 			this->research_position = "Junior researcher";
@@ -83,6 +95,14 @@ void Researcher::Type_information(bool all_information)
 		std::cin >> surname;
 		std::cout << "Type your age: ";
 		std::cin >> age;
+		while (std::cin.fail() || age < 1 )
+		{
+			//рср
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Resesearch position must be natural number from 1 till 5\nTry again\nResearch position - ";
+			std::cin >> research_position;
+		}
 
 		this->name = name;
 		this->surname = surname;

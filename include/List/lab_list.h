@@ -25,7 +25,6 @@ public:
 	T* begin();
 
 	int size();
-	void setSize(int size);
 
 	void push_back(T* device);
 	void push_front(T* device);
@@ -84,12 +83,6 @@ template<class T>
 inline int Lab_List<T>::size()
 {
 	return this->amount_of_electrical_devices;
-}
-
-template<class T>
-inline void Lab_List<T>::setSize(int size)
-{
-	this->amount_of_electrical_devices = size;
 }
 
 template<class T>
@@ -561,23 +554,44 @@ std::istream& operator>> (std::istream &in, Lab_List<Analog_Oscilloscope> &list)
 	if (&in == &std::cin)
 	{
 		int temp;
-		std::cout << "Choose amount of analog oscilloscopes, that you want to add\n";
+		std::cout << "Choose amount of analog oscilloscopes, that you want to add - ";
 		std::cin >> temp;
-		std::cout << std::endl;
-		for (int i = 0; i < temp; i++)
+		while (std::cin.fail() || temp < 0)
 		{
-			std::cout << "Analog Oscilloscope #" << list.size() + 1 << std::endl;
-			list.push_back(list.addDevice(1));
-			std::cout << std::endl;
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Amount of analog oscilloscopes, that you want to add, must be natural number\nTry again\nChoose amount of analog oscilloscopes, that you want to add - ";
+			std::cin >> temp;
 		}
-		return in;
+		std::cout << std::endl;
+		if (temp == 0)
+		{
+			return in;
+		}
+		else
+		{
+			for (int i = 0; i < temp; i++)
+			{
+				std::cout << "Analog Oscilloscope #" << list.size() + 1 << std::endl;
+				list.push_back(list.addDevice(1));
+				std::cout << std::endl;
+			}
+			return in;
+		}
 	}
 }
 std::ifstream& operator>> (std::ifstream &in, Lab_List<Analog_Oscilloscope> &list)
 {
 	while (!in.eof())
 	{
-		list.push_back(list.addDevice(in));
+		try
+		{
+			list.push_back(list.addDevice(in));
+		}
+		catch (const std::exception &ex)
+		{
+			std::cout << ex.what();
+		}
 	}
 	return in;
 }
@@ -587,25 +601,48 @@ std::istream& operator>> (std::istream &in, Lab_List<Digital_Oscilloscope> &list
 	if (&in == &std::cin)
 	{
 		int temp;
-		std::cout << "Choose amount of digital oscilloscopes, that you want to add\n";
+		std::cout << "Choose amount of digital oscilloscopes, that you want to add - ";
 		std::cin >> temp;
-		std::cout << std::endl;
-		for (int i = 0; i < temp; i++)
+		while (std::cin.fail() || temp < 0)
 		{
-			std::cout << "Digital Oscilloscope #" << list.size() + 1 << std::endl;
-			list.push_back(list.addDevice(1));
-			std::cout << std::endl;
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Amount of digital oscilloscopes, that you want to add, must be natural number\nTry again\nChoose amount of digital oscilloscopes, that you want to add - ";
+			std::cin >> temp;
 		}
-		return in;
+		std::cout << std::endl;
+		if (temp == 0)
+		{
+			return in;
+		}
+		else
+		{
+			for (int i = 0; i < temp; i++)
+			{
+				std::cout << "Digital Oscilloscope #" << list.size() + 1 << std::endl;
+				list.push_back(list.addDevice(1));
+				std::cout << std::endl;
+			}
+			return in;
+		}
 	}
 }
 std::ifstream& operator>> (std::ifstream &in, Lab_List<Digital_Oscilloscope> &list)
 {
-	while (!in.eof())
 	{
-		list.push_back(list.addDevice(in));
+		while (!in.eof())
+		{
+			try
+			{
+				list.push_back(list.addDevice(in));
+			}
+			catch (const std::exception &ex)
+			{
+				std::cout << ex.what();
+			}
+		}
+		return in;
 	}
-	return in;
 }
 
 std::istream& operator>> (std::istream &in, Lab_List<Generator> &list)
@@ -613,23 +650,44 @@ std::istream& operator>> (std::istream &in, Lab_List<Generator> &list)
 	if (&in == &std::cin)
 	{
 		int temp;
-		std::cout << "Choose amount of generators, that you want to add\n";
+		std::cout << "Choose amount of generators, that you want to add - ";
 		std::cin >> temp;
-		std::cout << std::endl;
-		for (int i = 0; i < temp; i++)
+		while (std::cin.fail() || temp < 0)
 		{
-			std::cout << "Generator #" << list.size() + 1 << std::endl;
-			list.push_back(list.addDevice(1));
-			std::cout << std::endl;
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Amount of generators, that you want to add, must be natural number\nTry again\nChoose amount of generators, that you want to add - ";
+			std::cin >> temp;
 		}
-		return in;
+		std::cout << std::endl;
+		if (temp == 0)
+		{
+			return in;
+		}
+		else
+		{
+			for (int i = 0; i < temp; i++)
+			{
+				std::cout << "Generator #" << list.size() + 1 << std::endl;
+				list.push_back(list.addDevice(1));
+				std::cout << std::endl;
+			}
+			return in;
+		}
 	}
 }
 std::ifstream& operator>> (std::ifstream &in, Lab_List<Generator> &list)
 {
 	while (!in.eof())
 	{
-		list.push_back(list.addDevice(in));
+		try
+		{
+			list.push_back(list.addDevice(in));
+		}
+		catch (const std::exception &ex)
+		{
+			std::cout << ex.what();
+		}
 	}
 	return in;
 }

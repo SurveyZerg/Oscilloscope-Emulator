@@ -1,4 +1,0 @@
-2 8 8B&KPrecision 2125C 1997 2
-2 8 10Siglent SDS1202X-E 2016 14
-2 Siglent SDG1025 2015 25
-Leading researcher Andrew Werner 24

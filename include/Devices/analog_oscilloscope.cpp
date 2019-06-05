@@ -1,11 +1,8 @@
 //analog_oscilloscope.cpp
 
-#include <fstream>
 #include <sstream>
 #include "analog_oscilloscope.h"
 #include "generator.h"
-
-int Analog_Oscilloscope::s_amount_of_analog_oscilloscopes = 0;
 
 void Analog_Oscilloscope::Set_amount_of_beams(int amount_of_beams)
 {
@@ -21,43 +18,41 @@ Analog_Oscilloscope::Analog_Oscilloscope()
 #ifdef _DEBUG
 	std::cout << "Default Constructor Analog Oscilloscope was called" << std::endl;
 #endif
-}
-Analog_Oscilloscope::Analog_Oscilloscope(bool info)
-{
-#ifdef _DEBUG
-	std::cout << "Default Constructor Analog Oscilloscope was called" << std::endl;
-#endif
-	this->Type_information(true);
 	this->p_next = nullptr;
 	this->p_prev = nullptr;
-	Make_Channels(Get_amount_of_ñhannels());
-	(this->s_amount_of_analog_oscilloscopes)++;
 }
-Analog_Oscilloscope::Analog_Oscilloscope(std::ifstream& load)
+Analog_Oscilloscope::Analog_Oscilloscope(bool all_info)
 {
 #ifdef _DEBUG
 	std::cout << "Constructor Analog Oscilloscope was called" << std::endl;
 #endif
-	try
-	{
-		if (!load.is_open())
-		{
-			throw std::exception("ERROR #9\nYou tried to create object from file, that doesn't exist\n");
-		}
-		load >> *this;
-		this->p_next = nullptr;
-		this->p_prev = nullptr;
-		Make_Channels(this->Get_amount_of_ñhannels());
-		(this->s_amount_of_analog_oscilloscopes)++;
-	}
-	catch (const std::exception &ex)
-	{
-		std::cout << ex.what() << std::endl;
-		system("Pause");
-	}
+	this->Type_information(all_info);
+	this->p_next = nullptr;
+	this->p_prev = nullptr;
+	Make_Channels(Get_amount_of_ñhannels());
 }
-Analog_Oscilloscope::Analog_Oscilloscope(const Analog_Oscilloscope & device)
+Analog_Oscilloscope::Analog_Oscilloscope(std::ifstream& load)
 {
+	//Íåëüçÿ ýòî èñïîëüçîâàòü â îòäåëüíîñòè, òîëüêî ñ áëîêîì òðàé êåò÷
+
+#ifdef _DEBUG
+	std::cout << "Constructor Analog Oscilloscope was called" << std::endl;
+#endif
+
+	if (!load.is_open())
+	{
+		throw std::exception("ERROR #9\nYou tried to create object from file, that doesn't exist\n");
+	}
+	load >> *this;
+	this->p_next = nullptr;
+	this->p_prev = nullptr;
+	Make_Channels(this->Get_amount_of_ñhannels());
+}
+Analog_Oscilloscope::Analog_Oscilloscope(const Analog_Oscilloscope &device)
+{
+#ifdef _DEBUG
+	std::cout << "Copy Constructor Analog Ocilloscope was called\n";
+#endif
 	this->Set_manufacturer(device.manufacturer);
 	this->Set_device_model(device.device_model);
 	this->Set_year_of_issue(device.year_of_issue);
@@ -66,7 +61,6 @@ Analog_Oscilloscope::Analog_Oscilloscope(const Analog_Oscilloscope & device)
 	this->Set_voltage_divisions(device.voltage_divisions);
 	this->Set_seconds_divisions(device.seconds_divisions);
 	Make_Channels(this->Get_amount_of_ñhannels());
-	(this->s_amount_of_analog_oscilloscopes)++;
 }
 /*Analog_Oscilloscope::Analog_Oscilloscope(int amount_of_ñhannels, int voltage_divisions, int seconds_divisions, std::string manufacturer, std::string device_model, int year_of_issue,  int amount_of_beams, Analog_Oscilloscope* p_next, Analog_Oscilloscope* p_prev)
 {
@@ -92,8 +86,6 @@ Analog_Oscilloscope::~Analog_Oscilloscope()
 #ifdef _DEBUG
 	std::cout << "Destructor Analog Oscilloscope was called" << std::endl;
 #endif
-
-	(this->s_amount_of_analog_oscilloscopes)--;
 }
 
 void Analog_Oscilloscope::Type_information(bool all_information)
@@ -102,21 +94,65 @@ void Analog_Oscilloscope::Type_information(bool all_information)
 	{
 		int amount_of_ñhannels, voltage_divisions, seconds_divisions, year_of_issue, amount_of_beams;
 		std::string manufacturer, device_model;
+
 		std::cout << "Type amount of channels - ";
 		std::cin >> amount_of_ñhannels;
+		while (std::cin.fail() || amount_of_ñhannels < 1) 
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Amount of channels must be natural number\nTry again\nAmount of channels - ";
+			std::cin >> amount_of_ñhannels;
+		}
+
 		std::cout << "Type voltage divisions (Oy) - ";
 		std::cin >> voltage_divisions;
+		while (std::cin.fail() || voltage_divisions < 1)
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Voltage divisions must be natural number\nTry again\nVoltage divisions - ";
+			std::cin >> voltage_divisions;
+		}
+
 		std::cout << "Type seconds divisions (Ox) - ";
 		std::cin >> seconds_divisions;
+		while (std::cin.fail() || seconds_divisions < 1)
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Seconds divisions must be natural number\nTry again\nSeconds divisions - ";
+			std::cin >> seconds_divisions;
+		}
+
 		std::cout << "Type manufacturer - ";
 		std::cin >> manufacturer;
+
 		std::cout << "Type device model - ";
 		std::cin >> device_model;
+
 		std::cout << "Type year of issue - ";
 		std::cin >> year_of_issue;
+		while (std::cin.fail())
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Year of issue must be natural number\nTry again\nYear of issue - ";
+			std::cin >> year_of_issue;
+		}
+
+
 		std::cout << "Type amount of beams - ";
 		std::cin >> amount_of_beams;
-	
+		while (std::cin.fail())
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Amount of beams must be natural number\nTry again\nAmount of beams - ";
+			std::cin >> amount_of_beams;
+		}
+
+
 		Set_manufacturer(manufacturer);
 		Set_device_model(device_model);
 		Set_year_of_issue(year_of_issue);
@@ -131,16 +167,42 @@ void Analog_Oscilloscope::Type_information(bool all_information)
 
 		std::cout << "Type amount of channels - ";
 		std::cin >> amount_of_ñhannels;
+		while (std::cin.fail() || amount_of_ñhannels < 1)
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Amount of channels must be natural number\nTry again\nAmount of channels - ";
+			std::cin >> amount_of_ñhannels;
+		}
+
 		std::cout << "Type voltage divisions (Oy) - ";
 		std::cin >> voltage_divisions;
+		while (std::cin.fail() || voltage_divisions < 1)
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Voltage divisions must be natural number\nTry again\nVoltage divisions - ";
+			std::cin >> voltage_divisions;
+		}
+
 		std::cout << "Type seconds divisions (Ox) - ";
 		std::cin >> seconds_divisions;
+		while (std::cin.fail() || seconds_divisions < 1)
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Seconds divisions must be natural number\nTry again\nSeconds divisions - ";
+			std::cin >> seconds_divisions;
+		}
 
+		Set_manufacturer("noname");
+		Set_device_model("");
+		Set_year_of_issue(1366);
 		Set_amount_of_ñhannels(amount_of_ñhannels);
+		Set_amount_of_beams(2);
 		Set_voltage_divisions(voltage_divisions);
 		Set_seconds_divisions(seconds_divisions);
 	}
-
 }
 
 std::ostream& operator << (std::ostream &out, Analog_Oscilloscope &device)
@@ -173,15 +235,31 @@ std::ostream& operator << (std::ostream &out, Analog_Oscilloscope &device)
 std::istream& operator >> (std::istream &in, Analog_Oscilloscope &device)
 {
 	int amount_of_ñhannels, voltage_divisions, seconds_divisions, year_of_issue, amount_of_beams;
-	std::string manufacturer, device_model,buff;
+	std::string manufacturer, device_model, buff;
 
 	std::getline(in, buff, '\n');
 	std::stringstream stream_buff;
 
 	stream_buff << buff;
+
 	stream_buff >> amount_of_ñhannels;
-	stream_buff >> voltage_divisions; 
+	if (amount_of_ñhannels < 1)
+	{
+		throw std::exception("ERROR # \nIn load_analog_oscilloscope.txt amount of channels isn't natural number\n");
+		return in;
+	}
+	stream_buff >> voltage_divisions;
+	if (amount_of_ñhannels < 1)
+	{
+		throw std::exception("ERROR # \nIn load_analog_oscilloscope.txt voltage divisions aren't natural number\n");
+		return in;
+	}
 	stream_buff >> seconds_divisions;
+	if (amount_of_ñhannels < 1)
+	{
+		throw std::exception("ERROR # \nIn load_analog_oscilloscope.txt seconds divisions aren't natural number\n");
+		return in;
+	}
 	stream_buff >> manufacturer;
 	stream_buff >> device_model;
 	stream_buff >> year_of_issue;
@@ -194,7 +272,6 @@ std::istream& operator >> (std::istream &in, Analog_Oscilloscope &device)
 	device.Set_amount_of_beams(amount_of_beams);
 	device.Set_voltage_divisions(voltage_divisions);
 	device.Set_seconds_divisions(seconds_divisions);
-
 	return in;
 }
 
