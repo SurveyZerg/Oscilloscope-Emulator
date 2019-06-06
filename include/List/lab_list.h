@@ -14,7 +14,6 @@ private:
 
 	int amount_of_electrical_devices;
 
-	T* addDevice(bool info);
 	T* addDevice(std::ifstream& load);
 	T* addDevice(T device);
 
@@ -23,6 +22,7 @@ public:
 	~Lab_List();
 
 	T* begin();
+	T* addDevice(bool info);
 
 	int size();
 
@@ -32,7 +32,7 @@ public:
 	void pop_front();
 
 	void insert(T* device, int index);
-	void erase(T* device, int index);
+	void erase(int index);
 	void swap(int D1, int D2);
 
 	void moveToFront(int index);
@@ -193,6 +193,12 @@ inline void Lab_List<T>::insert(T* device, int index)
 			amount_of_electrical_devices++;
 		}
 	}
+}
+
+template<class T>
+inline void Lab_List<T>::erase(int index)
+{
+
 }
 
 template<class T>
@@ -468,7 +474,7 @@ template<class T>
 inline T * Lab_List<T>::addDevice(bool info)
 {
 	T* temp;
-	temp = new T(1);
+	temp = new T(info);
 	return temp;
 }
 
@@ -489,7 +495,7 @@ inline T * Lab_List<T>::addDevice(T device)
 }
 
 template<class T>
-inline T& Lab_List<T>::operator[](int index)
+T& Lab_List<T>::operator[](int index)
 {
 	try
 	{

@@ -8,7 +8,7 @@ void Generator::Set_maximum_output_frequency(int maximum_output_frequency)
 {
 	this->maximum_output_frequency = maximum_output_frequency;
 }
-void Generator::Set_output_frequency(int output_frequency)
+void Generator::Set_output_frequency(__int64 output_frequency)
 {
 	this->output_frequency = output_frequency;
 }
@@ -16,7 +16,7 @@ void Generator::Set_peak_to_peak_voltage(int peak_to_peak_voltage)
 {
 	this->peak_to_peak_voltage = peak_to_peak_voltage;
 }
-void Generator::Set_signal(int output_frequency, int peak_to_peak_voltage)
+void Generator::Set_signal(__int64 output_frequency, int peak_to_peak_voltage)
 {
 	Set_output_frequency(output_frequency);
 	Set_peak_to_peak_voltage(peak_to_peak_voltage);
@@ -177,7 +177,7 @@ void Generator::Type_information(bool all_information)
 	}
 	else
 	{
-		int amount_of_ñhannels;
+		int amount_of_ñhannels, maximum_output_frequency;
 
 		std::cout << "Type amount of channels - ";
 		std::cin >> amount_of_ñhannels;
@@ -188,6 +188,16 @@ void Generator::Type_information(bool all_information)
 			std::cout << "Amount of channels must be natural number\nTry again\nAmount of channels - ";
 			std::cin >> amount_of_ñhannels;
 		}
+		std::cout << "Type maximum output frequency - ";
+		std::cin >> maximum_output_frequency;
+		while (std::cin.fail() || maximum_output_frequency < 1)
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Max output frequency must be natural number\nTry again\nMaximum output frequency - ";
+			std::cin >> maximum_output_frequency;
+		}
+
 		Set_manufacturer("noname");
 		Set_device_model("");
 		Set_year_of_issue(1366);

@@ -106,6 +106,7 @@ int main()
 	// MAIN PROGRAM CYCLE
 	bool end = false;
 	bool setup = true;
+	int type_of_osc, choose_osc = 0, choose_gen = 0;
 	while (!end)
 	{
 		if (setup == true) //Beginning of the programm
@@ -149,17 +150,16 @@ int main()
 				}
 
 
-				int type_of_oscilloscope;
 				cout << "My greetings " << scientist.Get_research_position() << " " << scientist.Get_name() << " " << scientist.Get_surname() << endl<<endl;
 				cout << "Mr. " << scientist.Get_research_position() << ", to work with this soft, you must create at least one generator and oscilloscope\nMr. " << scientist.Get_name()
 					<< ", what type of osclloscope do you want to initialize?\n1 - Analog\n2 - Digital\n";
-				cin >> type_of_oscilloscope;
-				while (cin.fail() || type_of_oscilloscope < 1 || type_of_oscilloscope > 2)
+				cin >> type_of_osc;
+				while (cin.fail() || type_of_osc < 1 || type_of_osc > 2)
 				{
 					cin.clear();
 					cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 					cout << "Input error, try again - ";
-					cin >> type_of_oscilloscope;
+					cin >> type_of_osc;
 				}
 				cout << endl;
 
@@ -175,19 +175,19 @@ int main()
 					cin >> data_type2;
 				}
 				cout << endl;
-				if (type_of_oscilloscope == 1 && data_type2 == 1) //Analog Oscilloscope from keyboard
+				if (type_of_osc == 1 && data_type2 == 1) //Analog Oscilloscope from keyboard
 				{
 					cin >> List_of_Analog_Osc;
 				}
-				else if (type_of_oscilloscope == 1 && data_type2 == 2) //Analog Oscilloscope from file
+				else if (type_of_osc == 1 && data_type2 == 2) //Analog Oscilloscope from file
 				{
 					load_analog_osc >> List_of_Analog_Osc;
 				}
-				else if (type_of_oscilloscope == 2 && data_type2 == 1) //Digital Oscilloscope from keyboard
+				else if (type_of_osc == 2 && data_type2 == 1) //Digital Oscilloscope from keyboard
 				{
 					cin >> List_of_Digital_Osc;
 				}
-				else if (type_of_oscilloscope == 2 && data_type2 == 2) //Digital Oscilloscope from file
+				else if (type_of_osc == 2 && data_type2 == 2) //Digital Oscilloscope from file
 				{
 					load_digital_osc >> List_of_Digital_Osc;
 				}
@@ -212,11 +212,7 @@ int main()
 				{
 					load_gen >> List_of_Gen;
 				}
-				
-				save << scientist;
-				save << List_of_Analog_Osc;
-				save << List_of_Digital_Osc;
-				save << List_of_Gen;
+			
 
 				cout << "Perfectly done. Really. Now you can start working with the program\nGood luck in your research!!\n\n";
 				setup = false;
@@ -225,11 +221,12 @@ int main()
 		else if (setup == false) //Main programm
 		{
 			int menu;
-			cout << "What do you want to do?\n1 - Connect Oscilloscope to Generator\n2 - Read signal at Oscilloscope from Generator\n3 - Change seconds scale at Oscilloscope\n"
-				<< "4 - Change voltage scale at Oscilloscope\n5 - Change output frequency at Generator\n6 - Change peak to peak voltage at Generator\n"
-				<< "7 - Initialiaze everything once more\n8 - Exit\n";
+			cout << "What do you want to do?\n1 - Add new device\n2 - Change your current devices\n3 - View current using Oscilloscope and Generator\n4 - View all added devices\n5 - Swap 2 devices in a list\n"
+				<< "6 - Connect Oscilloscope to Generator\n7 - Read signal at Oscilloscope from Generator\n8 - Change seconds scale at Oscilloscope\n"
+				<< "9 - Change voltage scale at Oscilloscope\n10 - Change output frequency at Generator\n11 - Change peak to peak voltage at Generator\n"
+				<< "12 - Reboot everything\n13 - Delete device\n14 - Exit\n";
 			cin >> menu;
-			while (cin.fail() || menu < 1 || menu > 8)
+			while (cin.fail() || menu < 1 || menu > 14)
 			{
 				cin.clear();
 				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -240,128 +237,523 @@ int main()
 			{
 			case 1:
 			{
-				int type_of_osc;
-				cout << "What type of Oscilloscope do you want to use?\n1 - Analog\n2 - Digital\n";
-				cin >> type_of_osc;
+				int type_of_new_device;
+				cout << "What device do you want to add?\n1 - Analog Oscilloscope\n2 - Digital Oscilloscope\n3 - Generator\n";
+				cin >> type_of_new_device;
+				while (cin.fail() || type_of_new_device < 1 || type_of_new_device > 3)
+				{
+					cin.clear();
+					cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					cout << "Input error, try again - ";
+					cin >> type_of_new_device;
+				}
 				cout << endl;
 
-				int choose_osc;
+
+				int input_all_info;
+				bool all_info;
+				cout << "Do you want to write all info or only important for work?\n1 - Only important\n2 - all info\n";
+				cin >> input_all_info;
+				while (cin.fail() || input_all_info < 1 || input_all_info > 2)
+				{
+					cin.clear();
+					cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					cout << "Input error, try again - ";
+					cin >> input_all_info;
+				}
+				if (input_all_info == 1)
+					all_info = false;
+				if (input_all_info == 2)
+					all_info = true;
+				cout << endl;
+
+
+				if (type_of_new_device == 1)
+					cout << List_of_Analog_Osc;
+				else if (type_of_new_device == 2)
+					cout << List_of_Digital_Osc;
+				else if (type_of_new_device == 3)
+					cout << List_of_Gen;
+
+
+				int place_number;
+				if (type_of_new_device == 1)
+				{
+					cout << "\nChoose place of new object in this list from 1 to " << List_of_Analog_Osc.size() + 1 << ": ";
+					cin >> place_number;
+					while (cin.fail() || place_number < 1 || place_number > (List_of_Analog_Osc.size() + 1))
+					{
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						cout << "Input error, try again - ";
+						cin >> place_number;
+					}
+				}
+				else if (type_of_new_device == 2)
+				{
+					cout << "\nChoose place of new object in this list from 1 to " << List_of_Digital_Osc.size() + 1 << ": ";
+					cin >> place_number;
+					while (cin.fail() || place_number < 1 || place_number >(List_of_Digital_Osc.size() + 1))
+					{
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						cout << "Input error, try again - ";
+						cin >> place_number;
+					}
+				}
+				else if (type_of_new_device == 3)
+				{
+					cout << "\nChoose place of new object in this list from 1 to " << List_of_Gen.size() + 1 << ": ";
+					cin >> place_number;
+					while (cin.fail() || place_number < 1 || place_number >(List_of_Gen.size() + 1))
+					{
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						cout << "Input error, try again - ";
+						cin >> place_number;
+					}
+				}
+				place_number--;
+				cout << endl;
+
+
+				if (type_of_new_device == 1)
+					List_of_Analog_Osc.insert(List_of_Analog_Osc.addDevice(all_info),place_number);
+				else if (type_of_new_device == 2)
+					List_of_Digital_Osc.insert(List_of_Digital_Osc.addDevice(all_info),place_number);
+				else if (type_of_new_device == 3)
+					List_of_Gen.insert(List_of_Gen.addDevice(all_info),place_number);
+
+
+				break;
+			}
+			case 2:
+			{
+				if (List_of_Analog_Osc.size() != 0 && List_of_Digital_Osc.size() != 0)
+				{
+					cout << "What type of Oscilloscope do you want to use?\n1 - Analog\n2 - Digital\n";
+					cin >> type_of_osc;
+					while (cin.fail() || type_of_osc < 1 || type_of_osc > 2)
+					{
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						cout << "Input error, try again - ";
+						cin >> type_of_osc;
+					}
+				}
+				else {}
+				cout << endl;
 				if (type_of_osc == 1)
 					cout << List_of_Analog_Osc;
 				if (type_of_osc == 2)
 					cout << List_of_Digital_Osc;
+				
+
 				cout << "What Oscilloscope do you want to use?\n\n";
 				cin >> choose_osc;
+				if (type_of_osc == 1)
+					while (cin.fail() || choose_osc < 1 || choose_osc > (List_of_Analog_Osc.size() + 1))
+				{
+					cin.clear();
+					cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					cout << "Input error, try again - ";
+					cin >> type_of_osc;
+				}
+				if (type_of_osc == 1)
+					while (cin.fail() || choose_osc < 1 || choose_osc > (List_of_Digital_Osc.size() + 1))
+					{
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						cout << "Input error, try again - ";
+						cin >> type_of_osc;
+					}
 				cout << endl;
-				choose_osc = choose_osc - 1; //Чтобы индексы были с нуля
+				choose_osc--; //Чтобы индексы были с нуля
 
-				int choose_gen;
+
 				cout << List_of_Gen;
+
+
 				cout << "What Generator do you want to use?\n\n";
 				cin >> choose_gen;
+				while (cin.fail() || choose_gen < 1 || choose_gen > (List_of_Gen.size() + 1))
+				{
+					cin.clear();
+					cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					cout << "Input error, try again - ";
+					cin >> choose_gen;
+				}
 				cout << endl;
-				choose_gen = choose_gen - 1;
+				choose_gen--;
 
-				int channel_osc;
-				cout << "What channel of Oscilloscope do you want to use?\nChannel #";
-				cin >> channel_osc;
 
-				int channel_gen;
-				cout << "What channel of Generator do you want to use?\nChannel #";
-				cin >> channel_gen;
-
-				if (type_of_osc == 1)
-					scientist.Connect(List_of_Analog_Osc[choose_osc], channel_osc, List_of_Gen[channel_gen], channel_gen);
-				if (type_of_osc == 2)
-					scientist.Connect(List_of_Digital_Osc[choose_osc], channel_osc, List_of_Gen[channel_gen], channel_gen);
-
-				save << scientist;
-				save << List_of_Analog_Osc;
-				save << List_of_Digital_Osc;
-				save << List_of_Gen;
-
-				break;
-			}
-			}
-			/*
-			case 2:
-			{
-				cout << "From what channel of Oscilloscope do you want to read signal?\nChannel #";
-				int channel_osc;
-				cin >> channel_osc;
-				scientist.Read_voltage(osc, channel_osc);
 				break;
 			}
 			case 3:
 			{
-				cout << "Seconds scale [microSec/div] = ";
-				int seconds_scale;
-				cin >> seconds_scale;
-				osc.Set_seconds_scale(seconds_scale);
-				save << osc;
+				cout << "Now you are using this Oscilloscope and Generator:\n";
+				if (type_of_osc == 1)
+					cout << List_of_Analog_Osc[choose_osc];
+				if (type_of_osc == 2)
+					cout << List_of_Digital_Osc[choose_osc];
+				cout << List_of_Gen[choose_gen];
 				break;
 			}
 			case 4:
 			{
-				cout << "Voltage scale [milliVolts/div] = ";
-				int voltage_scale;
-				cin >> voltage_scale;
-				osc.Set_voltage_scale(voltage_scale);
-				save << osc;
+				cout << List_of_Analog_Osc;
+				cout << List_of_Digital_Osc;
+				cout << List_of_Gen;
 				break;
 			}
 			case 5:
 			{
-				cout << "Output frequency [Hz] = ";
-				int output_frequency;
-				cin >> output_frequency;
-				gen.Set_output_frequency(output_frequency);
-				save << gen;
+				int type_of_swap_list;
+				cout << "In what list do you want to swap devices?\n1 - Analog Oscilloscopes' list\n2 - Digital Oscilloscopes' list\n3 - Generators' list\n";
+				cin >> type_of_swap_list;
+				while (cin.fail() || type_of_swap_list < 1 || type_of_swap_list > 3)
+				{
+					cin.clear();
+					cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					cout << "Input error, try again - ";
+					cin >> type_of_swap_list;
+				}
+				cout << endl;
+
+
+				if (type_of_swap_list == 1)
+					cout << List_of_Analog_Osc;
+				else if (type_of_swap_list == 2)
+					cout << List_of_Digital_Osc;
+				else if (type_of_swap_list == 3)
+					cout << List_of_Gen;
+
+
+				int place_number_from, place_number_to;
+				cout << "Swap from #";
+				cin >> place_number_from;
+				if (type_of_swap_list == 1)
+					while (cin.fail() || place_number_from < 1 || place_number_from >(List_of_Analog_Osc.size() + 1))
+					{
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						cout << "Input error, try again - ";
+						cin >> place_number_from;
+					}
+				else if (type_of_swap_list == 2)
+					while (cin.fail() || place_number_from < 1 || place_number_from >(List_of_Digital_Osc.size() + 1))
+					{
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						cout << "Input error, try again - ";
+						cin >> place_number_from;
+					}
+				else if (type_of_swap_list == 3)
+					while (cin.fail() || place_number_from < 1 || place_number_from >(List_of_Gen.size() + 1))
+					{
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						cout << "Input error, try again - ";
+						cin >> place_number_from;
+					}
+				
+				cout << " to #";
+				cin >> place_number_to;
+				if (type_of_swap_list == 1)
+					while (cin.fail() || place_number_to < 1 || place_number_to >(List_of_Analog_Osc.size() + 1))
+					{
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						cout << "Input error, try again - ";
+						cin >> place_number_to;
+					}
+				else if (type_of_swap_list == 2)
+					while (cin.fail() || place_number_to < 1 || place_number_to >(List_of_Digital_Osc.size() + 1))
+					{
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						cout << "Input error, try again - ";
+						cin >> place_number_to;
+					}
+				else if (type_of_swap_list == 3)
+					while (cin.fail() || place_number_to < 1 || place_number_to >(List_of_Gen.size() + 1))
+					{
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						cout << "Input error, try again - ";
+						cin >> place_number_to;
+					}
+				place_number_from--;
+				place_number_to--;
+				cout << endl;
+
+				if (type_of_swap_list == 1)
+					List_of_Analog_Osc.swap(place_number_from,place_number_to);
+				else if (type_of_swap_list == 2)
+					List_of_Digital_Osc.swap(place_number_from, place_number_to);
+				else if (type_of_swap_list == 3)
+					List_of_Gen.swap(place_number_from, place_number_to);
+
+
 				break;
 			}
 			case 6:
 			{
-				cout << "Peak to peak voltage [milliVolts] = ";
-				int peak_to_peak_voltage;
-				cin >> peak_to_peak_voltage;
-				gen.Set_peak_to_peak_voltage(peak_to_peak_voltage);
-				save << gen;
+				int channel_osc;
+				cout << "What channel of Oscilloscope do you want to use?\nChannel #";
+				cin >> channel_osc;
+				if (type_of_osc == 1)
+					while (cin.fail() || channel_osc < 1 || channel_osc >List_of_Analog_Osc[choose_osc].Get_amount_of_channels())
+					{
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						cout << "Input error, try again - ";
+						cin >> channel_osc;
+					}
+				else if (type_of_osc == 2)
+					while (cin.fail() || channel_osc < 1 || channel_osc >List_of_Digital_Osc[choose_osc].Get_amount_of_channels())
+					{
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						cout << "Input error, try again - ";
+						cin >> channel_osc;
+					}
+
+				int channel_gen;
+				cout << "What channel of Generator do you want to use?\nChannel #";
+				cin >> channel_gen;
+				while (cin.fail() || channel_gen < 1 || channel_osc >List_of_Gen[choose_gen].Get_amount_of_channels())
+				{
+					cin.clear();
+					cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					cout << "Input error, try again - ";
+					cin >> channel_gen;
+				}
+
+				if (type_of_osc == 1)
+					scientist.Connect(List_of_Analog_Osc[choose_osc], channel_osc, List_of_Gen[choose_gen], channel_gen);
+				else if (type_of_osc == 2)
+					scientist.Connect(List_of_Digital_Osc[choose_osc], channel_osc, List_of_Gen[choose_gen], channel_gen);
+
+
 				break;
 			}
 			case 7:
 			{
-				Init();
+				int channel_osc;
+				cout << "From what channel of Oscilloscope do you want to read signal?\nChannel #";
+				cin >> channel_osc;
+				if (type_of_osc == 1)
+					while (cin.fail() || channel_osc < 1 || channel_osc >List_of_Analog_Osc[choose_osc].Get_amount_of_channels())
+					{
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						cout << "Input error, try again - ";
+						cin >> channel_osc;
+					}
+				else if (type_of_osc == 2)
+					while (cin.fail() || channel_osc < 1 || channel_osc >List_of_Digital_Osc[choose_osc].Get_amount_of_channels())
+					{
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						cout << "Input error, try again - ";
+						cin >> channel_osc;
+					}
+
+
+				if (type_of_osc == 1)
+					scientist.Read_voltage(List_of_Analog_Osc[choose_osc], channel_osc);
+				else if (type_of_osc == 2)
+					scientist.Read_voltage(List_of_Digital_Osc[choose_osc], channel_osc);
 				break;
 			}
 			case 8:
 			{
-				on_off = false;
+				int seconds_scale;
+				cout << "Seconds scale [microSec/div] = ";
+				cin >> seconds_scale;
+				if (type_of_osc == 1)
+					while (cin.fail() || seconds_scale < 1)
+					{
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						cout << "Input error, try again - ";
+						cin >> seconds_scale;
+					}
+				else if (type_of_osc == 2)
+					while (cin.fail() || seconds_scale < 1)
+					{
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						cout << "Input error, try again - ";
+						cin >> seconds_scale;
+					}
+
+
+				if (type_of_osc == 1)
+					List_of_Analog_Osc[choose_osc].Set_seconds_scale(seconds_scale);
+				if (type_of_osc == 2)
+					List_of_Digital_Osc[choose_osc].Set_seconds_scale(seconds_scale);
 				break;
 			}
-			}*/
+			case 9:
+			{
+				int voltage_scale;
+				cout << "Voltage scale [milliVolts/div] = ";
+				cin >> voltage_scale;
+				if (type_of_osc == 1)
+					while (cin.fail() || voltage_scale < 1)
+					{
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						cout << "Input error, try again - ";
+						cin >> voltage_scale;
+					}
+				else if (type_of_osc == 2)
+					while (cin.fail() || voltage_scale < 1)
+					{
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						cout << "Input error, try again - ";
+						cin >> voltage_scale;
+					}
 
 
-			//end = true;
+				if (type_of_osc == 1)
+					List_of_Analog_Osc[choose_osc].Set_voltage_scale(voltage_scale);
+				if (type_of_osc == 2)
+					List_of_Digital_Osc[choose_osc].Set_voltage_scale(voltage_scale);
+				break;
+			}
+			case 10:
+			{
+				__int64 output_frequency;
+				cout << "Output frequency [Hz] = ";
+				cin >> output_frequency;
+				while (cin.fail() || output_frequency < 1 || output_frequency > (List_of_Gen[choose_gen].Get_maximum_output_frequency() *1000000))
+				{
+					cin.clear();
+					cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					if (List_of_Gen[choose_gen].Get_maximum_output_frequency() * 1000000)
+						cout << "Max output frequency - " << List_of_Gen[choose_gen].Get_maximum_output_frequency() * 1000000 << " Hz\n";
+					cout << "Input error, try again - ";
+					cin >> output_frequency;
+				}
+				List_of_Gen[choose_gen].Set_output_frequency(output_frequency);
+				break;
+			}
+			case 11:
+			{
+				int peak_to_peak_voltage;
+				cout << "Peak to peak voltage [milliVolts] = ";
+				cin >> peak_to_peak_voltage;
+				while (cin.fail() || peak_to_peak_voltage < 1)
+				{
+					cin.clear();
+					cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					cout << "Input error, try again - ";
+					cin >> peak_to_peak_voltage;
+				}
+				List_of_Gen[choose_gen].Set_peak_to_peak_voltage(peak_to_peak_voltage);
+				break;
+			}
+			case 12:
+			{
+				setup = true;
+				break;
+			}
+			case 13:
+			{
+				int type_of_delete_device;
+				cout << "What device do you want to delete?\n1 - Analog Oscilloscope\n2 - Digital Oscilloscope\n3 - Generator\n";
+				cin >> type_of_delete_device;
+				while (cin.fail() || type_of_delete_device < 1 || type_of_delete_device > 3)
+				{
+					cin.clear();
+					cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					cout << "Input error, try again - ";
+					cin >> type_of_delete_device;
+				}
+				cout << endl;
+
+
+				if (type_of_delete_device == 1)
+					cout << List_of_Analog_Osc;
+				else if (type_of_delete_device == 2)
+					cout << List_of_Digital_Osc;
+				else if (type_of_delete_device == 3)
+					cout << List_of_Gen;
+
+
+				int place_number;
+				cout << "You want to delete device #";
+				cin >> place_number;
+				if (type_of_delete_device == 1)
+				{
+					cout << "\nChoose place of new object in this list from 1 to " << List_of_Analog_Osc.size() + 1 << ": ";
+					cin >> place_number;
+					while (cin.fail() || place_number < 1 || place_number >(List_of_Analog_Osc.size() + 1))
+					{
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						cout << "Input error, try again - ";
+						cin >> place_number;
+					}
+				}
+				else if (type_of_delete_device == 2)
+				{
+					cout << "\nChoose place of new object in this list from 1 to " << List_of_Digital_Osc.size() + 1 << ": ";
+					cin >> place_number;
+					while (cin.fail() || place_number < 1 || place_number >(List_of_Digital_Osc.size() + 1))
+					{
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						cout << "Input error, try again - ";
+						cin >> place_number;
+					}
+				}
+				else if (type_of_delete_device == 3)
+				{
+					cout << "\nChoose place of new object in this list from 1 to " << List_of_Gen.size() + 1 << ": ";
+					cin >> place_number;
+					while (cin.fail() || place_number < 1 || place_number >(List_of_Gen.size() + 1))
+					{
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						cout << "Input error, try again - ";
+						cin >> place_number;
+					}
+				}
+				place_number--;
+
+
+				if (type_of_delete_device == 1)
+					List_of_Analog_Osc.erase(place_number);
+				else if (type_of_delete_device == 2)
+					List_of_Digital_Osc.erase(place_number);
+				else if (type_of_delete_device == 3)
+					List_of_Gen.erase(place_number);
+
+
+				break;
+			}
+			case 14:
+			{
+				end = true;
+				break;
+			}
+			}
 		}
 	}
 	//ENDING
 
-	//Íàäîáíîñòü íèæíåãî ñîìíèòåëüíàÿ, ò.ê. ofstream ñàì ôàéë ñîçäàåò àâòîìàòè÷åñêè
-	/* 
-	try
-{
-	if (!save.is_open())
-	{
-		throw exception("ERROR #10\nYou tried to close file saved.txt, that doesn't exist\n");
-	}
+	save << scientist;
+	save << List_of_Analog_Osc;
+	save << List_of_Digital_Osc;
+	save << List_of_Gen;
+
 	save.close();
-}
-	catch (const exception &ex)
-{
-	std::cout << ex.what() << std::endl;
-	system("Pause");
-}
-	*/
+
 	try
 	{
 		if (!load_analog_osc.is_open())
@@ -414,482 +806,6 @@ int main()
 		std::cout << ex.what() << std::endl;
 		system("Pause");
 	}
-	/*
-	Welcome();
-	switch (Get_role())
-	{
-		case 1: //Codder
-		{
-			cout << "Read documetation :)\n";
-			break;
-		}
-		case 2: //User
-		{
-			switch (Get_type_of_initialization())
-			{
-				case 1: //Keyboard
-				{
-					Researcher scientist;
-					save << scientist;
-					cout << "\nType characterics of Generator:\n";
-					Generator gen;
-					save << gen;
-					switch (Get_type_of_oscilloscope())
-					{
-						case 1: //Analog osc
-						{
-							Analog_Oscilloscope osc;
-							save << osc;
-							bool on_off = true;
-							while (on_off == true)
-							{
-								int menu;
-								cout << "What do you want to do?\n1 - Connect Oscilloscope to Generator\n2 - Read signal at Oscilloscope from Generator\n3 - Change seconds scale at Oscilloscope\n"
-									<< "4 - Change voltage scale at Oscilloscope\n5 - Change output frequency at Generator\n6 - Change peak to peak voltage at Generator\n"
-									<< "7 - Initialiaze everything once more\n8 - Exit\n";
-								cin >> menu;
-								switch (menu)
-								{
-								case 1:
-								{
-									cout << "What channel of Oscilloscope do you want to use?\nChannel #";
-									int channel_osc;
-									cin >> channel_osc;
-									cout << "What channel of Generator do you want to use?\nChannel #";
-									int channel_gen;
-									cin >> channel_gen;
-									scientist.Connect(osc, channel_osc, gen, channel_gen);
-									save << osc;
-									save << gen;
-									break;
-								}
-								case 2:
-								{
-									cout << "From what channel of Oscilloscope do you want to read signal?\nChannel #";
-									int channel_osc;
-									cin >> channel_osc;
-									scientist.Read_voltage(osc, channel_osc);
-									break;
-								}
-								case 3:
-								{
-									cout << "Seconds scale [microSec/div] = ";
-									int seconds_scale;
-									cin >> seconds_scale;
-									osc.Set_seconds_scale(seconds_scale);
-									save << osc;
-									break;
-								}
-								case 4:
-								{
-									cout << "Voltage scale [milliVolts/div] = ";
-									int voltage_scale;
-									cin >> voltage_scale;
-									osc.Set_voltage_scale(voltage_scale);
-									save << osc;
-									break;
-								}
-								case 5:
-								{
-									cout << "Output frequency [Hz] = ";
-									int output_frequency;
-									cin >> output_frequency;
-									gen.Set_output_frequency(output_frequency);
-									save << gen;
-									break;
-								}
-								case 6:
-								{
-									cout << "Peak to peak voltage [milliVolts] = ";
-									int peak_to_peak_voltage;
-									cin >> peak_to_peak_voltage;
-									gen.Set_peak_to_peak_voltage(peak_to_peak_voltage);
-									save << gen;
-									break;
-								}
-								case 7:
-								{
-									Init();
-									break;
-								}
-								case 8:
-								{
-									on_off = false;
-									break;
-								}
-								}
-							}
-							break;
-						}
-						case 2: //Digital osc
-						{
-							Digital_Oscilloscope osc;
-							save << osc;
-							bool on_off = true;
-							while (on_off == true)
-							{
-								int menu;
-								cout << "What do you want to do?\n1 - Connect Oscilloscope to Generator\n2 - Read signal at Oscilloscope from Generator\n3 - Change seconds scale at Oscilloscope\n"
-									<< "4 - Change voltage scale at Oscilloscope\n5 - Change output frequency at Generator\n6 - Change peak to peak voltage at Generator\n"
-									<< "7 - Initialiaze everything once more\n8 - Exit\n";
-								cin >> menu;
-								switch (menu)
-								{
-								case 1:
-								{
-									cout << "What channel of Oscilloscope do you want to use?\nChannel #";
-									int channel_osc;
-									cin >> channel_osc;
-									cout << "What channel of Generator do you want to use?\nChannel #";
-									int channel_gen;
-									cin >> channel_gen;
-									scientist.Connect(osc, channel_osc, gen, channel_gen);
-									save << osc;
-									save << gen;
-									break;
-								}
-								case 2:
-								{
-									cout << "From what channel of Oscilloscope do you want to read signal?\nChannel #";
-									int channel_osc;
-									cin >> channel_osc;
-									scientist.Read_voltage(osc, channel_osc);
-									break;
-								}
-								case 3:
-								{
-									cout << "Seconds scale [microSec/div] = ";
-									int seconds_scale;
-									cin >> seconds_scale;
-									osc.Set_seconds_scale(seconds_scale);
-									save << osc;
-									break;
-								}
-								case 4:
-								{
-									cout << "Voltage scale [milliVolts/div] = ";
-									int voltage_scale;
-									cin >> voltage_scale;
-									osc.Set_voltage_scale(voltage_scale);
-									save << osc;
-									break;
-								}
-								case 5:
-								{
-									cout << "Output frequency [Hz] = ";
-									int output_frequency;
-									cin >> output_frequency;
-									gen.Set_output_frequency(output_frequency);
-									save << gen;
-									break;
-								}
-								case 6:
-								{
-									cout << "Peak to peak voltage [milliVolts] = ";
-									int peak_to_peak_voltage;
-									cin >> peak_to_peak_voltage;
-									gen.Set_peak_to_peak_voltage(peak_to_peak_voltage);
-									save << gen;
-									break;
-								}
-								case 7:
-								{
-									Init();
-									break;
-								}
-								case 8:
-								{
-									on_off = false;
-									break;
-								}
-								}
-							}
-							break;
-						}
-					}
-					break;
-				}
-				case 2: //File
-				{
-					Researcher scientist(true);
-					save << scientist;
-					cout << scientist;
-					Generator gen(true);
-					save << gen;
-					cout << gen;
-					switch (Get_type_of_oscilloscope())
-					{
-						case 1: //Analog osc
-						{
-							Analog_Oscilloscope osc(true);
-							save << osc;
-							cout << osc;
-							bool on_off = true;
-							while (on_off == true)
-							{
-								int menu;
-								cout << "What do you want to do?\n1 - Connect Oscilloscope to Generator\n2 - Read signal at Oscilloscope from Generator\n3 - Change seconds scale at Oscilloscope\n"
-									<< "4 - Change voltage scale at Oscilloscope\n5 - Change output frequency at Generator\n6 - Change peak to peak voltage at Generator\n"
-									<< "7 - Initialiaze everything once more\n8 - Exit\n";
-								cin >> menu;
-								switch (menu)
-								{
-									case 1:
-									{
-										cout << "What channel of Oscilloscope do you want to use?\nChannel #";
-										int channel_osc;
-										cin >> channel_osc;
-										cout << "What channel of Generator do you want to use?\nChannel #";
-										int channel_gen;
-										cin >> channel_gen;
-										scientist.Connect(osc, channel_osc, gen, channel_gen);
-										save << osc;
-										save << gen;
-										break;
-									}
-									case 2:
-									{
-										cout << "From what channel of Oscilloscope do you want to read signal?\nChannel #";
-										int channel_osc;
-										cin >> channel_osc;
-										scientist.Read_voltage(osc, channel_osc);
-										break;
-									}
-									case 3:
-									{
-										cout << "Seconds scale [microSec/div] = ";
-										int seconds_scale;
-										cin >> seconds_scale;
-										osc.Set_seconds_scale(seconds_scale);
-										save << osc;
-										break;
-									}
-									case 4:
-									{
-										cout << "Voltage scale [milliVolts/div] = ";
-										int voltage_scale;
-										cin >> voltage_scale;
-										osc.Set_voltage_scale(voltage_scale);
-										save << osc;
-										break;
-									}
-									case 5:
-									{
-										cout << "Output frequency [Hz] = ";
-										int output_frequency;
-										cin >> output_frequency;
-										gen.Set_output_frequency(output_frequency);
-										save << gen;
-										break;
-									}
-									case 6:
-									{
-										cout << "Peak to peak voltage [milliVolts] = ";
-										int peak_to_peak_voltage;
-										cin >> peak_to_peak_voltage;
-										gen.Set_peak_to_peak_voltage(peak_to_peak_voltage);
-										save << gen;
-										break;
-									}
-									case 7:
-									{
-										Init();
-										break;
-									}
-									case 8:
-									{
-										on_off = false;
-										break;
-									}
-								}
-							}
-							break;
-						}
-						case 2: //Digital osc
-						{
-							Digital_Oscilloscope osc(true);
-							save << osc;
-							cout << osc;
-							bool on_off = true;
-							while (on_off == true)
-							{
-								int menu;
-								cout << "What do you want to do?\n1 - Connect Oscilloscope to Generator\n2 - Read signal at Oscilloscope from Generator\n3 - Change seconds scale at Oscilloscope\n"
-									<< "4 - Change voltage scale at Oscilloscope\n5 - Change output frequency at Generator\n6 - Change peak to peak voltage at Generator\n"
-									<< "7 - Initialiaze everything once more\n8 - Exit\n";
-								cin >> menu;
-								switch (menu)
-								{
-								case 1:
-								{
-									cout << "What channel of Oscilloscope do you want to use?\nChannel #";
-									int channel_osc;
-									cin >> channel_osc;
-									cout << "What channel of Generator do you want to use?\nChannel #";
-									int channel_gen;
-									cin >> channel_gen;
-									scientist.Connect(osc, channel_osc, gen, channel_gen);
-									save << osc;
-									save << gen;
-									break;
-								}
-								case 2:
-								{
-									cout << "From what channel of Oscilloscope do you want to read signal?\nChannel #";
-									int channel_osc;
-									cin >> channel_osc;
-									scientist.Read_voltage(osc, channel_osc);
-									break;
-								}
-								case 3:
-								{
-									cout << "Seconds scale [microSec/div] = ";
-									int seconds_scale;
-									cin >> seconds_scale;
-									osc.Set_seconds_scale(seconds_scale);
-									save << osc;
-									break;
-								}
-								case 4:
-								{
-									cout << "Voltage scale [milliVolts/div] = ";
-									int voltage_scale;
-									cin >> voltage_scale;
-									osc.Set_voltage_scale(voltage_scale);
-									save << osc;
-									break;
-								}
-								case 5:
-								{
-									cout << "Output frequency [Hz] = ";
-									int output_frequency;
-									cin >> output_frequency;
-									gen.Set_output_frequency(output_frequency);
-									save << gen;
-									break;
-								}
-								case 6:
-								{
-									cout << "Peak to peak voltage [milliVolts] = ";
-									int peak_to_peak_voltage;
-									cin >> peak_to_peak_voltage;
-									gen.Set_peak_to_peak_voltage(peak_to_peak_voltage);
-									save << gen;
-									break;
-								}
-								case 7:
-								{
-									Init();
-									break;
-								}
-								case 8:
-								{
-									on_off = false;
-									break;
-								}
-								}
-							}
-							break;
-						}
-					}
-					break;
-				}
-			}
-			break;
-		}
-	}
-	save.close();
-	*/
-	system("Pause");
+
 	return 0;
 } 
-/*
-void Welcome()
-{
-
-	cout << "Hello everynyan, I'm your Guide to this world of Oscilloscopes\nFirst of all choose your role\n1 - Codder\n2 - User\n";
-
-}
-int Get_role()
-{
-	int choose_your_role;
-	cin >> choose_your_role;
-	return choose_your_role;
-}
-int Get_type_of_oscilloscope()
-{
-	cout << "Do you have Analog or Digital Oscilloscope?\n1 - Analog\n2 - Digital\n";
-	int choose_your_oscilloscope;
-	cin >> choose_your_oscilloscope;
-	return choose_your_oscilloscope;
-}
-int Get_type_of_initialization()
-{
-	cout << "How do you want to initialise all objects?\n1 - From keyboard\n2 - From file\n";
-	int choose_type_of_initialization;
-	cin >> choose_type_of_initialization;
-	return choose_type_of_initialization;
-}
-void Init()
-{
-	Welcome();
-	switch (Get_role())
-	{
-	case 1: //Codder
-	{
-		cout << "Read documetation :)\n";
-		break;
-	}
-	case 2: //User
-	{
-		switch (Get_type_of_initialization())
-		{
-		case 1: //Keyboard
-		{
-			Researcher scientist;
-			switch (Get_type_of_oscilloscope())
-			{
-			case 1: //Analog osc
-			{
-				Analog_Oscilloscope osc;
-				break;
-			}
-			case 2: //Digital osc
-			{
-				Digital_Oscilloscope osc;
-				break;
-			}
-			}
-			cout << "\nType characterics of Generator:\n";
-			Generator gen;
-			break;
-		}
-		case 2: //File
-		{
-			Researcher scientist(true);
-			cout << scientist;
-			switch (Get_type_of_oscilloscope())
-			{
-			case 1: //Analog osc
-			{
-				Analog_Oscilloscope osc(true);
-				cout << osc;
-				break;
-			}
-			case 2: //Digital osc
-			{
-				Digital_Oscilloscope osc(true);
-				cout << osc;
-				break;
-			}
-			}
-			Generator gen(true);
-			cout << gen;
-			break;
-		}
-		}
-		break;
-	}
-	}
-}
-*/
