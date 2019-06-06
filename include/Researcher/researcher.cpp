@@ -197,13 +197,13 @@ std::istream& operator >> (std::istream &in, Researcher &scientist)
 void Researcher::Connect(Oscilloscope &osc, int number_of_channel_osc, Generator &gen, int number_of_channel_gen)
 {
 	//Ïðîâåðêà íà äóðàêà
-	if (number_of_channel_osc > osc.Get_amount_of_ñhannels() || number_of_channel_osc < 1)
+	if (number_of_channel_osc > osc.Get_amount_of_channels() || number_of_channel_osc < 1)
 	{
 		std::cout << "ERROR #1\nYou picked channel of Oscilloscope, that doesn't exist\n";
 		system("Pause");
 		return;
 	}
-	if (number_of_channel_gen > gen.Get_amount_of_ñhannels() || number_of_channel_gen < 1)
+	if (number_of_channel_gen > gen.Get_amount_of_channels() || number_of_channel_gen < 1)
 	{
 		std::cout << "ERROR #2\nYou picked channel of Generator, that doesn't exist\n";
 		system("Pause");

@@ -33,7 +33,7 @@ void Electrical_Equipment::Set_year_of_issue(int year_of_issue)
 	this->year_of_issue = year_of_issue;
 }
 
-int Electrical_Equipment::Get_amount_of_ñhannels()
+int Electrical_Equipment::Get_amount_of_channels()
 {
 	return amount_of_ñhannels;
 }

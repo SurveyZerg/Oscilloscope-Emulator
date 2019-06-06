@@ -101,6 +101,8 @@ int main()
 		system("Pause");
 	}
   
+	//Нужно сделать проверку всех синов внизу
+
 	// MAIN PROGRAM CYCLE
 	bool end = false;
 	bool setup = true;
@@ -111,6 +113,13 @@ int main()
 			int role;
 			cout << "Hello everynyan, I'm your Guide to this world of Oscilloscopes\nFirst of all choose your role\n1 - Codder\n2 - User\n";
 			cin >> role;
+			while (cin.fail() || role < 1 || role > 2)
+			{
+				cin.clear();
+				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				cout << "Input error, try again - ";
+				cin >> role;
+			}
 			cout << endl;
 			if (role == 1) //Codder
 			{
@@ -122,6 +131,13 @@ int main()
 				std::cout << "First of all you must describe yourself\nSo, who are you?\n\n";
 				std::cout << "1 - Answer from keyboard\n2 - Answer by data from load_reseacher.txt\n";
 				cin >> data_type1;
+				while (cin.fail() || data_type1 < 1 || data_type1 > 2)
+				{
+					cin.clear();
+					cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					cout << "Input error, try again - ";
+					cin >> data_type1;
+				}
 				cout << endl;
 				if (data_type1 == 1)//From keyboard
 				{
@@ -138,12 +154,26 @@ int main()
 				cout << "Mr. " << scientist.Get_research_position() << ", to work with this soft, you must create at least one generator and oscilloscope\nMr. " << scientist.Get_name()
 					<< ", what type of osclloscope do you want to initialize?\n1 - Analog\n2 - Digital\n";
 				cin >> type_of_oscilloscope;
+				while (cin.fail() || type_of_oscilloscope < 1 || type_of_oscilloscope > 2)
+				{
+					cin.clear();
+					cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					cout << "Input error, try again - ";
+					cin >> type_of_oscilloscope;
+				}
 				cout << endl;
 
 
 				int data_type2;
 				cout << "Good. Now, do you want to initialize oscilloscope by keyboard or file, my master?\n1 - Keyboard\n2 - File\n";
 				cin >> data_type2;
+				while (cin.fail() || data_type2 < 1 || data_type2 > 2)
+				{
+					cin.clear();
+					cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					cout << "Input error, try again - ";
+					cin >> data_type2;
+				}
 				cout << endl;
 				if (type_of_oscilloscope == 1 && data_type2 == 1) //Analog Oscilloscope from keyboard
 				{
@@ -166,6 +196,13 @@ int main()
 				int data_type3;
 				cout << "Nice. Now, do you want to initialize generator by keyboard or file?\n1 - Keyboard\n2 - File\n";
 				cin >> data_type3;
+				while (cin.fail() || data_type3 < 1 || data_type3 > 2)
+				{
+					cin.clear();
+					cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					cout << "Input error, try again - ";
+					cin >> data_type3;
+				}
 				cout << endl;
 				if (data_type3 == 1) //Generator from keyboard
 				{
@@ -176,6 +213,10 @@ int main()
 					load_gen >> List_of_Gen;
 				}
 				
+				save << scientist;
+				save << List_of_Analog_Osc;
+				save << List_of_Digital_Osc;
+				save << List_of_Gen;
 
 				cout << "Perfectly done. Really. Now you can start working with the program\nGood luck in your research!!\n\n";
 				setup = false;
@@ -183,27 +224,66 @@ int main()
 		}
 		else if (setup == false) //Main programm
 		{
-
-			/*int menu;
+			int menu;
 			cout << "What do you want to do?\n1 - Connect Oscilloscope to Generator\n2 - Read signal at Oscilloscope from Generator\n3 - Change seconds scale at Oscilloscope\n"
 				<< "4 - Change voltage scale at Oscilloscope\n5 - Change output frequency at Generator\n6 - Change peak to peak voltage at Generator\n"
 				<< "7 - Initialiaze everything once more\n8 - Exit\n";
 			cin >> menu;
+			while (cin.fail() || menu < 1 || menu > 8)
+			{
+				cin.clear();
+				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				cout << "Input error, try again - ";
+				cin >> menu;
+			}
 			switch (menu)
 			{
 			case 1:
 			{
-				cout << "What channel of Oscilloscope do you want to use?\nChannel #";
+				int type_of_osc;
+				cout << "What type of Oscilloscope do you want to use?\n1 - Analog\n2 - Digital\n";
+				cin >> type_of_osc;
+				cout << endl;
+
+				int choose_osc;
+				if (type_of_osc == 1)
+					cout << List_of_Analog_Osc;
+				if (type_of_osc == 2)
+					cout << List_of_Digital_Osc;
+				cout << "What Oscilloscope do you want to use?\n\n";
+				cin >> choose_osc;
+				cout << endl;
+				choose_osc = choose_osc - 1; //Чтобы индексы были с нуля
+
+				int choose_gen;
+				cout << List_of_Gen;
+				cout << "What Generator do you want to use?\n\n";
+				cin >> choose_gen;
+				cout << endl;
+				choose_gen = choose_gen - 1;
+
 				int channel_osc;
+				cout << "What channel of Oscilloscope do you want to use?\nChannel #";
 				cin >> channel_osc;
-				cout << "What channel of Generator do you want to use?\nChannel #";
+
 				int channel_gen;
+				cout << "What channel of Generator do you want to use?\nChannel #";
 				cin >> channel_gen;
-				scientist.Connect(osc, channel_osc, gen, channel_gen);
-				save << osc;
-				save << gen;
+
+				if (type_of_osc == 1)
+					scientist.Connect(List_of_Analog_Osc[choose_osc], channel_osc, List_of_Gen[channel_gen], channel_gen);
+				if (type_of_osc == 2)
+					scientist.Connect(List_of_Digital_Osc[choose_osc], channel_osc, List_of_Gen[channel_gen], channel_gen);
+
+				save << scientist;
+				save << List_of_Analog_Osc;
+				save << List_of_Digital_Osc;
+				save << List_of_Gen;
+
 				break;
 			}
+			}
+			/*
 			case 2:
 			{
 				cout << "From what channel of Oscilloscope do you want to read signal?\nChannel #";

@@ -33,7 +33,7 @@ public:
 
 	virtual void Type_information(bool all_information) = 0;
 
-	int Get_amount_of_ñhannels();
+	int Get_amount_of_channels();
 	std::string Get_manufacturer();
 	std::string Get_device_model();
 };

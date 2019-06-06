@@ -29,7 +29,7 @@ Analog_Oscilloscope::Analog_Oscilloscope(bool all_info)
 	this->Type_information(all_info);
 	this->p_next = nullptr;
 	this->p_prev = nullptr;
-	Make_Channels(Get_amount_of_ñhannels());
+	Make_Channels(Get_amount_of_channels());
 }
 Analog_Oscilloscope::Analog_Oscilloscope(std::ifstream& load)
 {
@@ -46,7 +46,7 @@ Analog_Oscilloscope::Analog_Oscilloscope(std::ifstream& load)
 	load >> *this;
 	this->p_next = nullptr;
 	this->p_prev = nullptr;
-	Make_Channels(this->Get_amount_of_ñhannels());
+	Make_Channels(this->Get_amount_of_channels());
 }
 Analog_Oscilloscope::Analog_Oscilloscope(const Analog_Oscilloscope &device)
 {
@@ -60,7 +60,7 @@ Analog_Oscilloscope::Analog_Oscilloscope(const Analog_Oscilloscope &device)
 	this->Set_amount_of_beams(device.amount_of_beams);
 	this->Set_voltage_divisions(device.voltage_divisions);
 	this->Set_seconds_divisions(device.seconds_divisions);
-	Make_Channels(this->Get_amount_of_ñhannels());
+	Make_Channels(this->Get_amount_of_channels());
 }
 /*Analog_Oscilloscope::Analog_Oscilloscope(int amount_of_ñhannels, int voltage_divisions, int seconds_divisions, std::string manufacturer, std::string device_model, int year_of_issue,  int amount_of_beams, Analog_Oscilloscope* p_next, Analog_Oscilloscope* p_prev)
 {
@@ -210,11 +210,11 @@ std::ostream& operator << (std::ostream &out, Analog_Oscilloscope &device)
 	out << "---------" << std::endl
 		<< "Analog Oscilloscope " << device.Get_manufacturer() << " "
 		<< device.Get_device_model() << "(" << device.Get_year_of_issue() << "year)" << " : Amount of channels - "
-		<< device.Get_amount_of_ñhannels() << ", Amount of beams - " << device.Get_amount_of_beams() << std::endl;
+		<< device.Get_amount_of_channels() << ", Amount of beams - " << device.Get_amount_of_beams() << std::endl;
 	out << "Interface of Oscilloscope:\nDisplay is " << device.Get_seconds_divisions() << " x " << device.Get_voltage_divisions()
 		<< "\nSeconds scale = " << device.Get_seconds_scale() << " microSec/div and Voltage Scale = "
 		<< device.Get_voltage_scale() << " milliVolts/div\n";
-	for (int i = 0; i < device.Get_amount_of_ñhannels(); i++)
+	for (int i = 0; i < device.Get_amount_of_channels(); i++)
 	{
 		out << "Channel #" << i + 1 << " is";
 		if (device.Get_connection_of_channel(i + 1))

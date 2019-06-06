@@ -75,7 +75,7 @@ Generator::Generator(bool all_info)
 	this->Type_information(all_info);
 	this->p_next = nullptr;
 	this->p_prev = nullptr;
-	Make_Channels(Get_amount_of_ñhannels());
+	Make_Channels(Get_amount_of_channels());
 }
 Generator::Generator(std::ifstream& load)
 {
@@ -89,7 +89,7 @@ Generator::Generator(std::ifstream& load)
 	load >> *this;
 	this->p_next = nullptr;
 	this->p_prev = nullptr;
-	Make_Channels(this->Get_amount_of_ñhannels());
+	Make_Channels(this->Get_amount_of_channels());
 }
 Generator::Generator(const Generator &device)
 {
@@ -101,7 +101,7 @@ Generator::Generator(const Generator &device)
 	this->Set_year_of_issue(device.year_of_issue);
 	this->Set_amount_of_ñhannels(device.amount_of_ñhannels);
 	this->Set_maximum_output_frequency(device.maximum_output_frequency);
-	Make_Channels(this->Get_amount_of_ñhannels());
+	Make_Channels(this->Get_amount_of_channels());
 }
 /*Generator::Generator(int amount_of_channels, std::string manufacturer, std::string device_model, int year_of_issue, int maximum_output_frequency, Generator* p_next, Generator* p_prev)
 {
@@ -201,11 +201,11 @@ std::ostream& operator<< (std::ostream &out, Generator &device)
 	out << "---------" << std::endl
 		<< "Generator " << device.Get_manufacturer() << " " << device.Get_device_model()
 		<< "(" << device.Get_year_of_issue() << "year)" << " : Amount of channels - "
-		<< device.Get_amount_of_ñhannels() << ", Maximum output frequency - "
+		<< device.Get_amount_of_channels() << ", Maximum output frequency - "
 		<< device.Get_maximum_output_frequency() << " MHz" << std::endl;
 	out << "Interface of Generator:\nOutput frequency = " << device.Get_output_frequency() 
 		<< " Hz and Peak to Peak Voltage = " << device.Get_peak_to_peak_voltage() << " milliVolts\n";
-	for (int i = 0; i < device.Get_amount_of_ñhannels(); i++)
+	for (int i = 0; i < device.Get_amount_of_channels(); i++)
 	{
 		out << "Channel #" << i + 1 << " is";
 		if (device.Get_connection_of_channel(i + 1))
