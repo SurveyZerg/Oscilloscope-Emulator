@@ -1,6 +1,5 @@
 // electrical_equipment.cpp
 
-#include <string>
 #include "electrical_equipment.h"
 
 Electrical_Equipment::Electrical_Equipment()
@@ -34,7 +33,7 @@ void Electrical_Equipment::Set_year_of_issue(int year_of_issue)
 	this->year_of_issue = year_of_issue;
 }
 
-int Electrical_Equipment::Get_amount_of_ñhannels()
+int Electrical_Equipment::Get_amount_of_channels()
 {
 	return amount_of_ñhannels;
 }
@@ -50,4 +49,3 @@ int Electrical_Equipment::Get_year_of_issue()
 {
 	return year_of_issue;
 }
-

@@ -1,6 +1,5 @@
 //researcher.cpp
 
-#include <fstream>
 #include <ctime>
 #include <sstream>
 #include "researcher.h"
@@ -10,8 +9,16 @@ Researcher::Researcher()
 #ifdef _DEBUG
 	std::cout << "Default Constructor Researcher was called" << std::endl;
 #endif
-	this->Type_information(true);
 }
+
+Researcher::Researcher(bool all_info)
+{
+#ifdef _DEBUG
+	std::cout << "Constructor Researcher was called" << std::endl;
+#endif
+	this->Type_information(all_info);
+}
+
 Researcher::Researcher(std::ifstream& load)
 {
 #ifdef _DEBUG
@@ -21,7 +28,7 @@ Researcher::Researcher(std::ifstream& load)
 	{
 		if (!load.is_open())
 		{
-			throw std::exception("ERROR #9\nYou tried to create object from file, that doesn't exist\n");
+			throw std::exception("ERROR #8\nYou tried to create object from file, that doesn't exist\n");
 		}
 		load >> *this;
 	}
@@ -57,6 +64,13 @@ void Researcher::Type_information(bool all_information)
 		std::string name,surname;
 		std::cout << "Choose your research postion:\n1 - Junior researcher\n2 - Researcher\n3 - Senior researcher\n4 - Leading researcher\n5 - Principal researcher\n";
 		std::cin >> research_position;
+		while (std::cin.fail() || research_position < 1 || research_position >5)
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Resesearch position must be natural number from 1 till 5\nTry again\nResearch position - ";
+			std::cin >> research_position;
+		}
 		if (research_position == 1)
 		{
 			this->research_position = "Junior researcher";
@@ -83,6 +97,13 @@ void Researcher::Type_information(bool all_information)
 		std::cin >> surname;
 		std::cout << "Type your age: ";
 		std::cin >> age;
+		while (std::cin.fail() || age < 1 )
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Resesearch position must be natural number from 1 till 5\nTry again\nResearch position - ";
+			std::cin >> research_position;
+		}
 
 		this->name = name;
 		this->surname = surname;
@@ -90,7 +111,7 @@ void Researcher::Type_information(bool all_information)
 	}
 	else
 	{
-		this->research_position = "Mr.";
+		this->research_position = "Assistant";
 		this->name = "Noname";
 		this->surname = "";
 		this->age = 999;
@@ -131,51 +152,81 @@ std::istream& operator >> (std::istream &in, Researcher &scientist)
 	stream_buff << buff;
 
 	stream_buff >> research_position;
-	stream_buff >> name;
-	stream_buff >> surname;
-	stream_buff >> age;
+	if (stream_buff.fail())
+	{
+		scientist.research_position = "Assistant";
+		stream_buff.clear();
+		stream_buff.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
+	}
+	else
+		scientist.research_position = research_position;
 
-	scientist.research_position = research_position;
-	scientist.name = name;
-	scientist.surname = surname;
-	scientist.age = age;
+	stream_buff >> name;
+	if (stream_buff.fail())
+	{
+		scientist.research_position = "Noname";
+		stream_buff.clear();
+		stream_buff.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
+	}
+	else
+		scientist.name = name;
+
+	stream_buff >> surname;
+	if (stream_buff.fail())
+	{
+		scientist.research_position = " ";
+		stream_buff.clear();
+		stream_buff.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
+	}
+	else
+		scientist.surname = surname;
+
+	stream_buff >> age;
+	if (stream_buff.fail())
+	{
+		scientist.age = 999;
+		stream_buff.clear();
+		stream_buff.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
+	}
+	else
+		scientist.age = age;
 
 	return in;
 }
 
 void Researcher::Connect(Oscilloscope &osc, int number_of_channel_osc, Generator &gen, int number_of_channel_gen)
 {
-	//Проверка на дурака
-	if (number_of_channel_osc > osc.Get_amount_of_сhannels() || number_of_channel_osc < 1)
+	//ГЏГ°Г®ГўГҐГ°ГЄГ  Г­Г  Г¤ГіГ°Г ГЄГ 
+	if (number_of_channel_osc > osc.Get_amount_of_channels() || number_of_channel_osc < 1)
 	{
 		std::cout << "ERROR #1\nYou picked channel of Oscilloscope, that doesn't exist\n";
 		system("Pause");
-		exit(EXIT_FAILURE); //Вызывает ли это деструкторы, как проверить?
+		return;
 	}
-	if (number_of_channel_gen > gen.Get_amount_of_сhannels() || number_of_channel_gen < 1)
+	if (number_of_channel_gen > gen.Get_amount_of_channels() || number_of_channel_gen < 1)
 	{
 		std::cout << "ERROR #2\nYou picked channel of Generator, that doesn't exist\n";
 		system("Pause");
-		exit(EXIT_FAILURE); //Вызывает ли это деструкторы, как проверить?
+		return;
 	}
 	if (osc.Get_connection_of_channel(number_of_channel_osc) == true)
 	{
 		std::cout << "ERROR #3\nYou picked channel of Oscilloscope, that is already busy\n";
 		system("Pause");
-		exit(EXIT_FAILURE); //Вызывает ли это деструкторы, как проверить?
+		return;
 	}
 	if (gen.Get_connection_of_channel(number_of_channel_gen) == true)
 	{
 		std::cout << "ERROR #4\nYou picked channel of Generator, that is already busy\n";
 		system("Pause");
-		exit(EXIT_FAILURE); //Вызывает ли это деструкторы, как проверить?
+		return;
 	}
 
-	//Подключение
+	//ГЏГ®Г¤ГЄГ«ГѕГ·ГҐГ­ГЁГҐ
 	osc.Set_connection_of_channel(number_of_channel_osc, true, &gen);
 	gen.Set_connection_of_channel(number_of_channel_gen, true, &osc);
 
-	if ((1000000 / gen.Get_output_frequency()) < (osc.Get_seconds_scale() * osc.Get_seconds_divisions()) && gen.Get_peak_to_peak_voltage() < (osc.Get_voltage_scale() * osc.Get_voltage_divisions())) // Для правильных показаний нужно, чтобы был виден хотя-бы один период сигнала 1Hz - 1000000 microSec
+	if ((1000000 / gen.Get_output_frequency()) < (osc.Get_seconds_scale() * osc.Get_seconds_divisions()) && gen.Get_peak_to_peak_voltage() < (osc.Get_voltage_scale() * osc.Get_voltage_divisions())) // Г„Г«Гї ГЇГ°Г ГўГЁГ«ГјГ­Г»Гµ ГЇГ®ГЄГ Г§Г Г­ГЁГ© Г­ГіГ¦Г­Г®, Г·ГІГ®ГЎГ» ГЎГ»Г« ГўГЁГ¤ГҐГ­ ГµГ®ГІГї-ГЎГ» Г®Г¤ГЁГ­ ГЇГҐГ°ГЁГ®Г¤ Г±ГЁГЈГ­Г Г«Г  1Hz - 1000000 microSec
 	{
 		std::cout << "Connection of Generator " <<gen.Get_manufacturer()<< " " <<gen.Get_device_model() << " and Oscilloscope "<<osc.Get_manufacturer() << " " << osc.Get_device_model() << " Successfully completed\n";
 	}
@@ -197,7 +248,7 @@ void Researcher::Read_voltage(Oscilloscope &osc, int number_of_channel)
 	if (osc.Get_connection_of_channel(number_of_channel))
 	{
 		srand(time(0));
-		int random_number = -100 + rand() % 100; //Имитация погрешности осциллографа
+		int random_number = -100 + rand() % 100; //Г€Г¬ГЁГІГ Г¶ГЁГї ГЇГ®ГЈГ°ГҐГёГ­Г®Г±ГІГЁ Г®Г±Г¶ГЁГ«Г«Г®ГЈГ°Г ГґГ 
 		if ((1000000 / osc.Get_connected_generator(number_of_channel)->Get_output_frequency()) < (osc.Get_seconds_scale() * osc.Get_seconds_divisions()) && osc.Get_connected_generator(number_of_channel)->Get_peak_to_peak_voltage() < (osc.Get_voltage_scale() * osc.Get_voltage_divisions()))
 		{
 			std::cout << "Peak to Peak Voltage is " << osc.Get_connected_generator(number_of_channel)->Get_peak_to_peak_voltage() + random_number << " milliVolts" << std::endl;

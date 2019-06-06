@@ -14,15 +14,17 @@ private:
 	std::string surname;
 	int age;
 
-	std::string Get_research_position();
-	std::string Get_name();
-	std::string Get_surname();
 	int Get_age();
 	//Researcher(std::string research_position, std::string name = "", std::string surname = "Noname", int age = 0);
 public:
 	Researcher();
+	Researcher(bool all_info);
 	Researcher(std::ifstream& load);
 	~Researcher();
+
+	std::string Get_research_position();
+	std::string Get_name();
+	std::string Get_surname();
 
 	void Type_information(bool all_information);
 
