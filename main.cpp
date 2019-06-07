@@ -26,7 +26,7 @@ int Get_type_of_initialization();
 int main()
 {
 	//SETUP
-
+	setlocale(LC_ALL, "ru");
 	ofstream save;
 	save.exceptions(std::ofstream::badbit | std::ofstream::failbit);
 
@@ -112,7 +112,7 @@ int main()
 		if (setup == true) //Beginning of the programm
 		{
 			int role;
-			cout << "Hello everynyan, I'm your Guide to this world of Oscilloscopes\nFirst of all choose your role\n1 - Codder\n2 - User\n";
+			cout << "Hello everynyan, I'm your Guide to this world of Oscilloscopes\nFirst of all choose your role\n1 - Codder (for skipping the beginning and debugging)\n2 - User\n";
 			cin >> role;
 			while (cin.fail() || role < 1 || role > 2)
 			{
@@ -124,7 +124,15 @@ int main()
 			cout << endl;
 			if (role == 1) //Codder
 			{
+				//This is for dubugging code
+				type_of_osc = 1;
+				load_researcher >> scientist;
+				load_analog_osc >> List_of_Analog_Osc;
+				load_digital_osc >> List_of_Digital_Osc;
+				load_gen >> List_of_Gen;
 
+
+				setup = false;
 			}
 			else if (role == 2) //User
 			{
@@ -689,9 +697,6 @@ int main()
 				cout << "You want to delete device #";
 				cin >> place_number;
 				if (type_of_delete_device == 1)
-				{
-					cout << "\nChoose place of new object in this list from 1 to " << List_of_Analog_Osc.size() + 1 << ": ";
-					cin >> place_number;
 					while (cin.fail() || place_number < 1 || place_number >(List_of_Analog_Osc.size() + 1))
 					{
 						cin.clear();
@@ -699,11 +704,7 @@ int main()
 						cout << "Input error, try again - ";
 						cin >> place_number;
 					}
-				}
 				else if (type_of_delete_device == 2)
-				{
-					cout << "\nChoose place of new object in this list from 1 to " << List_of_Digital_Osc.size() + 1 << ": ";
-					cin >> place_number;
 					while (cin.fail() || place_number < 1 || place_number >(List_of_Digital_Osc.size() + 1))
 					{
 						cin.clear();
@@ -711,11 +712,7 @@ int main()
 						cout << "Input error, try again - ";
 						cin >> place_number;
 					}
-				}
 				else if (type_of_delete_device == 3)
-				{
-					cout << "\nChoose place of new object in this list from 1 to " << List_of_Gen.size() + 1 << ": ";
-					cin >> place_number;
 					while (cin.fail() || place_number < 1 || place_number >(List_of_Gen.size() + 1))
 					{
 						cin.clear();
@@ -723,7 +720,6 @@ int main()
 						cout << "Input error, try again - ";
 						cin >> place_number;
 					}
-				}
 				place_number--;
 
 
@@ -739,6 +735,7 @@ int main()
 			}
 			case 14:
 			{
+				cout << "\nbye bye~\n";
 				end = true;
 				break;
 			}
