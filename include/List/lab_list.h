@@ -35,8 +35,8 @@ public:
 	void erase(int index);
 	void swap(int D1, int D2);
 
-	void moveToFront(int index);
-	void moveToEnd(int index);
+	bool contains(T &device);
+	int indexOf(const T &device);
 
 	void clear();
 	Lab_List<T>& operator= (Lab_List<T> &list);
@@ -132,20 +132,37 @@ inline void Lab_List<T>::push_front(T* device)
 	amount_of_electrical_devices++;
 }
 
-/*template<class T>
+template<class T>
 inline void Lab_List<T>::pop_back()
 {
-
+	if (amount_of_electrical_devices == 0) {}
+	else if (amount_of_electrical_devices == 1)
+	{
+		delete head;
+		head = nullptr;
+		tail = nullptr;
+		amount_of_electrical_devices--;
+	}
+	else
+	{
+		T* temp = tail;
+		tail = tail->p_prev;
+		tail->p_next = nullptr;
+		delete temp;
+		amount_of_electrical_devices--;
+	}
 }
 
 template<class T>
 inline void Lab_List<T>::pop_front()
 {
-	if (amount_of_electrical_devices == 1)
+	if (amount_of_electrical_devices == 0) {}
+	else if (amount_of_electrical_devices == 1)
 	{
 		delete head;
 		head = nullptr;
 		tail = nullptr;
+		amount_of_electrical_devices--;
 	}
 	else
 	{
@@ -153,9 +170,9 @@ inline void Lab_List<T>::pop_front()
 		head = head->p_next;
 		head->p_prev = nullptr;
 		delete temp;
+		amount_of_electrical_devices--;
 	}
-	amount_of_electrical_devices--;
-}*/
+}
 
 template<class T>
 inline void Lab_List<T>::insert(T* device, int index)
@@ -198,7 +215,36 @@ inline void Lab_List<T>::insert(T* device, int index)
 template<class T>
 inline void Lab_List<T>::erase(int index)
 {
-
+	if (this->size() == 0) {}
+	else
+	{
+		if (index == 0)
+			this->pop_front();
+		else if (index == (this->size() - 1))
+			this->pop_back();
+		else
+		{
+			T* temp1 = head;
+			T* temp2 = head;
+			T* temp_delete = head;
+			for (int i = 0; i < index - 1; i++)
+			{
+				temp1 = temp1->p_next;
+			}
+			for (int i = 0; i < index; i++)
+			{
+				temp_delete = temp_delete->p_next;
+			}
+			for (int i = 0; i < index + 1; i++)
+			{
+				temp2 = temp2->p_next;
+			}
+			temp1->p_next = temp2;
+			temp2->p_prev = temp1;
+			delete temp_delete;
+			amount_of_electrical_devices--;
+		}
+	}
 }
 
 template<class T>
@@ -444,6 +490,37 @@ inline void Lab_List<T>::swap(int D1, int D2)
 	{
 		std::cout << ex.what();
 		system("Pause");
+	}
+}
+
+template<class T>
+inline bool Lab_List<T>::contains(T & device)
+{
+	bool flag = false;
+	T* temp = head;
+	for (int i = 0; temp!=nullptr; i++)
+	{
+		if (temp == &device)
+			flag = true;
+		temp = temp->p_next;
+	}
+	return flag;
+}
+
+template<class T>
+inline int Lab_List<T>::indexOf(const T & device)
+{
+	if (!contains(device))
+		throw std::exception("ERROR #13\nObject isn't in a list\n");
+	else
+	{
+		T*temp = head;
+		for (int i = 0;temp != nullptr; i++)
+		{
+			if (temp == &(*this[i]))
+				return i;
+			temp = temp->p_next;
+		}
 	}
 }
 

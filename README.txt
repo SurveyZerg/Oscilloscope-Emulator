@@ -46,3 +46,6 @@ ERROR #12 You tried to swap negative element of list, that of course doesnt exis
 
 Element must be from 0 to (size of list - 1)
 
+ERROR #13 Object isn't in a list
+
+Error of metod indexOf. it can't return index, becouse this object isn't in a list
