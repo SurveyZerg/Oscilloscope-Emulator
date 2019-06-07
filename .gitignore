@@ -1,0 +1,49 @@
+
+.vs/Oscilloscope Emulator/v15/.suo
+.vs/Oscilloscope Emulator/v15/Browse.VC.db
+.vs/Oscilloscope Emulator/v15/ipch/AutoPCH/1c4a95a13b69471a/ELECTRICAL_EQUIPMENT.ipch
+.vs/Oscilloscope Emulator/v15/ipch/AutoPCH/2145b78161a525d8/DIGITAL_OSCILLOSCOPE.ipch
+.vs/Oscilloscope Emulator/v15/ipch/AutoPCH/2d6942e0a5a9e077/DIGITAL_OSCILLOSCOPE.ipch
+.vs/Oscilloscope Emulator/v15/ipch/AutoPCH/34be98bf4e29ad98/DIGITAL_OSCILLOSCOPE.ipch
+.vs/Oscilloscope Emulator/v15/ipch/AutoPCH/438f854bc8fc3f62/OSCILLOSCOPE.ipch
+.vs/Oscilloscope Emulator/v15/ipch/AutoPCH/46a08c13b1f14ffa/MAIN.ipch
+.vs/Oscilloscope Emulator/v15/ipch/AutoPCH/4c878b06223fb230/ANALOG_OSCILLOSCOPE.ipch
+.vs/Oscilloscope Emulator/v15/ipch/AutoPCH/4f0529cddc4f7335/GENERATOR.ipch
+.vs/Oscilloscope Emulator/v15/ipch/AutoPCH/58999f6479591683/LAB_LIST.ipch
+.vs/Oscilloscope Emulator/v15/ipch/AutoPCH/5f30f29723adbef5/GENERATOR.ipch
+.vs/Oscilloscope Emulator/v15/ipch/AutoPCH/85c5b276ef428245/RESEARCHER.ipch
+.vs/Oscilloscope Emulator/v15/ipch/AutoPCH/99c7c3a76b78dd07/ANALOG_OSCILLOSCOPE.ipch
+.vs/Oscilloscope Emulator/v15/ipch/AutoPCH/9a3d1b1629f342b5/ELECTRICAL_EQUIPMENT.ipch
+.vs/Oscilloscope Emulator/v15/ipch/AutoPCH/9dfae03ef0cf88b7/RESEARCHER.ipch
+.vs/Oscilloscope Emulator/v15/ipch/AutoPCH/a8b738a54b42d8b2/GENERATOR.ipch
+.vs/Oscilloscope Emulator/v15/ipch/AutoPCH/aac785d81087b47d/DELETE_SCALAR_SIZE.ipch
+.vs/Oscilloscope Emulator/v15/ipch/AutoPCH/b86d79f16498013a/MAIN.ipch
+.vs/Oscilloscope Emulator/v15/ipch/AutoPCH/b9e35f855bc38185/RESEARCHER.ipch
+.vs/Oscilloscope Emulator/v15/ipch/AutoPCH/c804c7e32812f6f0/ANALOG_OSCILLOSCOPE.ipch
+.vs/Oscilloscope Emulator/v15/ipch/AutoPCH/d685dac33eb675fd/OSCILLOSCOPE.ipch
+x64/Release/analog_oscilloscope.obj
+x64/Release/digital_oscilloscope.obj
+x64/Release/electrical_equipment.obj
+x64/Release/generator.obj
+x64/Release/main.obj
+x64/Release/Oscillos.D5F34DB1.tlog/CL.command.1.tlog
+x64/Release/Oscillos.D5F34DB1.tlog/CL.read.1.tlog
+x64/Release/Oscillos.D5F34DB1.tlog/CL.write.1.tlog
+x64/Release/Oscillos.D5F34DB1.tlog/link.command.1.tlog
+x64/Release/Oscillos.D5F34DB1.tlog/link.read.1.tlog
+x64/Release/Oscillos.D5F34DB1.tlog/link.write.1.tlog
+x64/Release/Oscillos.D5F34DB1.tlog/Oscilloscope Emulator.lastbuildstate
+x64/Release/Oscillos.D5F34DB1.tlog/Oscilloscope Emulator.write.1u.tlog
+x64/Release/Oscilloscope Emulator.exe
+x64/Release/Oscilloscope Emulator.iobj
+x64/Release/Oscilloscope Emulator.ipdb
+x64/Release/Oscilloscope Emulator.log
+x64/Release/Oscilloscope Emulator.pdb
+
+x64/Release/researcher.obj
+x64/Release/vc141.pdb
+x64/Release/oscilloscope.obj
+x64/Release/main.obj
+x64/Release/electrical_equipment.obj
+x64/Release/digital_oscilloscope.obj
+x64/Release/analog_oscilloscope.obj
