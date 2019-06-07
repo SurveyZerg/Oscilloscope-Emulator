@@ -337,7 +337,13 @@ int main()
 			}
 			case 2:
 			{
-				if (List_of_Analog_Osc.size() != 0 && List_of_Digital_Osc.size() != 0)
+				//Здесь нужно учесть, что человек может захотеть выбрать осциллограф и генератор, хотя у него их нет, тоесть не дать возможность это сделать
+				if (List_of_Analog_Osc.size() == 0 && List_of_Digital_Osc.size() == 0)
+				{
+					cout << "You haven't any oscilloscopes\n\n";
+					break;
+				}
+				else
 				{
 					cout << "What type of Oscilloscope do you want to use?\n1 - Analog\n2 - Digital\n";
 					cin >> type_of_osc;
@@ -349,7 +355,19 @@ int main()
 						cin >> type_of_osc;
 					}
 				}
-				else {}
+
+				if (type_of_osc == 1 && List_of_Analog_Osc.size() < 2)
+				{
+					cout << "You can't change oscilloscope, becouse there are <2 oscilloscopes in a list\n\n";
+					break;
+				}
+				else if (type_of_osc == 2 && List_of_Digital_Osc.size() < 2)
+				{
+					cout << "You can't change oscilloscope, becouse there are <2 oscilloscopes in a list\n\n";
+					break;
+				}
+
+
 				cout << endl;
 				if (type_of_osc == 1)
 					cout << List_of_Analog_Osc;
@@ -367,20 +385,17 @@ int main()
 					cout << "Input error, try again - ";
 					cin >> type_of_osc;
 				}
-				if (type_of_osc == 1)
-					while (cin.fail() || choose_osc < 1 || choose_osc > (List_of_Digital_Osc.size() + 1))
-					{
-						cin.clear();
-						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-						cout << "Input error, try again - ";
-						cin >> type_of_osc;
-					}
 				cout << endl;
 				choose_osc--; //Чтобы индексы были с нуля
 
 
 				cout << List_of_Gen;
 
+				if (List_of_Gen.size() < 2)
+				{
+					cout << "You can't change generator, becouse there are <2 generators in a list\n\n";
+					break;
+				}
 
 				cout << "What Generator do you want to use?\n\n";
 				cin >> choose_gen;
@@ -399,11 +414,25 @@ int main()
 			}
 			case 3:
 			{
+				if ((type_of_osc == 1 && List_of_Analog_Osc.size() == 0) || (type_of_osc == 2 && List_of_Digital_Osc.size() == 0))
+				{
+					cout << "You haven't oscilloscopes\n\n";
+					break;
+				}
+				if (List_of_Gen.size() == 0)
+				{
+					cout << "You haven't generators\n\n";
+					break;
+				}
+
 				cout << "Now you are using this Oscilloscope and Generator:\n";
 				if (type_of_osc == 1)
 					cout << List_of_Analog_Osc[choose_osc];
-				if (type_of_osc == 2)
+				else if (type_of_osc == 2)
 					cout << List_of_Digital_Osc[choose_osc];
+
+				
+
 				cout << List_of_Gen[choose_gen];
 				break;
 			}
@@ -667,6 +696,115 @@ int main()
 			}
 			case 12:
 			{
+				List_of_Analog_Osc.clear();
+				List_of_Digital_Osc.clear();
+				List_of_Gen.clear();
+				scientist.clear();
+
+				try
+				{
+					if (!load_analog_osc.is_open())
+					{
+						throw exception("ERROR #10\nYou tried to close file load_analog_oscilloscope.txt, that doesn't exist\n");
+					}
+					load_analog_osc.close();
+				}
+				catch (const exception &ex)
+				{
+					std::cout << ex.what() << std::endl;
+					system("Pause");
+				}
+				try
+				{
+					if (!load_digital_osc.is_open())
+					{
+						throw exception("ERROR #10\nYou tried to close file load_digital_oscilloscope.txt, that doesn't exist\n");
+					}
+					load_digital_osc.close();
+				}
+				catch (const exception &ex)
+				{
+					std::cout << ex.what() << std::endl;
+					system("Pause");
+				}
+				try
+				{
+					if (!load_gen.is_open())
+					{
+						throw exception("ERROR #10\nYou tried to close file load_generator.txt, that doesn't exist\n");
+					}
+					load_gen.close();
+				}
+				catch (const exception &ex)
+				{
+					std::cout << ex.what() << std::endl;
+					system("Pause");
+				}
+				try
+				{
+					if (!load_researcher.is_open())
+					{
+						throw exception("ERROR #10\nYou tried to close file load_researcher.txt, that doesn't exist\n");
+					}
+					load_researcher.close();
+				}
+				catch (const exception &ex)
+				{
+					std::cout << ex.what() << std::endl;
+					system("Pause");
+				}
+
+
+				try
+				{
+					load_analog_osc.open("load_analog_oscilloscope.txt");
+				}
+				catch (const std::ifstream::failure &ex)
+				{
+					std::cout << "ERROR #9\nCouldn't open the file load_analog_oscilloscope.txt\n";
+					std::cout << ex.what() << std::endl;
+					std::cout << ex.code() << std::endl;
+					system("Pause");
+				}
+				try
+				{
+					load_digital_osc.open("load_digital_oscilloscope.txt");
+				}
+				catch (const std::ifstream::failure &ex)
+				{
+					std::cout << "ERROR #9\nCouldn't open the file load_digital_oscilloscope.txt\n";
+					std::cout << ex.what() << std::endl;
+					std::cout << ex.code() << std::endl;
+					system("Pause");
+				}
+				try
+				{
+					load_gen.open("load_generator.txt");
+				}
+				catch (const std::ifstream::failure &ex)
+				{
+					std::cout << "ERROR #9\nCouldn't open the file load_generator.txt\n";
+					std::cout << ex.what() << std::endl;
+					std::cout << ex.code() << std::endl;
+					system("Pause");
+				}
+				try
+				{
+					load_researcher.open("load_researcher.txt");
+				}
+				catch (const std::ifstream::failure &ex)
+				{
+					std::cout << "ERROR #9\nCouldn't open the file load_researcher.txt\n";
+					std::cout << ex.what() << std::endl;
+					std::cout << ex.code() << std::endl;
+					system("Pause");
+				}
+
+				choose_gen = 0;
+				choose_osc = 0;
+
+
+
 				setup = true;
 				break;
 			}
@@ -691,6 +829,23 @@ int main()
 					cout << List_of_Digital_Osc;
 				else if (type_of_delete_device == 3)
 					cout << List_of_Gen;
+
+				
+				if (type_of_delete_device == 1 && List_of_Analog_Osc.size() == 0)
+				{
+					cout << "You can't delete smth, becouse list is empty\n\n";
+					break;
+				}
+				else if (type_of_delete_device == 2 && List_of_Digital_Osc.size() == 0)
+				{
+					cout << "You can't delete smth, becouse list is empty\n\n";
+					break;
+				}
+				else if (type_of_delete_device == 3 && List_of_Gen.size() == 0)
+				{
+					cout << "You can't delete smth, becouse list is empty\n\n";
+					break;
+				}
 
 
 				int place_number;

@@ -26,6 +26,8 @@ public:
 	std::string Get_name();
 	std::string Get_surname();
 
+	void clear();
+
 	void Type_information(bool all_information);
 
 	friend std::ostream& operator<< (std::ostream &out, Researcher &scientist);

@@ -47,3 +47,30 @@ x64/Release/main.obj
 x64/Release/electrical_equipment.obj
 x64/Release/digital_oscilloscope.obj
 x64/Release/analog_oscilloscope.obj
+Oscilloscope Emulator/analog_oscilloscope.obj
+Oscilloscope Emulator/digital_oscilloscope.obj
+Oscilloscope Emulator/electrical_equipment.obj
+Oscilloscope Emulator/generator.obj
+Oscilloscope Emulator/load_analog_oscilloscope.txt
+Oscilloscope Emulator/load_digital_oscilloscope.txt
+Oscilloscope Emulator/load_generator.txt
+Oscilloscope Emulator/load_researcher.txt
+Oscilloscope Emulator/main.obj
+Oscilloscope Emulator/Oscillos.D5F34DB1.tlog/CL.command.1.tlog
+Oscilloscope Emulator/Oscillos.D5F34DB1.tlog/CL.read.1.tlog
+Oscilloscope Emulator/Oscillos.D5F34DB1.tlog/CL.write.1.tlog
+Oscilloscope Emulator/Oscillos.D5F34DB1.tlog/link.command.1.tlog
+Oscilloscope Emulator/Oscillos.D5F34DB1.tlog/link.read.1.tlog
+Oscilloscope Emulator/Oscillos.D5F34DB1.tlog/link.write.1.tlog
+Oscilloscope Emulator/Oscillos.D5F34DB1.tlog/Oscilloscope Emulator.lastbuildstate
+Oscilloscope Emulator/Oscillos.D5F34DB1.tlog/Oscilloscope Emulator.write.1u.tlog
+Oscilloscope Emulator/Oscilloscope Emulator.exe
+Oscilloscope Emulator/Oscilloscope Emulator.iobj
+Oscilloscope Emulator/Oscilloscope Emulator.ipdb
+Oscilloscope Emulator/Oscilloscope Emulator.log
+Oscilloscope Emulator/Oscilloscope Emulator.pdb
+Oscilloscope Emulator/oscilloscope.obj
+Oscilloscope Emulator/README.txt
+Oscilloscope Emulator/researcher.obj
+Oscilloscope Emulator/saved.txt
+Oscilloscope Emulator/vc141.pdb
