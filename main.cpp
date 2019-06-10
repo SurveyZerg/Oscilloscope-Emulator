@@ -1,27 +1,11 @@
 // main.cpp
 
-/*TO DO LIST 
-1. Ñäåëàòü êëàññ îñöèëëîãðàôîâ àáñòðàêòíûì
-2. Ðàçîáðàòüñÿ ñ êîíñòðóêòîðàìè ïî óìîë÷àíèþ ó âñåõ òðåõ îñíîâíûõ êëàññîâ
-3. Íàéòè âñå âîçìîæíûå ìåñòà îøèáîê è äîáàâèòü èñêëþ÷åíèÿ
-4. Èñïðàâèòü âñå ìîäèôèêàòîðû äîñòóïà
-5. Îãðàíè÷èòü øàáëîííîñòü äî òîëüêî ÍÓÆÍÛÕ êëàññîâ
-6. Äàòü ïîëüçîâàòåëþ âîçìîæíîñòü äîáàâëÿòü è âûñâå÷èâàòü ñåáå ëþáîé ýëåìåíò êîíòåéíåðà
-7. Â ìåíþ èñïðàâèòü íîâûå êîíñòðóêòîðû
-*/
 #include <iostream>
 #include <fstream>
 #include "include/Researcher/researcher.h"
 #include "include/List/lab_list.h"
 
 using namespace std;
-/*
-void Init();
-void Welcome();
-int Get_role();
-int Get_type_of_oscilloscope();
-int Get_type_of_initialization();
-*/
 
 int main()
 {
