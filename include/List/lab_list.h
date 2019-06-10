@@ -38,6 +38,9 @@ public:
 	bool contains(T &device);
 	int indexOf(const T &device);
 
+	void moveToFront(int index);
+	void moveToEnd(int index);
+
 	void clear();
 	Lab_List<T>& operator= (Lab_List<T> &list);
 	T& operator[](int index);
@@ -522,6 +525,32 @@ inline int Lab_List<T>::indexOf(const T & device)
 			temp = temp->p_next;
 		}
 	}
+}
+
+template<class T>
+inline void Lab_List<T>::moveToFront(int index)
+{
+	if (this->size() == 0)
+	{
+		throw std::exception("List is empty\n");
+		return;
+	}
+	T temp = addDevice(*this[index]);
+	this->erase(index);
+	this->push_front(&(*this[index]));
+}
+
+template<class T>
+inline void Lab_List<T>::moveToEnd(int index)
+{
+	if (this->size() == 0)
+	{
+		throw std::exception("List is empty\n");
+		return;
+	}
+	T temp = addDevice(*this[index]);
+	this->erase(index);
+	this->push_back(&(*this[index]));
 }
 
 template<class T>

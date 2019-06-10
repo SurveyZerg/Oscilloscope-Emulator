@@ -130,6 +130,13 @@ std::string Researcher :: Get_surname()
 {
 	return surname;
 }
+void Researcher::clear()
+{
+	this->age = 1;
+	this->name = "";
+	this->surname = "";
+	this->research_position = "";
+}
 int Researcher :: Get_age()
 {
 	return age;
