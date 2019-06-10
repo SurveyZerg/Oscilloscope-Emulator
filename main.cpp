@@ -137,7 +137,7 @@ int main()
 			else if (role == 2) //User
 			{
 				int data_type1;
-				std::cout << "First of all you must describe yourself\nSo, who are you?\n\n";
+				std::cout << "You must describe yourself\nSo, who are you?\n\n";
 				std::cout << "1 - Answer from keyboard\n2 - Answer by data from load_reseacher.txt\n";
 				cin >> data_type1;
 				while (cin.fail() || data_type1 < 1 || data_type1 > 2)
@@ -378,13 +378,13 @@ int main()
 				cout << "What Oscilloscope do you want to use?\n\n";
 				cin >> choose_osc;
 				if (type_of_osc == 1)
-					while (cin.fail() || choose_osc < 1 || choose_osc > (List_of_Analog_Osc.size() + 1))
-				{
-					cin.clear();
-					cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-					cout << "Input error, try again - ";
-					cin >> type_of_osc;
-				}
+					while (cin.fail() || choose_osc < 1 || choose_osc > List_of_Analog_Osc.size())
+					{
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						cout << "Input error, try again - ";
+						cin >> choose_osc;
+					}
 				cout << endl;
 				choose_osc--; //Чтобы индексы были с нуля
 
@@ -399,7 +399,7 @@ int main()
 
 				cout << "What Generator do you want to use?\n\n";
 				cin >> choose_gen;
-				while (cin.fail() || choose_gen < 1 || choose_gen > (List_of_Gen.size() + 1))
+				while (cin.fail() || choose_gen < 1 || choose_gen > List_of_Gen.size())
 				{
 					cin.clear();
 					cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -457,6 +457,11 @@ int main()
 				}
 				cout << endl;
 
+				if ((type_of_swap_list == 1 && List_of_Analog_Osc.size() == 0) || (type_of_swap_list == 2 && List_of_Digital_Osc.size() == 0) || (type_of_swap_list == 3 && List_of_Gen.size() == 0))
+				{
+					cout << "You haven't any devices in this list\n\n";
+					break;
+				}
 
 				if (type_of_swap_list == 1)
 					cout << List_of_Analog_Osc;
@@ -536,6 +541,16 @@ int main()
 			}
 			case 6:
 			{
+				if ((type_of_osc == 1 && List_of_Analog_Osc.size() == 0) || (type_of_osc == 2 && List_of_Digital_Osc.size() == 0))
+				{
+					cout << "You haven't oscilloscopes\n\n";
+					break;
+				}
+				if (List_of_Gen.size() == 0)
+				{
+					cout << "You haven't generators\n\n";
+					break;
+				}
 				int channel_osc;
 				cout << "What channel of Oscilloscope do you want to use?\nChannel #";
 				cin >> channel_osc;
@@ -577,6 +592,12 @@ int main()
 			}
 			case 7:
 			{
+				if ((type_of_osc == 1 && List_of_Analog_Osc.size() == 0) || (type_of_osc == 2 && List_of_Digital_Osc.size() == 0))
+				{
+					cout << "You haven't oscilloscopes\n\n";
+					break;
+				}
+
 				int channel_osc;
 				cout << "From what channel of Oscilloscope do you want to read signal?\nChannel #";
 				cin >> channel_osc;
@@ -606,6 +627,12 @@ int main()
 			}
 			case 8:
 			{
+				if ((type_of_osc == 1 && List_of_Analog_Osc.size() == 0) || (type_of_osc == 2 && List_of_Digital_Osc.size() == 0))
+				{
+					cout << "You haven't oscilloscopes\n\n";
+					break;
+				}
+
 				int seconds_scale;
 				cout << "Seconds scale [microSec/div] = ";
 				cin >> seconds_scale;
@@ -635,6 +662,12 @@ int main()
 			}
 			case 9:
 			{
+				if ((type_of_osc == 1 && List_of_Analog_Osc.size() == 0) || (type_of_osc == 2 && List_of_Digital_Osc.size() == 0))
+				{
+					cout << "You haven't oscilloscopes\n\n";
+					break;
+				}
+				
 				int voltage_scale;
 				cout << "Voltage scale [milliVolts/div] = ";
 				cin >> voltage_scale;
@@ -664,6 +697,11 @@ int main()
 			}
 			case 10:
 			{
+				if (List_of_Gen.size() == 0)
+				{
+					cout << "You haven't generators\n\n";
+					break;
+				}
 				__int64 output_frequency;
 				cout << "Output frequency [Hz] = ";
 				cin >> output_frequency;
@@ -681,6 +719,11 @@ int main()
 			}
 			case 11:
 			{
+				if (List_of_Gen.size() == 0)
+				{
+					cout << "You haven't generators\n\n";
+					break;
+				}
 				int peak_to_peak_voltage;
 				cout << "Peak to peak voltage [milliVolts] = ";
 				cin >> peak_to_peak_voltage;
