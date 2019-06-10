@@ -356,39 +356,34 @@ int main()
 					}
 				}
 
-				if (type_of_osc == 1 && List_of_Analog_Osc.size() < 2)
+				if ((List_of_Analog_Osc.size() + List_of_Digital_Osc.size()) < 2)
 				{
 					cout << "You can't change oscilloscope, becouse there are <2 oscilloscopes in a list\n\n";
-					break;
 				}
-				else if (type_of_osc == 2 && List_of_Digital_Osc.size() < 2)
+				else
 				{
-					cout << "You can't change oscilloscope, becouse there are <2 oscilloscopes in a list\n\n";
-					break;
+
+					cout << endl;
+					if (type_of_osc == 1)
+						cout << List_of_Analog_Osc;
+					if (type_of_osc == 2)
+						cout << List_of_Digital_Osc;
+
+
+					cout << "What Oscilloscope do you want to use?\n\n";
+					cin >> choose_osc;
+					if (type_of_osc == 1)
+						while (cin.fail() || choose_osc < 1 || choose_osc > List_of_Analog_Osc.size())
+						{
+							cin.clear();
+							cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+							cout << "Input error, try again - ";
+							cin >> choose_osc;
+						}
+					cout << endl;
+					choose_osc--; //Чтобы индексы были с нуля
+
 				}
-
-
-				cout << endl;
-				if (type_of_osc == 1)
-					cout << List_of_Analog_Osc;
-				if (type_of_osc == 2)
-					cout << List_of_Digital_Osc;
-				
-
-				cout << "What Oscilloscope do you want to use?\n\n";
-				cin >> choose_osc;
-				if (type_of_osc == 1)
-					while (cin.fail() || choose_osc < 1 || choose_osc > List_of_Analog_Osc.size())
-					{
-						cin.clear();
-						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-						cout << "Input error, try again - ";
-						cin >> choose_osc;
-					}
-				cout << endl;
-				choose_osc--; //Чтобы индексы были с нуля
-
-
 				cout << List_of_Gen;
 
 				if (List_of_Gen.size() < 2)
